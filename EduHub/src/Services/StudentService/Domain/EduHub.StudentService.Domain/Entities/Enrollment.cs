@@ -19,6 +19,21 @@ public class Enrollment
     }
 
     #endregion
+    
+    #region Properties
+
+    public Guid IdDb { get; private set; }
+    
+    public Guid IdStudentDb { get; private set; }
+    
+    public Student StudentDb { get; private set; }
+    
+    public Guid IdCourseDb { get; private set; }
+    
+    public Course CourseDb { get; private set; }
+    public DateOnly EnrollmentDateDb { get; private set; }
+
+    #endregion
 
     #region Methods
 
@@ -39,21 +54,6 @@ public class Enrollment
     {
         EnrollmentDateDb = Guard.Against.Null(enrollmentDate,nameof(enrollmentDate));
     }
-
-    #endregion
-    
-    #region Fields
-
-    public Guid IdDb { get; private set; }
-    
-    public Guid IdStudentDb { get; private set; }
-    
-    public Student StudentDb { get; private set; }
-    
-    public Guid IdCourseDb { get; private set; }
-    
-    public Course CourseDb { get; private set; }
-    public DateOnly EnrollmentDateDb { get; private set; }
 
     #endregion
     

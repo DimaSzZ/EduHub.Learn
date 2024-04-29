@@ -22,6 +22,36 @@ public class Student
         SetPhoneNumber(phone);
     }
     #endregion
+    
+    #region Properties
+    
+    public Guid IdDb { get; private set; }
+
+    public string NameDb { get; private set; }
+    
+    public string SurnameDb { get; private set; }
+    
+    public string PatronymicDb { get; private set; }
+    
+    public string PhoneNumberDb { get; private set; }
+    
+    public Gender GenderDb { get; private set; }
+    
+    public DateOnly DateBirthDb { get; private set; }
+    
+    public string EmailDb { get; private set; }
+    
+    public string CityDb { get; private set; }
+    
+    public string StreetDb { get; private set; }
+    
+    public int NumberHouseDb { get; private set; }
+    
+    public string AvatarDb { get; private set; }
+    
+    public IEnumerable<Enrollment> EnrollmentDb { get; private set; }
+
+    #endregion
 
     #region Methods
 
@@ -87,35 +117,6 @@ public class Student
         PhoneNumberDb = phone.ValidateFullName(phone);
     }
     #endregion
-
-    #region Fields
     
-    public Guid IdDb { get; private set; }
-
-    public string NameDb { get; private set; }
-    
-    public string SurnameDb { get; private set; }
-    
-    public string PatronymicDb { get; private set; }
-    
-    public string PhoneNumberDb { get; private set; }
-    
-    public Gender GenderDb { get; private set; }
-    
-    public DateOnly DateBirthDb { get; private set; }
-    
-    public string EmailDb { get; private set; }
-    
-    public string CityDb { get; private set; }
-    
-    public string StreetDb { get; private set; }
-    
-    public int NumberHouseDb { get; private set; }
-    
-    public string AvatarDb { get; private set; }
-    
-    public IEnumerable<Enrollment> EnrollmentDb { get; private set; }
-
-    #endregion
     
 }

@@ -23,6 +23,28 @@ public class Educator
     }
     
     #endregion
+    
+    #region Properties
+
+    public Guid IdDb { get; private set; }
+    
+    public string NameDb { get; private set; }
+    
+    public string SurnameDb { get; private set; }
+    
+    public string PatronymicDb { get; private set; }
+    
+    public Gender GenderDb { get; private set; }
+    
+    public string PhoneNumberDb { get; private set; }
+    
+    public int YearsOfExperienceDb { get; private set; }
+    
+    public DateOnly DateOfEmploymentDb { get; private set; }
+    
+    public IEnumerable<Course> CoursesDb { get; private set; }
+
+    #endregion
 
     #region Methods
 
@@ -65,27 +87,5 @@ public class Educator
     {
         DateOfEmploymentDb = Guard.Against.Null(dateOfEmployment,nameof(dateOfEmployment));
     }
-    #endregion
-    
-    #region Fields
-
-    public Guid IdDb { get; private set; }
-    
-    public string NameDb { get; private set; }
-    
-    public string SurnameDb { get; private set; }
-    
-    public string PatronymicDb { get; private set; }
-    
-    public Gender GenderDb { get; private set; }
-    
-    public string PhoneNumberDb { get; private set; }
-    
-    public int YearsOfExperienceDb { get; private set; }
-    
-    public DateOnly DateOfEmploymentDb { get; private set; }
-    
-    public IEnumerable<Course> CoursesDb { get; private set; }
-
     #endregion
 }

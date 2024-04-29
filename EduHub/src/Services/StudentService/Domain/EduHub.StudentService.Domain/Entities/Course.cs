@@ -17,6 +17,20 @@ public class Course
     
     
     #endregion
+    
+    #region Properties
+    
+    public Guid IdDb { get; private set; }
+    
+    public string CourseNameDb { get; private set; }
+    
+    public string CourseDescriptionDb { get; private set; }
+    
+    public Guid EducatorIdDb { get; private set; }
+    
+    public Educator EducatorDb { get; private set; }
+
+    #endregion
 
     #region Methods
 
@@ -36,20 +50,6 @@ public class Course
          Guard.Against.OutOfRange(courseName.Length, nameof(courseName), 1, 60);
          CourseNameDb = courseName;
     }
-
-    #endregion
-
-    #region Fields
-    
-    public Guid IdDb { get; private set; }
-    
-    public string CourseNameDb { get; private set; }
-    
-    public string CourseDescriptionDb { get; private set; }
-    
-    public Guid EducatorIdDb { get; private set; }
-    
-    public Educator EducatorDb { get; private set; }
 
     #endregion
     
