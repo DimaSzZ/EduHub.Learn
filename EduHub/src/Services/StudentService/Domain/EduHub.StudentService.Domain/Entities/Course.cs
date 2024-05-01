@@ -1,26 +1,25 @@
 using Ardalis.GuardClauses;
+using EduHub.StudentService.Domain.Entities.Core;
 
 namespace EduHub.StudentService.Domain.Entities;
 
 
-public class Course
+public class Course : BaseEntity
 {
     #region Constructor
     
     public Course(Guid id, string courseName, string courseDescription, Guid educatorId)
     {
-        SetId(id);
+        SetIdDb(id);
         SetCourseName(courseName);
         SetCourseDescription(courseDescription);
-        SetId(educatorId);
+        SetEducatorId(educatorId);
     }
     
     
     #endregion
     
     #region Properties
-    
-    public Guid IdDb { get; private set; }
     
     public string CourseNameDb { get; private set; }
     
@@ -34,9 +33,9 @@ public class Course
 
     #region Methods
 
-    private void SetId(Guid idStudent)
+    private void SetEducatorId(Guid idStudent)
     {
-        IdDb = Guard.Against.Null(idStudent,nameof(idStudent));
+        EducatorIdDb = Guard.Against.Null(idStudent,nameof(idStudent));
     }
 
     private void SetCourseDescription(string courseDescription)

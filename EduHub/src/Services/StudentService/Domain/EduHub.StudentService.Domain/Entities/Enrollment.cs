@@ -1,4 +1,5 @@
 using Ardalis.GuardClauses;
+using EduHub.StudentService.Domain.Entities.Core;
 
 namespace EduHub.StudentService.Domain.Entities;
 
@@ -6,13 +7,13 @@ namespace EduHub.StudentService.Domain.Entities;
 /// Модель отвечающие за состояние зачисление студента
 /// </summary>
 
-public class Enrollment
+public class Enrollment : BaseEntity
 {
     #region Constructor
 
     public Enrollment(Guid id, Guid idStudent, Guid idCourse, DateOnly enrollmentDate)
     {
-        SetId(id);
+        SetIdDb(id);
         SetIdStudent(idStudent);
         SetIdCourse(idCourse);
         SetEnrollmentDate(enrollmentDate);
@@ -21,9 +22,6 @@ public class Enrollment
     #endregion
     
     #region Properties
-
-    public Guid IdDb { get; private set; }
-    
     public Guid IdStudentDb { get; private set; }
     
     public Student StudentDb { get; private set; }
@@ -36,11 +34,6 @@ public class Enrollment
     #endregion
 
     #region Methods
-
-    private void SetId(Guid id)
-    {
-        IdDb = Guard.Against.NullOrEmpty(id,nameof(id));
-    }
     private void SetIdStudent(Guid idStudent)
     {
         IdStudentDb = Guard.Against.NullOrEmpty(idStudent,nameof(idStudent));

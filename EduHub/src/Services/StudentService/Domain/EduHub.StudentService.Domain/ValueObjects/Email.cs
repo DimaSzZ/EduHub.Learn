@@ -7,8 +7,7 @@ public class Email : BaseValueObject
 {
     public string ValidateEmail(Email email)
     {
-        Guard.Against.Null(email.EmailValue,nameof(email.ValidateEmail));
-        RegexModule.ValidateEmail(email.EmailValue,nameof(email.ValidateEmail));
+        Guard.Against.NullOrEmpty(email.EmailValue,nameof(email.ValidateEmail));
         return email.EmailValue;
     }
     

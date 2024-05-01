@@ -1,4 +1,5 @@
 using Ardalis.GuardClauses;
+using EduHub.StudentService.Domain.Entities.Core;
 using EduHub.StudentService.Domain.Entities.Enums;
 using EduHub.StudentService.Domain.ValueObjects;
 
@@ -7,12 +8,12 @@ namespace EduHub.StudentService.Domain.Entities;
 /// <summary>
 /// Студент, я хуй знает че написать
 /// </summary>
-public class Student
+public class Student : BaseEntity
 {
     #region Constructor
     public Student(Guid id, string avatar,FullName fullName, Gender gender, DateOnly dateBirth, Email email, Phone phone, Address address)
     {
-        SetId(id);
+        SetIdDb(id);
         SetAvatar(avatar);
         SetFullName(fullName);
         SetGender(gender);
@@ -24,9 +25,6 @@ public class Student
     #endregion
     
     #region Properties
-    
-    public Guid IdDb { get; private set; }
-
     public string NameDb { get; private set; }
     
     public string SurnameDb { get; private set; }
@@ -54,11 +52,6 @@ public class Student
     #endregion
 
     #region Methods
-
-    private void SetId(Guid idStudent)
-    {
-        IdDb = Guard.Against.Null(idStudent,nameof(idStudent));
-    }
 
     private void SetAvatar(string avatarUrl)
     {

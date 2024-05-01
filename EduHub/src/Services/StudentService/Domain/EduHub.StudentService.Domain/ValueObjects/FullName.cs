@@ -17,11 +17,6 @@ public class FullName : BaseValueObject
         Guard.Against.OutOfRange(Surname.Length, nameof(Surname), 2, 60);
         Guard.Against.OutOfRange(Patronymic.Length, nameof(Patronymic), 2, 60);
 
-        // Проверяем, что каждый компонент ФИО состоит только из букв
-        RegexModule.ValidateSegmentFullName(Name, nameof(Name));
-        RegexModule.ValidateSegmentFullName(Surname, nameof(Surname));
-        RegexModule.ValidateSegmentFullName(Patronymic, nameof(Patronymic));
-
         return  (Name, Surname, Patronymic);
     }
     
