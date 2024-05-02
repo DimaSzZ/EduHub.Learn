@@ -20,18 +20,18 @@ public class FullName : BaseValueObject
         Surname = surname;
         Patronymic = patronymic;
     }
-
+    
     /// <summary>
     /// Валидируем ФИО
     /// </summary>
     /// <returns></returns>
-    public (string,string,string) ValidateFullName()
+    public FullName ValidateFullName()
     {
         Guard.Against.NullOrEmpty(FirstName, nameof(FirstName));
         Guard.Against.NullOrEmpty(Surname, nameof(Surname));
         Guard.Against.NullOrEmpty(Patronymic, nameof(Patronymic));
-
-        return  (FirstName, Surname, Patronymic);
+        
+        return this;
     }
     
     /// <summary>
@@ -42,7 +42,7 @@ public class FullName : BaseValueObject
     /// <summary>
     /// Фамилия человека
     /// </summary>
-    public string Surname { get;}
+    public string Surname { get; }
     
     /// <summary>
     /// Отчество человека

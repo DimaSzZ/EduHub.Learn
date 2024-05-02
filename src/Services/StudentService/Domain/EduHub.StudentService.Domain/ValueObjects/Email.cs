@@ -12,16 +12,16 @@ public class Email : BaseValueObject
     {
         EmailValue = emailValue;
     }
-
+    
     /// <summary>
     /// Свойство для валидации E-mail
     /// </summary>
     /// <param name="email"></param>
     /// <returns></returns>
-    public string ValidateEmail(Email email)
+    public Email ValidateEmail()
     {
-        Guard.Against.NullOrEmpty(email.EmailValue,nameof(email.ValidateEmail));
-        return email.EmailValue;
+        Guard.Against.NullOrEmpty(EmailValue, nameof(ValidateEmail));
+        return this;
     }
     
     public string EmailValue { get; }

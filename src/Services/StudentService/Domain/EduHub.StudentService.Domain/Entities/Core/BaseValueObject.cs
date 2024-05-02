@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.Json;
 
 namespace EduHub.StudentService.Domain.Entities.Core;
+
 public abstract class BaseValueObject
 {
     public override bool Equals(object obj)
@@ -11,7 +12,7 @@ public abstract class BaseValueObject
         {
             return false;
         }
-
+        
         return GetHashCode() == obj.GetHashCode();
     }
     

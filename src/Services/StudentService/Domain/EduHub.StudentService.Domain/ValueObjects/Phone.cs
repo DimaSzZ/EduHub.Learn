@@ -16,17 +16,18 @@ public class Phone : BaseValueObject
     {
         PhoneNumber = phoneNumber;
     }
-
+    
     /// <summary>
     /// Вадируем номер
     /// </summary>
     /// <param name="phone"></param>
     /// <returns></returns>
-    public string ValidateFullName(Phone phone)
+    public Phone ValidatePhone()
     {
-        Guard.Against.NullOrEmpty(phone.PhoneNumber,nameof(phone.PhoneNumber));
-        return phone.PhoneNumber;
+        Guard.Against.NullOrEmpty(PhoneNumber, nameof(PhoneNumber));
+        return this;
     }
+    
     /// <summary>
     /// Номер телефона (не очищенный)
     /// </summary>

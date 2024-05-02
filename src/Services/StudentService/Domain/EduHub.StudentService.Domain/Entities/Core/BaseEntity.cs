@@ -11,8 +11,8 @@ public abstract class BaseEntity
     /// Идентификатор,который есть у каждой модели
     /// </summary>
     public Guid Id { get; private set; }
-
-    protected void SetIdDb(Guid idDb)
+    
+    protected void SetId(Guid idDb)
     {
         Id = Guard.Against.NullOrEmpty(idDb, nameof(idDb));
     }

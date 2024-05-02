@@ -20,24 +20,21 @@ public class Address : BaseValueObject
         Street = street;
         NumberHouse = numberHouse;
     }
-
+    
     /// <summary>
     /// Производит валидацию данных
     /// </summary>
     /// <param name="address"></param>
     /// <returns></returns>
-    public (string, string, int) ValidateAddress(Address address)
+    public Address ValidateAddress()
     {
-        Guard.Against.NullOrEmpty(address.City, nameof(address.City));
-        Guard.Against.NullOrEmpty(address.Street, nameof(address.Street));
-        Guard.Against.Null(address.NumberHouse, nameof(address.NumberHouse));
+        Guard.Against.NullOrEmpty(City, nameof(City));
+        Guard.Against.NullOrEmpty(Street, nameof(Street));
+        Guard.Against.Null(NumberHouse, nameof(NumberHouse));
         
-        Guard.Against.OutOfRange(address.City.Length, nameof(address.City), 4, 100);
-        Guard.Against.OutOfRange(address.Street.Length, nameof(address.Street), 4, 100);
-        Guard.Against.OutOfRange(address.NumberHouse, nameof(address.NumberHouse), 1, 20000);
-
-        return (address.City,address.Street,address.NumberHouse);
+        return this;
     }
+    
     /// <summary>
     /// Название города
     /// </summary>

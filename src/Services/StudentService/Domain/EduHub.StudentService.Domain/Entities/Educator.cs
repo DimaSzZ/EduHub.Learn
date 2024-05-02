@@ -8,7 +8,6 @@ namespace EduHub.StudentService.Domain.Entities;
 /// <summary>
 /// Преподаватель для студентика
 /// </summary>
-
 public class Educator : BaseEntity
 {
     #region Constructor
@@ -21,15 +20,15 @@ public class Educator : BaseEntity
     /// <param name="gender"></param>
     /// <param name="phone"></param>
     /// <param name="workExperience"></param>
-    /// <param name="dateOfEmployment"></param>
-    public Educator(Guid id,FullName fullName,Gender gender, Phone phone,int workExperience,DateOnly dateOfEmployment)
+    /// <param name="dateEmployment"></param>
+    public Educator(Guid id, FullName fullName, Gender gender, Phone phone, int workExperience, DateOnly dateEmployment)
     {
-        SetIdDb(id);
+        SetId(id);
         SetFullName(fullName);
         SetGender(gender);
         SetPhoneNumber(phone);
         SetWorkExperience(workExperience);
-        SetDateOfEmployment(dateOfEmployment);
+        SetDateEmployment(dateEmployment);
     }
     
     #endregion
@@ -37,21 +36,9 @@ public class Educator : BaseEntity
     #region Properties
     
     /// <summary>
-    /// Имя преподователя
+    /// ФИО преподователя
     /// </summary>
-    public string Name { get; private set; }
-    
-    /// <summary>
-    /// Фамилия преподователя
-    /// </summary>
-    
-    public string Surname { get; private set; }
-    
-    /// <summary>
-    /// Отчество перподователя
-    /// </summary>
-    
-    public string Patronymic { get; private set; }
+    public FullName FullName { get; private set; }
     
     /// <summary>
     /// Пол преподователя (так как в СНГ, то пока что только 2 пола ^-^)
@@ -63,62 +50,54 @@ public class Educator : BaseEntity
     /// Номер телефона преподавателя
     /// </summary>
     
-    public string PhoneNumber { get; private set; }
+    public Phone PhoneNumber { get; private set; }
     
     /// <summary>
     /// Стаж преподователя в годах
     /// </summary>
     
-    public int YearsOfExperience { get; private set; }
+    public int YearsExperience { get; private set; }
     
     /// <summary>
     /// Дата устройства на работу
     /// </summary>
     
-    public DateOnly DateOfEmployment { get; private set; }
+    public DateOnly DateEmployment { get; private set; }
     
     /// <summary>
     /// Курсы, где  ведет преподаватель
     /// </summary>
     
-    public IEnumerable<Course> Courses { get; private set; }
-
+    public List<Course> Courses { get; private set; }
+    
     #endregion
-
+    
     #region Methods
+    
     private void SetFullName(FullName fullName)
     {
-        (Name, Surname, Patronymic) = fullName.ValidateFullName();
+        FullName = fullName.ValidateFullName();
     }
     
     private void SetGender(Gender gender)
     {
-        Guard.Against.Null(gender, nameof(gender));
-        
-        if (!Enum.IsDefined(typeof(Gender), gender))
-        {
-            throw new ArgumentOutOfRangeException(nameof(gender), gender, "Invalid gender value. Only 'Man' (1) or 'Woman' (2) are allowed.");
-        }
-
-        Gender = gender;
+        Gender = Guard.Against.Null(gender, nameof(gender));
     }
     
     private void SetPhoneNumber(Phone phone)
     {
-        Guard.Against.Null(phone,nameof(phone));
-        PhoneNumber = phone.ValidateFullName(phone);
+        PhoneNumber = phone.ValidatePhone();
     }
-
-    private void SetWorkExperience(int yearsOfExperience)
+    
+    private void SetWorkExperience(int yearsExperience)
     {
-        Guard.Against.Null(yearsOfExperience,nameof(yearsOfExperience));
-        YearsOfExperience = Guard.Against.OutOfRange(yearsOfExperience, nameof(yearsOfExperience), 0, 90, 
-            $"Work experience '{yearsOfExperience}' should be a non-negative integer.");
+        YearsExperience = Guard.Against.Null(yearsExperience, nameof(yearsExperience));
     }
-
-    private void SetDateOfEmployment(DateOnly dateOfEmployment)
+    
+    private void SetDateEmployment(DateOnly dateEmployment)
     {
-        DateOfEmployment = Guard.Against.Null(dateOfEmployment,nameof(dateOfEmployment));
+        DateEmployment = dateEmployment;
     }
+    
     #endregion
 }

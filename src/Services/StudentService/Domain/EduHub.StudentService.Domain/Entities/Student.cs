@@ -24,44 +24,32 @@ public class Student : BaseEntity
     /// <param name="phone"></param>
     /// <param name="address"></param>
     /// 
-    public Student(Guid id, string avatar,FullName fullName, Gender gender, DateOnly dateBirth, Email email, Phone phone, Address address)
+    public Student(Guid id, string avatar, FullName fullName, Gender gender, DateOnly dateBirth, Email email, Phone phone, Address address)
     {
-        SetIdDb(id);
+        SetId(id);
         SetAvatar(avatar);
         SetFullName(fullName);
         SetGender(gender);
-        SetDateBirdth(dateBirth);
+        SetDateBirth(dateBirth);
         SetEmail(email);
         SetAddress(address);
         SetPhoneNumber(phone);
     }
+    
     #endregion
     
     #region Properties
     
     /// <summary>
-    /// Имя студента
+    /// ФИО студента
     /// </summary>
-    
-    public string Name { get; private set; }
-    
-    /// <summary>
-    /// Фамилия студента
-    /// </summary>
-    
-    public string Surname { get; private set; }
-    
-    /// <summary>
-    /// Отчество студента
-    /// </summary>
-    
-    public string Patronymic { get; private set; }
+    public FullName FullName { get; private set; }
     
     /// <summary>
     /// Номер телефона студента
     /// </summary>
     
-    public string PhoneNumber { get; private set; }
+    public Phone PhoneNumber { get; private set; }
     
     /// <summary>
     /// Пол студента
@@ -76,22 +64,12 @@ public class Student : BaseEntity
     /// <summary>
     /// E-mail студента
     /// </summary>
-    public string Email { get; private set; }
+    public Email Email { get; private set; }
     
     /// <summary>
-    /// Город студента
+    /// Адресс проживания студента
     /// </summary>
-    public string City { get; private set; }
-    
-    /// <summary>
-    /// Улица студента
-    /// </summary>
-    public string Street { get; private set; }
-    
-    /// <summary>
-    /// Номерр дома
-    /// </summary>
-    public int NumberHouse { get; private set; }
+    public Address Address { get; private set; }
     
     /// <summary>
     /// Ссылка на аватарку студента (скорее всего в S3)
@@ -104,68 +82,46 @@ public class Student : BaseEntity
     /// </summary>
     
     public IEnumerable<Enrollment> Enrollment { get; private set; }
-
+    
     #endregion
-
+    
     #region Methods
-
+    
     private void SetAvatar(string avatarUrl)
     {
-        Guard.Against.NullOrEmpty(avatarUrl, nameof(avatarUrl));
-        
-        bool isImageExtensionValid = avatarUrl.EndsWith(".png", StringComparison.OrdinalIgnoreCase) ||
-                                     avatarUrl.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase);
-
-        Avatar = isImageExtensionValid ? avatarUrl : throw new Exception("The avatar has the wrong data type");
+        Avatar = Guard.Against.NullOrEmpty(avatarUrl, nameof(avatarUrl));
     }
-
+    
     private void SetFullName(FullName fullName)
     {
-         (Name, Surname, Patronymic) = fullName.ValidateFullName();
+        FullName = fullName.ValidateFullName();
     }
-
+    
     private void SetGender(Gender gender)
     {
-        Guard.Against.Null(gender, nameof(gender));
-        
-        if (!Enum.IsDefined(typeof(Gender), gender))
-        {
-            throw new ArgumentOutOfRangeException(nameof(gender), gender, "Invalid gender value. Only 'Man' (1) or 'Woman' (2) are allowed.");
-        }
-
-        Gender = gender;
+        Gender = Guard.Against.Null(gender, nameof(gender));
     }
-
-    private void SetDateBirdth(DateOnly dateOfBirth)
+    
+    private void SetDateBirth(DateOnly dateOfBirth)
     {
-        Guard.Against.Null(dateOfBirth, nameof(dateOfBirth));
-
-        if (dateOfBirth > DateOnly.FromDateTime(DateTime.Now))
-        {
-            throw new ArgumentOutOfRangeException(nameof(dateOfBirth), dateOfBirth, "Date of birth cannot be in the future.");
-        }
-        
         DateBirth = dateOfBirth;
     }
-
+    
+    
     private void SetEmail(Email email)
     {
-        Guard.Against.Null(email, nameof(email));
-        Email = email.ValidateEmail(email);
+        Email = email.ValidateEmail();
     }
-
+    
     private void SetAddress(Address address)
     {
-        Guard.Against.Null(address,nameof(address));
-        (City, Street, NumberHouse) = address.ValidateAddress(address);
+        Address = address.ValidateAddress();
     }
-
+    
     private void SetPhoneNumber(Phone phone)
     {
-        Guard.Against.Null(phone, nameof(phone));
-        PhoneNumber = phone.ValidateFullName(phone);
+        PhoneNumber = phone.ValidatePhone();
     }
+    
     #endregion
-    
-    
 }
