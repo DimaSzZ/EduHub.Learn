@@ -9,27 +9,16 @@ namespace EduHub.StudentService.Domain.ValueObjects;
 public class Phone : BaseValueObject
 {
     /// <summary>
-    /// Устанавливаем неочищенный номер
+    /// Устанавливаем номер
     /// </summary>
-    /// <param name="phoneNumber"></param>
-    public Phone(string phoneNumber)
+    /// <param name="value">Номер телефона</param>
+    public Phone(string value)
     {
-        PhoneNumber = phoneNumber;
+        Value = Guard.Against.NullOrEmpty(value);;
     }
     
     /// <summary>
-    /// Вадируем номер
+    /// Номер телефона 
     /// </summary>
-    /// <param name="phone"></param>
-    /// <returns></returns>
-    public Phone ValidatePhone()
-    {
-        Guard.Against.NullOrEmpty(PhoneNumber, nameof(PhoneNumber));
-        return this;
-    }
-    
-    /// <summary>
-    /// Номер телефона (не очищенный)
-    /// </summary>
-    public string PhoneNumber { get; }
+    public string Value { get; }
 }

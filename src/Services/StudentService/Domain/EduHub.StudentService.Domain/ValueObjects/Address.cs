@@ -9,30 +9,20 @@ namespace EduHub.StudentService.Domain.ValueObjects;
 public class Address : BaseValueObject
 {
     /// <summary>
-    /// Принимает неочищенные данные
+    /// Принимает данные
     /// </summary>
-    /// <param name="city"></param>
-    /// <param name="street"></param>
-    /// <param name="numberHouse"></param>
+    /// <param name="city">название города</param>
+    /// <param name="street">название улицы</param>
+    /// <param name="numberHouse">номер дома</param>
     public Address(string city, string street, int numberHouse)
     {
+        Guard.Against.NullOrEmpty(city);
+        Guard.Against.NullOrEmpty(street);
+        Guard.Against.Null(numberHouse);
+        
         City = city;
         Street = street;
         NumberHouse = numberHouse;
-    }
-    
-    /// <summary>
-    /// Производит валидацию данных
-    /// </summary>
-    /// <param name="address"></param>
-    /// <returns></returns>
-    public Address ValidateAddress()
-    {
-        Guard.Against.NullOrEmpty(City, nameof(City));
-        Guard.Against.NullOrEmpty(Street, nameof(Street));
-        Guard.Against.Null(NumberHouse, nameof(NumberHouse));
-        
-        return this;
     }
     
     /// <summary>

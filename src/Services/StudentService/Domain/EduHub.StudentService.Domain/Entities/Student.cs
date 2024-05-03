@@ -8,23 +8,24 @@ namespace EduHub.StudentService.Domain.Entities;
 /// <summary>
 /// Описание модели студента
 /// </summary>
-public class Student : BaseEntity
+public class Student : BaseHumanEntity
 {
     #region Constructor
     
     /// <summary>
     /// Неочищенные данные, которые будут провалидированным методами  
     /// </summary>
-    /// <param name="id"></param>
-    /// <param name="avatar"></param>
-    /// <param name="fullName"></param>
-    /// <param name="gender"></param>
-    /// <param name="dateBirth"></param>
-    /// <param name="email"></param>
-    /// <param name="phone"></param>
-    /// <param name="address"></param>
+    /// <param name="id">Id студента</param>
+    /// <param name="avatar">url аватара</param>
+    /// <param name="fullName">ФИО студента</param>
+    /// <param name="gender">Пол студента</param>
+    /// <param name="dateBirth">Дата рождения</param>
+    /// <param name="email">Почта студента</param>
+    /// <param name="phone">Номер телефона студента</param>
+    /// <param name="address">Адресс студента</param>
     /// 
-    public Student(Guid id, string avatar, FullName fullName, Gender gender, DateOnly dateBirth, Email email, Phone phone, Address address)
+    public Student(Guid id, string avatar, FullName fullName, Gender gender,
+        DateOnly dateBirth, Email email, Phone phone, Address address)
     {
         SetId(id);
         SetAvatar(avatar);
@@ -39,22 +40,6 @@ public class Student : BaseEntity
     #endregion
     
     #region Properties
-    
-    /// <summary>
-    /// ФИО студента
-    /// </summary>
-    public FullName FullName { get; private set; }
-    
-    /// <summary>
-    /// Номер телефона студента
-    /// </summary>
-    
-    public Phone PhoneNumber { get; private set; }
-    
-    /// <summary>
-    /// Пол студента
-    /// </summary>
-    public Gender Gender { get; private set; }
     
     /// <summary>
     /// Дата рождения студента
@@ -81,7 +66,7 @@ public class Student : BaseEntity
     /// Список зачислений студента
     /// </summary>
     
-    public IEnumerable<Enrollment> Enrollment { get; private set; }
+    public List<Enrollment> Enrollments { get; private set; } = new();
     
     #endregion
     
@@ -89,38 +74,60 @@ public class Student : BaseEntity
     
     private void SetAvatar(string avatarUrl)
     {
-        Avatar = Guard.Against.NullOrEmpty(avatarUrl, nameof(avatarUrl));
+        Avatar = Guard.Against.NullOrEmpty(avatarUrl);
     }
     
     private void SetFullName(FullName fullName)
     {
-        FullName = fullName.ValidateFullName();
+        FullName = fullName;
     }
     
     private void SetGender(Gender gender)
     {
-        Gender = Guard.Against.Null(gender, nameof(gender));
+        Gender = gender;
     }
     
     private void SetDateBirth(DateOnly dateOfBirth)
     {
-        DateBirth = dateOfBirth;
+        DateBirth = Guard.Against.Default(dateOfBirth);
     }
     
     
     private void SetEmail(Email email)
     {
-        Email = email.ValidateEmail();
+        Email = Guard.Against.Null(email);
     }
     
     private void SetAddress(Address address)
     {
-        Address = address.ValidateAddress();
+        Address = Guard.Against.Null(address);
     }
     
     private void SetPhoneNumber(Phone phone)
     {
-        PhoneNumber = phone.ValidatePhone();
+        Phone = Guard.Against.Null(phone);
+    }
+    
+    /// <summary>
+    /// Метод, служащий для обновления студента
+    /// <param name="avatar">url аватара</param>
+    /// <param name="fullName">ФИО студента</param>
+    /// <param name="gender">Пол студента</param>
+    /// <param name="dateBirth">Дата рождения</param>
+    /// <param name="email">Почта студента</param>
+    /// <param name="phone">Номер телефона студента</param>
+    /// <param name="address">Адресс студента</param>
+    ///
+    public void UpdateStudent(string avatar, FullName fullName, Gender gender,
+        DateOnly dateBirth, Email email, Phone phone, Address address)
+    {
+        SetAvatar(avatar);
+        SetFullName(fullName);
+        SetGender(gender);
+        SetDateBirth(dateBirth);
+        SetEmail(email);
+        SetAddress(address);
+        SetPhoneNumber(phone);
     }
     
     #endregion

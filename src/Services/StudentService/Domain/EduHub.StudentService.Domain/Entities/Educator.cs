@@ -8,19 +8,19 @@ namespace EduHub.StudentService.Domain.Entities;
 /// <summary>
 /// Преподаватель для студентика
 /// </summary>
-public class Educator : BaseEntity
+public class Educator : BaseHumanEntity
 {
     #region Constructor
     
     /// <summary>
-    /// Конструктор с непроваледированными данными
+    /// Конструктор для создания преподавателя
     /// </summary>
-    /// <param name="id"></param>
-    /// <param name="fullName"></param>
-    /// <param name="gender"></param>
-    /// <param name="phone"></param>
-    /// <param name="workExperience"></param>
-    /// <param name="dateEmployment"></param>
+    /// <param name="id">id преподавателя</param>
+    /// <param name="fullName">ФИО преподавателя</param>
+    /// <param name="gender">Пол преподавателя</param>
+    /// <param name="phone">Номер преподавателя</param>
+    /// <param name="workExperience">Стаж преподавателя</param>
+    /// <param name="dateEmployment">Дата устройства на работу</param>
     public Educator(Guid id, FullName fullName, Gender gender, Phone phone, int workExperience, DateOnly dateEmployment)
     {
         SetId(id);
@@ -34,24 +34,6 @@ public class Educator : BaseEntity
     #endregion
     
     #region Properties
-    
-    /// <summary>
-    /// ФИО преподователя
-    /// </summary>
-    public FullName FullName { get; private set; }
-    
-    /// <summary>
-    /// Пол преподователя (так как в СНГ, то пока что только 2 пола ^-^)
-    /// </summary>
-    
-    public Gender Gender { get; private set; }
-    
-    /// <summary>
-    /// Номер телефона преподавателя
-    /// </summary>
-    
-    public Phone PhoneNumber { get; private set; }
-    
     /// <summary>
     /// Стаж преподователя в годах
     /// </summary>
@@ -68,7 +50,7 @@ public class Educator : BaseEntity
     /// Курсы, где  ведет преподаватель
     /// </summary>
     
-    public List<Course> Courses { get; private set; }
+    public List<Course> Courses { get; private set; } = new();
     
     #endregion
     
@@ -76,27 +58,44 @@ public class Educator : BaseEntity
     
     private void SetFullName(FullName fullName)
     {
-        FullName = fullName.ValidateFullName();
+        FullName = Guard.Against.Null(fullName);
     }
     
     private void SetGender(Gender gender)
     {
-        Gender = Guard.Against.Null(gender, nameof(gender));
+        Gender = gender;
     }
     
     private void SetPhoneNumber(Phone phone)
     {
-        PhoneNumber = phone.ValidatePhone();
+        Phone = Guard.Against.Null(phone);
     }
     
     private void SetWorkExperience(int yearsExperience)
     {
-        YearsExperience = Guard.Against.Null(yearsExperience, nameof(yearsExperience));
+        YearsExperience = Guard.Against.Null(yearsExperience);
     }
     
     private void SetDateEmployment(DateOnly dateEmployment)
     {
-        DateEmployment = dateEmployment;
+        DateEmployment = Guard.Against.Default(dateEmployment);
+    }
+    
+    /// <summary>
+    /// Обновляет преподователя
+    /// </summary>
+    /// <param name="fullName">ФИО преподавателя</param>
+    /// <param name="gender">Пол преподавателя</param>
+    /// <param name="phone">Номер преподавателя</param>
+    /// <param name="workExperience">Стаж преподавателя</param>
+    /// <param name="dateEmployment">Дата устройства на работу</param>
+    public void UpdateEducator(FullName fullName, Gender gender, Phone phone, int workExperience, DateOnly dateEmployment)
+    {
+        SetFullName(fullName);
+        SetGender(gender);
+        SetPhoneNumber(phone);
+        SetWorkExperience(workExperience);
+        SetDateEmployment(dateEmployment);
     }
     
     #endregion

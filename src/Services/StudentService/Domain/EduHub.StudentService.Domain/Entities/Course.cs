@@ -13,10 +13,10 @@ public class Course : BaseEntity
     /// <summary>
     /// Конструктор, для курса
     /// </summary>
-    /// <param name="id"></param>
-    /// <param name="name"></param>
-    /// <param name="description"></param>
-    /// <param name="educatorId"></param>
+    /// <param name="id">id курса</param>
+    /// <param name="name">имя курса</param>
+    /// <param name="description">описание курса</param>
+    /// <param name="educatorId">id преподавателя</param>
     public Course(Guid id, string name, string description, Guid educatorId)
     {
         SetId(id);
@@ -63,6 +63,19 @@ public class Course : BaseEntity
     private void SetName(string name)
     {
         Name = Guard.Against.NullOrEmpty(name, nameof(name));
+    }
+    
+    /// <summary>
+    /// Метод для обновления Course
+    /// </summary>
+    /// <param name="name">имя курса</param>
+    /// <param name="description">описание курса</param>
+    /// <param name="educatorId">id преподавателя</param>
+    public void UpdateCourse(string name, string description, Guid educatorId)
+    {
+        SetName(name);
+        SetDescription(description);
+        SetEducatorId(educatorId);
     }
     
     #endregion

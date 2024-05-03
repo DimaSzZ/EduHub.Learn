@@ -9,33 +9,24 @@ namespace EduHub.StudentService.Domain.ValueObjects;
 public class FullName : BaseValueObject
 {
     /// <summary>
-    /// Конструктор с неочищенными данными
+    /// Конструктор который принимает ФИО
     /// </summary>
-    /// <param name="firstName"></param>
-    /// <param name="surname"></param>
-    /// <param name="patronymic"></param>
+    /// <param name="firstName">Имя</param>
+    /// <param name="surname">Фамилия</param>
+    /// <param name="patronymic">Отчество</param>
     public FullName(string firstName, string surname, string patronymic)
     {
+        Guard.Against.NullOrEmpty(firstName);
+        Guard.Against.NullOrEmpty(surname);
+        Guard.Against.NullOrEmpty(patronymic);
+        
         FirstName = firstName;
         Surname = surname;
         Patronymic = patronymic;
     }
     
     /// <summary>
-    /// Валидируем ФИО
-    /// </summary>
-    /// <returns></returns>
-    public FullName ValidateFullName()
-    {
-        Guard.Against.NullOrEmpty(FirstName, nameof(FirstName));
-        Guard.Against.NullOrEmpty(Surname, nameof(Surname));
-        Guard.Against.NullOrEmpty(Patronymic, nameof(Patronymic));
-        
-        return this;
-    }
-    
-    /// <summary>
-    /// Имя человека
+    /// Имя 
     /// </summary>
     public string FirstName { get; }
     

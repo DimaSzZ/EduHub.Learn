@@ -8,21 +8,14 @@ namespace EduHub.StudentService.Domain.ValueObjects;
 /// </summary>
 public class Email : BaseValueObject
 {
+    /// <summary>
+    /// конструктор которые принимает почтовый ящик
+    /// </summary>
+    /// <param name="emailValue"></param>
     public Email(string emailValue)
     {
-        EmailValue = emailValue;
+        Value = Guard.Against.NullOrEmpty(emailValue);;
     }
     
-    /// <summary>
-    /// Свойство для валидации E-mail
-    /// </summary>
-    /// <param name="email"></param>
-    /// <returns></returns>
-    public Email ValidateEmail()
-    {
-        Guard.Against.NullOrEmpty(EmailValue, nameof(ValidateEmail));
-        return this;
-    }
-    
-    public string EmailValue { get; }
+    public string Value { get; }
 }
