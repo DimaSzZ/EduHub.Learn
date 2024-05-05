@@ -14,7 +14,7 @@ public class Email : BaseValueObject
     /// <param name="value"></param>
     public Email(string value)
     {
-        Value = Guard.Against.NullOrEmpty(value);;
+        Value = Guard.Against.NullOrEmpty(value);
     }
     
     public string Value { get; }

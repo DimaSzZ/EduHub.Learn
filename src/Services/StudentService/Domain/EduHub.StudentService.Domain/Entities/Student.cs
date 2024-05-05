@@ -59,13 +59,11 @@ public class Student : BaseHumanEntity
     /// <summary>
     /// Ссылка на аватарку студента (скорее всего в S3)
     /// </summary>
-    
     public string Avatar { get; private set; }
     
     /// <summary>
     /// Список зачислений студента
     /// </summary>
-    
     public List<Enrollment> Enrollments { get; private set; } = new();
     
     #endregion

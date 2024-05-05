@@ -14,6 +14,6 @@ public abstract class BaseEntity
     
     protected void SetId(Guid id)
     {
-        Id = Guard.Against.NullOrEmpty(id, nameof(id));
+        Id = Guard.Against.NullOrEmpty(id);
     }
 }

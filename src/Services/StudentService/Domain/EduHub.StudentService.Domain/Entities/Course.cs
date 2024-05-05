@@ -37,13 +37,11 @@ public class Course : BaseEntity
     /// <summary>
     /// Описание курса
     /// </summary>
-    
     public string Description { get; private set; }
     
     /// <summary>
     /// Id преподователя(который проводит курс)
     /// </summary>
-    
     public Guid EducatorId { get; private set; }
     
     #endregion
@@ -63,19 +61,19 @@ public class Course : BaseEntity
         SetEducatorId(educatorId);
     }
     
-    private void SetEducatorId(Guid idStudent)
+    private void SetEducatorId(Guid educatorId)
     {
-        EducatorId = Guard.Against.Null(idStudent, nameof(idStudent));
+        EducatorId = Guard.Against.Null(educatorId);
     }
     
     private void SetDescription(string description)
     {
-        Description = Guard.Against.Null(description, nameof(description));
+        Description = Guard.Against.Null(description);
     }
     
     private void SetName(string name)
     {
-        Name = Guard.Against.NullOrEmpty(name, nameof(name));
+        Name = Guard.Against.NullOrEmpty(name);
     }
     
     #endregion

@@ -38,7 +38,6 @@ public class Educator : BaseHumanEntity
     /// <summary>
     /// Стаж преподователя в годах
     /// </summary>
-    
     public int YearsExperience { get; private set; }
     
     /// <summary>

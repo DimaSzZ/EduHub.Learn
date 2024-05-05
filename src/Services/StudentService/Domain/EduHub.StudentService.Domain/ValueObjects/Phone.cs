@@ -14,7 +14,7 @@ public class Phone : BaseValueObject
     /// <param name="value">Номер телефона</param>
     public Phone(string value)
     {
-        Value = Guard.Against.NullOrEmpty(value);;
+        Value = Guard.Against.NullOrEmpty(value);
     }
     
     /// <summary>
