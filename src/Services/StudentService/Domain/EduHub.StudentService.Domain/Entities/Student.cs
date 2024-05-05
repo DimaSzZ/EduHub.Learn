@@ -72,43 +72,7 @@ public class Student : BaseHumanEntity
     
     #region Methods
     
-    private void SetAvatar(string avatarUrl)
-    {
-        Avatar = Guard.Against.NullOrEmpty(avatarUrl);
-    }
-    
-    private void SetFullName(FullName fullName)
-    {
-        FullName = fullName;
-    }
-    
-    private void SetGender(Gender gender)
-    {
-        Gender = gender;
-    }
-    
-    private void SetDateBirth(DateOnly dateOfBirth)
-    {
-        DateBirth = Guard.Against.Default(dateOfBirth);
-    }
-    
-    
-    private void SetEmail(Email email)
-    {
-        Email = Guard.Against.Null(email);
-    }
-    
-    private void SetAddress(Address address)
-    {
-        Address = Guard.Against.Null(address);
-    }
-    
-    private void SetPhoneNumber(Phone phone)
-    {
-        Phone = Guard.Against.Null(phone);
-    }
-    
-    /// <summary>
+    /// <summary/>
     /// Метод, служащий для обновления студента
     /// <param name="avatar">url аватара</param>
     /// <param name="fullName">ФИО студента</param>
@@ -117,8 +81,7 @@ public class Student : BaseHumanEntity
     /// <param name="email">Почта студента</param>
     /// <param name="phone">Номер телефона студента</param>
     /// <param name="address">Адресс студента</param>
-    ///
-    public void UpdateStudent(string avatar, FullName fullName, Gender gender,
+    public void Update(string avatar, FullName fullName, Gender gender,
         DateOnly dateBirth, Email email, Phone phone, Address address)
     {
         SetAvatar(avatar);
@@ -128,6 +91,26 @@ public class Student : BaseHumanEntity
         SetEmail(email);
         SetAddress(address);
         SetPhoneNumber(phone);
+    }
+    
+    private void SetAvatar(string avatarUrl)
+    {
+        Avatar = Guard.Against.NullOrEmpty(avatarUrl);
+    }
+    
+    private void SetDateBirth(DateOnly dateOfBirth)
+    {
+        DateBirth = Guard.Against.Default(dateOfBirth);
+    }
+    
+    private void SetEmail(Email email)
+    {
+        Email = Guard.Against.Null(email);
+    }
+    
+    private void SetAddress(Address address)
+    {
+        Address = Guard.Against.Null(address);
     }
     
     #endregion

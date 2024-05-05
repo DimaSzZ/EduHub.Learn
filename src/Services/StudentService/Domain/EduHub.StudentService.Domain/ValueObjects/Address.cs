@@ -16,13 +16,9 @@ public class Address : BaseValueObject
     /// <param name="numberHouse">номер дома</param>
     public Address(string city, string street, int numberHouse)
     {
-        Guard.Against.NullOrEmpty(city);
-        Guard.Against.NullOrEmpty(street);
-        Guard.Against.Null(numberHouse);
-        
-        City = city;
-        Street = street;
-        NumberHouse = numberHouse;
+        City = Guard.Against.NullOrEmpty(city);
+        Street = Guard.Against.NullOrEmpty(street);
+        NumberHouse = Guard.Against.Null(numberHouse);
     }
     
     /// <summary>

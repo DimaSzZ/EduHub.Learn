@@ -16,13 +16,9 @@ public class FullName : BaseValueObject
     /// <param name="patronymic">Отчество</param>
     public FullName(string firstName, string surname, string patronymic)
     {
-        Guard.Against.NullOrEmpty(firstName);
-        Guard.Against.NullOrEmpty(surname);
-        Guard.Against.NullOrEmpty(patronymic);
-        
-        FirstName = firstName;
-        Surname = surname;
-        Patronymic = patronymic;
+        FirstName = Guard.Against.NullOrEmpty(firstName);
+        Surname = Guard.Against.NullOrEmpty(surname);
+        Patronymic = Guard.Against.NullOrEmpty(patronymic);
     }
     
     /// <summary>
@@ -31,12 +27,12 @@ public class FullName : BaseValueObject
     public string FirstName { get; }
     
     /// <summary>
-    /// Фамилия человека
+    /// Фамилия
     /// </summary>
     public string Surname { get; }
     
     /// <summary>
-    /// Отчество человека
+    /// Отчество
     /// </summary>
     public string Patronymic { get; }
 }

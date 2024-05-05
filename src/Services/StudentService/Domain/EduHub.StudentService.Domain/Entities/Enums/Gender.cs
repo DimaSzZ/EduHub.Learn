@@ -5,6 +5,7 @@ namespace EduHub.StudentService.Domain.Entities.Enums;
 /// </summary>
 public enum Gender
 {
-    Man = 0,
-    Woman = 1
+    Default = 0,
+    Man = 1,
+    Woman = 2
 }

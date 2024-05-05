@@ -50,6 +50,19 @@ public class Course : BaseEntity
     
     #region Methods
     
+    /// <summary>
+    /// Метод для обновления Course
+    /// </summary>
+    /// <param name="name">имя курса</param>
+    /// <param name="description">описание курса</param>
+    /// <param name="educatorId">id преподавателя</param>
+    public void Update(string name, string description, Guid educatorId)
+    {
+        SetName(name);
+        SetDescription(description);
+        SetEducatorId(educatorId);
+    }
+    
     private void SetEducatorId(Guid idStudent)
     {
         EducatorId = Guard.Against.Null(idStudent, nameof(idStudent));
@@ -63,19 +76,6 @@ public class Course : BaseEntity
     private void SetName(string name)
     {
         Name = Guard.Against.NullOrEmpty(name, nameof(name));
-    }
-    
-    /// <summary>
-    /// Метод для обновления Course
-    /// </summary>
-    /// <param name="name">имя курса</param>
-    /// <param name="description">описание курса</param>
-    /// <param name="educatorId">id преподавателя</param>
-    public void UpdateCourse(string name, string description, Guid educatorId)
-    {
-        SetName(name);
-        SetDescription(description);
-        SetEducatorId(educatorId);
     }
     
     #endregion

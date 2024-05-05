@@ -11,10 +11,10 @@ public class Email : BaseValueObject
     /// <summary>
     /// конструктор которые принимает почтовый ящик
     /// </summary>
-    /// <param name="emailValue"></param>
-    public Email(string emailValue)
+    /// <param name="value"></param>
+    public Email(string value)
     {
-        Value = Guard.Against.NullOrEmpty(emailValue);;
+        Value = Guard.Against.NullOrEmpty(value);;
     }
     
     public string Value { get; }

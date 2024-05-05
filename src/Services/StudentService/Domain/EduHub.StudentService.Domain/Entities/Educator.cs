@@ -34,6 +34,7 @@ public class Educator : BaseHumanEntity
     #endregion
     
     #region Properties
+    
     /// <summary>
     /// Стаж преподователя в годах
     /// </summary>
@@ -56,19 +57,21 @@ public class Educator : BaseHumanEntity
     
     #region Methods
     
-    private void SetFullName(FullName fullName)
+    /// <summary>
+    /// Обновляет преподователя
+    /// </summary>
+    /// <param name="fullName">ФИО преподавателя</param>
+    /// <param name="gender">Пол преподавателя</param>
+    /// <param name="phone">Номер преподавателя</param>
+    /// <param name="workExperience">Стаж преподавателя</param>
+    /// <param name="dateEmployment">Дата устройства на работу</param>
+    public void Update(FullName fullName, Gender gender, Phone phone, int workExperience, DateOnly dateEmployment)
     {
-        FullName = Guard.Against.Null(fullName);
-    }
-    
-    private void SetGender(Gender gender)
-    {
-        Gender = gender;
-    }
-    
-    private void SetPhoneNumber(Phone phone)
-    {
-        Phone = Guard.Against.Null(phone);
+        SetFullName(fullName);
+        SetGender(gender);
+        SetPhoneNumber(phone);
+        SetWorkExperience(workExperience);
+        SetDateEmployment(dateEmployment);
     }
     
     private void SetWorkExperience(int yearsExperience)
@@ -79,23 +82,6 @@ public class Educator : BaseHumanEntity
     private void SetDateEmployment(DateOnly dateEmployment)
     {
         DateEmployment = Guard.Against.Default(dateEmployment);
-    }
-    
-    /// <summary>
-    /// Обновляет преподователя
-    /// </summary>
-    /// <param name="fullName">ФИО преподавателя</param>
-    /// <param name="gender">Пол преподавателя</param>
-    /// <param name="phone">Номер преподавателя</param>
-    /// <param name="workExperience">Стаж преподавателя</param>
-    /// <param name="dateEmployment">Дата устройства на работу</param>
-    public void UpdateEducator(FullName fullName, Gender gender, Phone phone, int workExperience, DateOnly dateEmployment)
-    {
-        SetFullName(fullName);
-        SetGender(gender);
-        SetPhoneNumber(phone);
-        SetWorkExperience(workExperience);
-        SetDateEmployment(dateEmployment);
     }
     
     #endregion
