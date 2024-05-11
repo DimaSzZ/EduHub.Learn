@@ -1,9 +1,10 @@
-﻿namespace Unit.Tests.Courses;
+﻿using Unit.Infrastructure;
+
+namespace Unit.Tests.Courses;
 
 public class CourseNegativeTests
 {
-    public static readonly IEnumerable<object[]> CourseProperties = GetCourseProperties();
-    private static readonly Faker Faker = new Faker();
+    public static readonly IEnumerable<object[]> CourseProperties = TestedClass.GetStudentProperties();
     
     [Theory]
     [MemberData(nameof(CourseProperties))]
@@ -14,7 +15,7 @@ public class CourseNegativeTests
         Guid enrollmentId)
     {
         var course = () => new Course(id, name, description, enrollmentId);
-        course.Should().Throw<Exception>();
+        course.Should().Throw<ArgumentNullException>();
     }
     
     [Theory]
@@ -25,25 +26,7 @@ public class CourseNegativeTests
         string description,
         Guid enrollmentId)
     {
-        var course = () => new Course(id, name, description, enrollmentId).Update(name,description,enrollmentId);
-        course.Should().Throw<Exception>();
-    }
-    
-    private static IEnumerable<object[]> GetCourseProperties()
-    {
-        return new List<object[]>
-        {
-            new object[] {
-                Guid.Empty,Faker.Random.String(),Faker.Random.String(), Guid.NewGuid()},
-            
-            new object[] {
-                Guid.NewGuid(),null,Faker.Random.String(), Guid.NewGuid()},
-            
-            new object[] {
-                Guid.NewGuid(),Faker.Random.String(),null, Guid.NewGuid()},
-            
-            new object[] {
-                Guid.NewGuid(),Faker.Random.String(),Faker.Random.String(), Guid.Empty},
-        };
+        var course = () => new Course(id, name, description, enrollmentId).Update(name, description, enrollmentId);
+        course.Should().Throw<ArgumentNullException>();
     }
 }
