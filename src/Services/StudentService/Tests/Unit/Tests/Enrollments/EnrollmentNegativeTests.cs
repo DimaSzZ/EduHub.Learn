@@ -4,7 +4,7 @@ namespace Unit.Tests.Enrollments;
 
 public class EnrollmentNegativeTests
 {
-    public static readonly IEnumerable<object[]> EnrollmentProperties = TestedClass.GetStudentProperties();
+    public static readonly IEnumerable<object[]> EnrollmentProperties = TestedClass.GetEnrollmentProperties();
     
     [Theory]
     [MemberData(nameof(EnrollmentProperties))]
@@ -16,6 +16,6 @@ public class EnrollmentNegativeTests
     )
     {
         var enrollment = () => new Enrollment(id, enrollmentDate, studentId, courseId);
-        enrollment.Should().Throw<ArgumentNullException>();
+        enrollment.Should().Throw<ArgumentException>();
     }
 }

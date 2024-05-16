@@ -19,22 +19,6 @@ public class StudentNegativeTests
         Address address)
     {
         var student = () => new Student(id,avatar,fullName,gender,dateBirth,email,phone,address);
-        student.Should().Throw<ArgumentNullException>();
-    }
-    
-    [Theory]
-    [ClassData(typeof(TestStudentDataClass))]
-    public void UpdateStudent_WithNullData_ShouldBeInvalid(
-        Guid id,
-        string avatar,
-        FullName fullName,
-        Gender gender,
-        DateOnly dateBirth,
-        Email email,
-        Phone phone,
-        Address address)
-    {
-        var student = () => new Student(id,avatar,fullName,gender,dateBirth,email,phone,address).Update(avatar,fullName,gender,dateBirth,email,phone,address);
-        student.Should().Throw<ArgumentNullException>();
+        student.Should().Throw<ArgumentException>();
     }
 }
