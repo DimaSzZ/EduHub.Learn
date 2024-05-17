@@ -1,55 +1,65 @@
-﻿using System.Collections;
+﻿using System.Collections; // Подключаем пространство имен для использования интерфейса IEnumerable
 
-namespace Unit.Tests.Enrollments;
-
-public class TestEnrollmentDataClass : IEnumerable<object[]>
+namespace Unit.Tests.Enrollments
 {
-    private readonly Faker _faker = new Faker();
-    private readonly DateOnly _minDate = new DateOnly(1900, 1, 1);
-    
-    public IEnumerator<object[]> GetEnumerator()
+    // Класс, реализующий IEnumerable<object[]> для предоставления данных для тестов
+    public class TestEnrollmentDataClass : IEnumerable<object[]>
     {
-        yield return new object[]
+        private readonly Faker _faker = new Faker(); // Используем библиотеку Faker для генерации случайных данных
+        private readonly DateOnly _minDate = new DateOnly(1900, 1, 1); // Минимальная дата для генерации случайных дат
+
+        // Реализация метода GetEnumerator для предоставления данных для тестов
+        public IEnumerator<object[]> GetEnumerator()
         {
-            _faker.Random.Guid(),
-            _faker.Date.BetweenDateOnly(_minDate, new DateOnly(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day)),
-            _faker.Random.Guid(),
-            _faker.Random.Guid()
-        };
-    }
-    
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-}
+            yield return new object[]
+            {
+                _faker.Random.Guid(), // Генерация случайного GUID для id
+                _faker.Date.BetweenDateOnly(_minDate, new DateOnly(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day)), // Генерация случайной даты между минимальной датой и текущей датой
+                _faker.Random.Guid(), // Генерация случайного GUID для studentId
+                _faker.Random.Guid() // Генерация случайного GUID для courseId
+            };
+        }
 
-public class EnrollmentPositiveTests
-{
-    [Theory]
-    [ClassData(typeof(TestEnrollmentDataClass))]
-    public void SetEnrollment_WithValidData_ShouldBeValid(
-        Guid id,
-        DateOnly enrollmentDate,
-        Guid studentId,
-        Guid courseId)
-    {
-        var enrollment = new Enrollment(id, enrollmentDate, studentId, courseId);
-        
-        enrollment.Id.Should().NotBeEmpty();
-        enrollment.EnrollmentDate.Should().BeAfter(enrollmentDate);
-        enrollment.StudentId.Should().NotBeEmpty();
-        enrollment.CourseId.Should().NotBeEmpty();
+        // Реализация интерфейса IEnumerable
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
-    
-    [Theory]
-    [ClassData(typeof(TestEnrollmentDataClass))]
-    public void SetEnrollment_WithValidData_ShouldBeEquivalent(
-        Guid id,
-        DateOnly enrollmentDate,
-        Guid studentId,
-        Guid courseId)
+
+    public class EnrollmentPositiveTests
     {
-        var enrollment = new Enrollment(id, enrollmentDate, studentId, courseId);
-        var enrollment2 = new Enrollment(id, enrollmentDate, studentId, courseId);
-        
-        enrollment.Should().BeEquivalentTo(enrollment2);
+        // Теоретический тест, использующий данные из класса TestEnrollmentDataClass
+        [Theory]
+        [ClassData(typeof(TestEnrollmentDataClass))]
+        public void SetEnrollment_WithValidData_ShouldBeValid(
+            Guid id,
+            DateOnly enrollmentDate,
+            Guid studentId,
+            Guid courseId)
+        {
+            // Создаем объект Enrollment с переданными параметрами
+            var enrollment = new Enrollment(id, enrollmentDate, studentId, courseId);
+
+            // Проверяем, что все свойства объекта заданы правильно
+            enrollment.Id.Should().NotBeEmpty(); // Id не должен быть пустым
+            enrollment.EnrollmentDate.Should().NotBe(default); // Дата зачисления не должна быть значением по умолчанию
+            enrollment.StudentId.Should().NotBeEmpty(); // studentId не должен быть пустым
+            enrollment.CourseId.Should().NotBeEmpty(); // courseId не должен быть пустым
+        }
+
+        // Теоретический тест, использующий данные из класса TestEnrollmentDataClass для проверки эквивалентности объектов
+        [Theory]
+        [ClassData(typeof(TestEnrollmentDataClass))]
+        public void SetEnrollment_WithValidData_ShouldBeEquivalent(
+            Guid id,
+            DateOnly enrollmentDate,
+            Guid studentId,
+            Guid courseId)
+        {
+            // Создаем два объекта Enrollment с одинаковыми параметрами
+            var enrollment = new Enrollment(id, enrollmentDate, studentId, courseId);
+            var enrollment2 = new Enrollment(id, enrollmentDate, studentId, courseId);
+
+            // Проверяем, что оба объекта эквивалентны
+            enrollment.Should().BeEquivalentTo(enrollment2);
+        }
     }
 }

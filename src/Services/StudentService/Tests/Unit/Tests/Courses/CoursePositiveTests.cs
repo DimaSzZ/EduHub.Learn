@@ -1,88 +1,106 @@
-﻿using System.Collections;
+﻿using System.Collections; 
 
-namespace Unit.Tests.Courses;
-
-
-public class TestCourseDataClass : IEnumerable<object[]>
+namespace Unit.Tests.Courses
 {
-    private readonly Faker _faker = new Faker();
-    private readonly DateOnly _minBirthDate = new DateOnly(1900, 1, 1);
-    
-    public IEnumerator<object[]> GetEnumerator()
+    // Класс, реализующий IEnumerable<object[]> для предоставления данных для тестов
+    public class TestCourseDataClass : IEnumerable<object[]>
     {
-        yield return new object[]
+        private readonly Faker _faker = new Faker(); // Используем библиотеку Faker для генерации случайных данных
+        private readonly DateOnly _minBirthDate = new DateOnly(1900, 1, 1); // Минимальная дата для генерации случайных дат (не используется)
+
+        // Реализация метода GetEnumerator для предоставления данных для тестов
+        public IEnumerator<object[]> GetEnumerator()
         {
-            _faker.Random.Guid(),
-            _faker.Random.String(),
-            _faker.Random.String(),
-            _faker.Random.Guid()
-        };
+            yield return new object[]
+            {
+                _faker.Random.Guid(), // Генерация случайного GUID для id
+                _faker.Random.String2(10), // Генерация случайной строки длиной 10 символов для name
+                _faker.Random.String2(10), // Генерация случайной строки длиной 10 символов для description
+                _faker.Random.Guid() // Генерация случайного GUID для educatorId
+            };
+        }
+
+        // Реализация неявного метода IEnumerable.GetEnumerator
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
-    
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-}
-public class CoursePositiveTests
-{
-    [Theory]
-    [ClassData(typeof(TestCourseDataClass))]
-    public void SetCourse_WithValidData_ShouldBeValid(
-        Guid id,
-        string name,
-        string description,
-        Guid educatorId)
+
+    public class CoursePositiveTests
     {
-        var course = new Course(id,name,description,educatorId);
-        
-        course.Id.Should().NotBeEmpty();
-        course.Name.Should().NotBeEmpty();
-        course.Description.Should().NotBeEmpty();
-        course.EducatorId.Should().NotBeEmpty();
-    }
-    
-    [Theory]
-    [ClassData(typeof(TestCourseDataClass))]
-    public void UpdateCourse_WithValidData_ShouldBeValid(
-        Guid id,
-        string name,
-        string description,
-        Guid educatorId)
-    {
-        var course = new Course(id,name,description,educatorId);
-        course.Update(name,description,educatorId);
-        
-        course.Id.Should().NotBeEmpty();
-        course.Name.Should().NotBeEmpty();
-        course.Description.Should().NotBeEmpty();
-        course.EducatorId.Should().NotBeEmpty();
-    }
-    
-    [Theory]
-    [ClassData(typeof(TestCourseDataClass))]
-    public void SetCourse_WithValidData_ShouldBeEquivalent(
-        Guid id,
-        string name,
-        string description,
-        Guid educatorId)
-    {
-        var course = new Course(id, name, description, educatorId);
-        var course2 = new Course(id, name, description, educatorId);
-        
-        course.Should().BeEquivalentTo(course2);
-    }
-    
-    [Theory]
-    [ClassData(typeof(TestCourseDataClass))]
-    public void UpdateCourse_WithValidData_ShouldBeEquivalent(
-        Guid id,
-        string name,
-        string description,
-        Guid educatorId)
-    {
-        var course = new Course(id, name, description, educatorId);
-        course.Update(name,description,educatorId);
-        var course2 = new Course(id, name, description, educatorId);
-        course2.Update(name,description,educatorId);
-        
-        course.Should().BeEquivalentTo(course2);
+        // Тест на создание курса с валидными данными
+        [Theory]
+        [ClassData(typeof(TestCourseDataClass))]
+        public void SetCourse_WithValidData_ShouldBeValid(
+            Guid id,
+            string name,
+            string description,
+            Guid educatorId)
+        {
+            // Создание экземпляра Course с валидными данными
+            var course = new Course(id, name, description, educatorId);
+            
+            // Проверка свойств на валидность
+            course.Id.Should().NotBeEmpty();
+            course.Name.Should().NotBeEmpty();
+            course.Description.Should().NotBeEmpty();
+            course.EducatorId.Should().NotBeEmpty();
+        }
+
+        // Тест на обновление курса с валидными данными
+        [Theory]
+        [ClassData(typeof(TestCourseDataClass))]
+        public void UpdateCourse_WithValidData_ShouldBeValid(
+            Guid id,
+            string name,
+            string description,
+            Guid educatorId)
+        {
+            // Создание экземпляра Course с валидными данными
+            var course = new Course(id, name, description, educatorId);
+            
+            // Обновление свойств Course
+            course.Update(name, description, educatorId);
+            
+            // Проверка свойств на валидность после обновления
+            course.Id.Should().NotBeEmpty();
+            course.Name.Should().NotBeEmpty();
+            course.Description.Should().NotBeEmpty();
+            course.EducatorId.Should().NotBeEmpty();
+        }
+
+        // Тест на эквивалентность двух экземпляров Course с одинаковыми данными
+        [Theory]
+        [ClassData(typeof(TestCourseDataClass))]
+        public void SetCourse_WithValidData_ShouldBeEquivalent(
+            Guid id,
+            string name,
+            string description,
+            Guid educatorId)
+        {
+            // Создание двух экземпляров Course с одинаковыми данными
+            var course = new Course(id, name, description, educatorId);
+            var course2 = new Course(id, name, description, educatorId);
+            
+            // Проверка на эквивалентность
+            course.Should().BeEquivalentTo(course2);
+        }
+
+        // Тест на эквивалентность двух экземпляров Course после обновления с одинаковыми данными
+        [Theory]
+        [ClassData(typeof(TestCourseDataClass))]
+        public void UpdateCourse_WithValidData_ShouldBeEquivalent(
+            Guid id,
+            string name,
+            string description,
+            Guid educatorId)
+        {
+            // Создание двух экземпляров Course с одинаковыми данными
+            var course = new Course(id, name, description, educatorId);
+            course.Update(name, description, educatorId); // Обновление свойств первого экземпляра
+            var course2 = new Course(id, name, description, educatorId);
+            course2.Update(name, description, educatorId); // Обновление свойств второго экземпляра
+            
+            // Проверка на эквивалентность после обновления
+            course.Should().BeEquivalentTo(course2);
+        }
     }
 }
