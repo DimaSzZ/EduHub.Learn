@@ -12,7 +12,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduHub.StudentService.Domai
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{8DABF615-50E7-4BB9-81C3-E18929846D3F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unit", "src\Services\StudentService\Tests\Unit\Unit.csproj", "{308A734B-57A3-44B8-9762-645B163A54DE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduHub.StudentService.Tests.Unit", "src\Services\StudentService\Tests\EduHub.StudentService.Tests.Unit\EduHub.StudentService.Tests.Unit.csproj", "{308A734B-57A3-44B8-9762-645B163A54DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
