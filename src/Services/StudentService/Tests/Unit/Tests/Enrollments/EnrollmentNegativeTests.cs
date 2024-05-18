@@ -4,11 +4,8 @@ namespace Unit.Tests.Enrollments
 {
     public class EnrollmentNegativeTests
     {
-        // Определяем статическое поле, содержащее набор тестовых данных, полученных из класса TestedClass
         public static readonly IEnumerable<object[]> EnrollmentProperties = TestedClass.GetEnrollmentProperties();
         
-        // Атрибут Theory указывает на теоретический тест, который будет запущен с несколькими наборами данных
-        // MemberData атрибут указывает, что наборы данных для теста берутся из статического поля EnrollmentProperties
         [Theory]
         [MemberData(nameof(EnrollmentProperties))]
         public void SetEnrollment_WithNullData_ShouldBeInvalid(
@@ -18,8 +15,12 @@ namespace Unit.Tests.Enrollments
             Guid courseId
         )
         {
+            // Arrange: Подготовка данных (данные передаются через параметризованный тест)
+            
+            // Act: Лямбда-выражение для создания объекта Enrollment с нулевыми данными
             var enrollment = () => new Enrollment(id, enrollmentDate, studentId, courseId);
             
+            // Assert: Проверка, что при создании объекта Enrollment с нулевыми данными выбрасывается исключение ArgumentException
             enrollment.Should().Throw<ArgumentException>();
         }
     }

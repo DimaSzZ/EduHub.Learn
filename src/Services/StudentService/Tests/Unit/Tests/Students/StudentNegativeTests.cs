@@ -21,10 +21,13 @@ namespace Unit.Tests.Students
             Phone phone,
             Address address)
         {
-            // Определяем делегат, создающий новый объект Student с переданными параметрами
+            // Arrange: Подготовка данных
+            // Данные передаются через параметризованный тест, данные уже подготовлены
+            
+            // Act: Определяем делегат, создающий новый объект Student с переданными параметрами
             var student = () => new Student(id, avatar, fullName, gender, dateBirth, email, phone, address);
             
-            // Проверяем, что при создании объекта Student с указанными параметрами будет выброшено исключение ArgumentException
+            // Assert: Проверка, что при создании объекта Student с указанными параметрами будет выброшено исключение ArgumentException
             student.Should().Throw<ArgumentException>();
         }
     }

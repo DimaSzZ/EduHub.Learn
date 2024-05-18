@@ -2,13 +2,10 @@
 
 namespace Unit.Tests.Courses
 {
-    // Класс для тестирования негативных сценариев для курсов
     public class CourseNegativeTests
     {
-        // Поле, содержащее набор свойств курса для использования в тестах
         public static readonly IEnumerable<object[]> CourseProperties = TestedClass.GetCourseProperties();
         
-        // Тест на создание курса с нулевыми данными
         [Theory]
         [MemberData(nameof(CourseProperties))]
         public void SetCourse_WithNullData_ShouldBeInvalid(
@@ -17,23 +14,34 @@ namespace Unit.Tests.Courses
             string description,
             Guid educatorId)
         {
-            // Лямбда-выражение для создания курса с нулевыми данными и проверки на исключение ArgumentException
+            // Arrange: Подготовка данных
+            // Данные передаются через параметризованный тест, данные уже подготовлены
+
+            // Act: Лямбда-выражение для создания курса с нулевыми данными и проверки на исключение
             var course = () => new Course(id, name, description, educatorId);
+            
+            // Assert: Проверка на исключение ArgumentException
             course.Should().Throw<ArgumentException>();
         }
         
-        // Тест на обновление курса с нулевыми данными
         [Theory]
         [MemberData(nameof(CourseProperties))]
         public void UpdateCourse_WithNullData_ShouldBeInvalid(
             Guid id,
             string name,
             string description,
-            Guid enrollmentId)
+            Guid educatorId)
         {
-            // Лямбда-выражение для обновления курса с нулевыми данными и проверки на исключение ArgumentException
-            var course = () => new Course(id, name, description, enrollmentId).Update(name, description, enrollmentId);
-            course.Should().Throw<ArgumentException>();
+            // Arrange: Подготовка данных
+            // Данные передаются через параметризованный тест, данные уже подготовлены
+            // Создание экземпляра Course с валидными данными
+            var course = new Course(id, name, description, educatorId);
+
+            // Act: Лямбда-выражение для обновления курса с нулевыми данными и проверки на исключение
+            var updateCourse = () => course.Update(name, description, educatorId);
+
+            // Assert: Проверка на исключение ArgumentException
+            updateCourse.Should().Throw<ArgumentException>();
         }
     }
 }
