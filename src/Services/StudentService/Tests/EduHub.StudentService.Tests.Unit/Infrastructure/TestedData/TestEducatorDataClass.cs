@@ -2,27 +2,27 @@
 
 namespace Unit.Infrastructure.TestedData;
 
-// Класс для предоставления данных для тестов EducatorPositiveTests
+/// <summary>
+/// Класс генератор для позитивных тестов Educator
+/// </summary>
 public class TestEducatorDataClass : IEnumerable<object[]>
 {
-    private readonly Faker _faker = new Faker(); // Создаем экземпляр Faker для генерации случайных данных
-    private readonly DateOnly _minBirthDate = new DateOnly(1900, 1, 1); // Минимальная дата рождения для генерации
+    private readonly Faker _faker = new Faker(); 
+    private readonly DateOnly _minBirthDate = new DateOnly(1900, 1, 1); 
     
-    // Метод для предоставления данных для тестов
     public IEnumerator<object[]> GetEnumerator()
     {
         yield return new object[]
         {
-            _faker.Random.Guid(), // Генерация случайного GUID для идентификатора
-            new FullName(_faker.Name.FirstName(), _faker.Name.LastName(), _faker.Name.LastName()), // Генерация случайного полного имени
-            EnumGenerator.GetRandomNonDefaultGender(), // Получение случайного пола, отличного от значения по умолчанию
-            new Phone(_faker.Phone.PhoneNumber()), // Генерация случайного телефонного номера
-            _faker.Random.Byte(0, 60), // Генерация случайного числа типа byte для опыта работы
+            _faker.Random.Guid(), 
+            new FullName(_faker.Name.FirstName(), _faker.Name.LastName(), _faker.Name.LastName()), 
+            EnumGenerator.GetRandomNonDefaultGender(), 
+            new Phone(_faker.Phone.PhoneNumber()),
+            _faker.Random.Byte(0, 60), 
             _faker.Date.BetweenDateOnly(_minBirthDate,
-                new DateOnly(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day)) // Генерация случайной даты трудоустройства
+                new DateOnly(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day))
         };
     }
     
-    // Реализация неявного метода IEnumerable.GetEnumerator
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }

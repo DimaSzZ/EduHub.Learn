@@ -2,13 +2,24 @@
 
 namespace Unit.Tests.Students
 {
+    /// <summary>
+    /// Негативные тесты для сущностей Student
+    /// </summary>
     public class StudentNegativeTests
     {
-        // Определяем статическое поле, содержащее набор тестовых данных, полученных из класса TestedClass
         public static readonly IEnumerable<object[]> StudentProperties = TestedClass.GetStudentProperties();
         
-        // Атрибут Theory указывает на теоретический тест, который будет запущен с несколькими наборами данных
-        // MemberData атрибут указывает, что наборы данных для теста берутся из статического поля StudentProperties
+        /// <summary>
+        /// Текст исключение для Student
+        /// </summary>
+        /// <param name="id">Валидность id</param>
+        /// <param name="avatar">Валидность аватара</param>
+        /// <param name="fullName">Валидность ФИО</param>
+        /// <param name="gender">Валидность пола</param>
+        /// <param name="dateBirth">Валидность даты рождения</param>
+        /// <param name="email">Валидность эл почты</param>
+        /// <param name="phone">Валидность номера телефона</param>
+        /// <param name="address">Валидность адресса</param>
         [Theory]
         [MemberData(nameof(StudentProperties))]
         public void SetStudent_WithNullData_ShouldBeInvalid(

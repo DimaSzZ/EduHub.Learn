@@ -2,8 +2,18 @@
 
 namespace Unit.Tests.Enrollments
 {
+    /// <summary>
+    /// Позитивные тесты для сущностей Enrollment
+    /// </summary>
     public class EnrollmentPositiveTests
     {
+        /// <summary>
+        /// Тест исключений при создании Enrollment
+        /// </summary>
+        /// <param name="id">Валидность id</param>
+        /// <param name="enrollmentDate">Валидность даты зачисления</param>
+        /// <param name="studentId">Валидность id студента</param>
+        /// <param name="courseId">Валидность id курса</param>
         [Theory]
         [ClassData(typeof(TestEnrollmentDataClass))]
         public void SetEnrollment_WithValidData_ShouldBeValid(
@@ -25,6 +35,13 @@ namespace Unit.Tests.Enrollments
             enrollment.CourseId.Should().NotBeEmpty(); // courseId не должен быть пустым
         }
         
+        /// <summary>
+        /// Тест исключения на эквивалетность 2 одинаковых Enrollment
+        /// </summary>
+        /// <param name="id">Валидность Id</param>
+        /// <param name="enrollmentDate">Валидность зачисления</param>
+        /// <param name="studentId">Валидность id студента</param>
+        /// <param name="courseId">Валидность id курса</param>
         [Theory]
         [ClassData(typeof(TestEnrollmentDataClass))]
         public void SetEnrollment_WithValidData_ShouldBeEquivalent(

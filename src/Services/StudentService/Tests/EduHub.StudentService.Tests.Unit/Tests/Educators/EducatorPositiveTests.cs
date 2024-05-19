@@ -2,8 +2,20 @@
 
 namespace Unit.Tests.Educators
 {
+    /// <summary>
+    /// Позитивные тесты для сущностей Educator
+    /// </summary>
     public class EducatorPositiveTests
     {
+        /// <summary>
+        /// Тест исключений при создании Educator
+        /// </summary>
+        /// <param name="id">Валидность Id</param>
+        /// <param name="fullName">Валидность ФИО</param>
+        /// <param name="gender">Валидность пола</param>
+        /// <param name="phone">Валидность пола</param>
+        /// <param name="workExp">Валидность рабочего опыта</param>
+        /// <param name="dateEmployment">Валидность даты поступления на работу</param>
         [Theory]
         [ClassData(typeof(TestEducatorDataClass))]
         public void SetEducator_WithValidData_ShouldBeValid(

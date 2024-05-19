@@ -2,10 +2,20 @@
 
 namespace Unit.Tests.Courses
 {
+    /// <summary>
+    /// Негативные тесты для сущностей Course
+    /// </summary>
     public class CourseNegativeTests
     {
         public static readonly IEnumerable<object[]> CourseProperties = TestedClass.GetCourseProperties();
-        
+            
+        /// <summary>
+        /// Тест исключений при создании Course
+        /// </summary>
+        /// <param name="id">Валидность id</param>
+        /// <param name="name">Валидность названия курса</param>
+        /// <param name="description">Валидность описания курса</param>
+        /// <param name="educatorId">Валидность преподавателя курса</param>
         [Theory]
         [MemberData(nameof(CourseProperties))]
         public void SetCourse_WithNullData_ShouldBeInvalid(
