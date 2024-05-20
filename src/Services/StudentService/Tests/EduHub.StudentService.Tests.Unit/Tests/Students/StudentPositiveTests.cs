@@ -83,7 +83,7 @@ namespace Unit.Tests.Students
             // Act: Генерируем новые данные для обновления объекта Student
             var updatedAvatar = _faker.Random.String2(8);
             var updatedFullName = new FullName(_faker.Name.FirstName(), _faker.Name.LastName(), _faker.Name.LastName());
-            var updatedGender = EnumGenerator.GetRandomNonDefaultGender();
+            var updatedGender = EnumGenerator.GetGender();
             var updatedDateBirth = _faker.Date.BetweenDateOnly(_minBirthDate, new DateOnly(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day));
             var updatedEmail = new Email(_faker.Internet.Email());
             var updatedPhone = new Phone(_faker.Phone.PhoneNumber());

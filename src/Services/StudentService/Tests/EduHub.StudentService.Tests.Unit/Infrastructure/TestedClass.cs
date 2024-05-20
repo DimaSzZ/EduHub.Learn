@@ -23,8 +23,8 @@ public static class TestedClass
             new object[]
             {
                 Guid.Empty, Faker.Random.String2(8), new FullName(Faker.Name.FirstName(), Faker.Name.LastName(), Faker.Name.LastName()),
-                EnumGenerator.GetRandomNonDefaultGender(),
-                Faker.Date.BetweenDateOnly(MinDate, new DateOnly(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day)),
+                EnumGenerator.GetGender(),
+                Faker.Date.PastDateOnly(),
                 new Email(Faker.Internet.Email()), new Phone(Faker.Phone.PhoneNumber()), new Address(Faker.Address.City(), Faker.Address.StreetName(),
                     int.Parse(Faker.Address.BuildingNumber()))
             },
@@ -32,8 +32,8 @@ public static class TestedClass
             new object[]
             {
                 Faker.Random.Guid(), null, new FullName(Faker.Name.FirstName(), Faker.Name.LastName(), Faker.Name.LastName()),
-                EnumGenerator.GetRandomNonDefaultGender(),
-                Faker.Date.BetweenDateOnly(MinDate, new DateOnly(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day)),
+                EnumGenerator.GetGender(),
+                Faker.Date.PastDateOnly(),
                 new Email(Faker.Internet.Email()), new Phone(Faker.Phone.PhoneNumber()), new Address(Faker.Address.City(), Faker.Address.StreetName(),
                     int.Parse(Faker.Address.BuildingNumber()))
             },
@@ -41,8 +41,8 @@ public static class TestedClass
             new object[]
             {
                 Faker.Random.Guid(), Faker.Random.String2(8), null,
-                EnumGenerator.GetRandomNonDefaultGender(),
-                Faker.Date.BetweenDateOnly(MinDate, new DateOnly(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day)),
+                EnumGenerator.GetGender(),
+                Faker.Date.PastDateOnly(),
                 new Email(Faker.Internet.Email()), new Phone(Faker.Phone.PhoneNumber()), new Address(Faker.Address.City(), Faker.Address.StreetName(),
                     int.Parse(Faker.Address.BuildingNumber()))
             },
@@ -50,7 +50,7 @@ public static class TestedClass
             new object[]
             {
                 Faker.Random.Guid(), Faker.Random.String2(8), new FullName(Faker.Name.FirstName(), Faker.Name.LastName(), Faker.Name.LastName()),
-                default, Faker.Date.BetweenDateOnly(MinDate, new DateOnly(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day)),
+                default, Faker.Date.PastDateOnly(),
                 new Email(Faker.Internet.Email()), new Phone(Faker.Phone.PhoneNumber()), new Address(Faker.Address.City(), Faker.Address.StreetName(),
                     int.Parse(Faker.Address.BuildingNumber()))
             },
@@ -58,7 +58,7 @@ public static class TestedClass
             new object[]
             {
                 Faker.Random.Guid(), Faker.Random.String2(8), new FullName(Faker.Name.FirstName(), Faker.Name.LastName(), Faker.Name.LastName()),
-                EnumGenerator.GetRandomNonDefaultGender(), default,
+                EnumGenerator.GetGender(), default,
                 new Email(Faker.Internet.Email()), new Phone(Faker.Phone.PhoneNumber()), new Address(Faker.Address.City(), Faker.Address.StreetName(),
                     int.Parse(Faker.Address.BuildingNumber()))
             },
@@ -66,8 +66,8 @@ public static class TestedClass
             new object[]
             {
                 Faker.Random.Guid(), Faker.Random.String2(8), new FullName(Faker.Name.FirstName(), Faker.Name.LastName(), Faker.Name.LastName()),
-                EnumGenerator.GetRandomNonDefaultGender(),
-                Faker.Date.BetweenDateOnly(MinDate, new DateOnly(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day)),
+                EnumGenerator.GetGender(),
+                Faker.Date.PastDateOnly(),
                 null, new Phone(Faker.Phone.PhoneNumber()), new Address(Faker.Address.City(), Faker.Address.StreetName(),
                     int.Parse(Faker.Address.BuildingNumber()))
             },
@@ -75,16 +75,16 @@ public static class TestedClass
             new object[]
             {
                 Faker.Random.Guid(), Faker.Random.String2(8), new FullName(Faker.Name.FirstName(), Faker.Name.LastName(), Faker.Name.LastName()),
-                EnumGenerator.GetRandomNonDefaultGender(),
-                Faker.Date.BetweenDateOnly(MinDate, new DateOnly(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day)),
+                EnumGenerator.GetGender(),
+                Faker.Date.PastDateOnly(),
                 new Email(Faker.Internet.Email()), null, new Address(Faker.Address.City(), Faker.Address.StreetName(),
                     int.Parse(Faker.Address.BuildingNumber()))
             },
             new object[]
             {
                 Faker.Random.Guid(), Faker.Random.String2(8), new FullName(Faker.Name.FirstName(), Faker.Name.LastName(), Faker.Name.LastName()),
-                EnumGenerator.GetRandomNonDefaultGender(),
-                Faker.Date.BetweenDateOnly(MinDate, new DateOnly(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day)),
+                EnumGenerator.GetGender(),
+                Faker.Date.PastDateOnly(),
                 new Email(Faker.Internet.Email()), new Phone(Faker.Phone.PhoneNumber()), null
             }
         };
@@ -169,14 +169,14 @@ public static class TestedClass
         {
             new object[]
             {
-                Guid.Empty, new FullName(Faker.Name.FirstName(), Faker.Name.LastName(), Faker.Name.LastName()), EnumGenerator.GetRandomNonDefaultGender(),
+                Guid.Empty, new FullName(Faker.Name.FirstName(), Faker.Name.LastName(), Faker.Name.LastName()), EnumGenerator.GetGender(),
                 new Phone(Faker.Phone.PhoneNumber()), Faker.Random.Byte(0, 60),
                 Faker.Date.BetweenDateOnly(MinDate, new DateOnly(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day))
             },
             
             new object[]
             {
-                Guid.NewGuid(), null, EnumGenerator.GetRandomNonDefaultGender(),
+                Guid.NewGuid(), null, EnumGenerator.GetGender(),
                 new Phone(Faker.Phone.PhoneNumber()), Faker.Random.Byte(0, 60),
                 Faker.Date.BetweenDateOnly(MinDate, new DateOnly(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day))
             },
@@ -190,20 +190,20 @@ public static class TestedClass
             
             new object[]
             {
-                Guid.Empty, new FullName(Faker.Name.FirstName(), Faker.Name.LastName(), Faker.Name.LastName()), EnumGenerator.GetRandomNonDefaultGender(),
+                Guid.Empty, new FullName(Faker.Name.FirstName(), Faker.Name.LastName(), Faker.Name.LastName()), EnumGenerator.GetGender(),
                 null, Faker.Random.Byte(0, 60), Faker.Date.BetweenDateOnly(MinDate, new DateOnly(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day))
             },
             
             new object[]
             {
-                Guid.Empty, new FullName(Faker.Name.FirstName(), Faker.Name.LastName(), Faker.Name.LastName()), EnumGenerator.GetRandomNonDefaultGender(),
+                Guid.Empty, new FullName(Faker.Name.FirstName(), Faker.Name.LastName(), Faker.Name.LastName()), EnumGenerator.GetGender(),
                 new Phone(Faker.Phone.PhoneNumber()), -1,
                 Faker.Date.BetweenDateOnly(MinDate, new DateOnly(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day))
             },
             
             new object[]
             {
-                Guid.Empty, new FullName(Faker.Name.FirstName(), Faker.Name.LastName(), Faker.Name.LastName()), EnumGenerator.GetRandomNonDefaultGender(),
+                Guid.Empty, new FullName(Faker.Name.FirstName(), Faker.Name.LastName(), Faker.Name.LastName()), EnumGenerator.GetGender(),
                 new Phone(Faker.Phone.PhoneNumber()), Faker.Random.Byte(0, 60), default
             },
         };

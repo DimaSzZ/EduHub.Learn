@@ -16,7 +16,7 @@ public class TestEducatorDataClass : IEnumerable<object[]>
         {
             _faker.Random.Guid(), 
             new FullName(_faker.Name.FirstName(), _faker.Name.LastName(), _faker.Name.LastName()), 
-            EnumGenerator.GetRandomNonDefaultGender(), 
+            EnumGenerator.GetGender(), 
             new Phone(_faker.Phone.PhoneNumber()),
             _faker.Random.Byte(0, 60), 
             _faker.Date.BetweenDateOnly(_minBirthDate,
