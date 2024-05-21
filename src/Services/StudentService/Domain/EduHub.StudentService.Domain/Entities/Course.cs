@@ -63,7 +63,7 @@ public class Course : BaseEntity
     
     private void SetEducatorId(Guid educatorId)
     {
-        EducatorId = Guard.Against.Null(educatorId);
+        EducatorId = Guard.Against.NullOrEmpty(educatorId);
     }
     
     private void SetDescription(string description)
