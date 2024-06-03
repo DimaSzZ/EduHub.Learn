@@ -2,7 +2,8 @@
 
 namespace EduHub.StudentService.Application.Services.Dto.Educator;
 
-public record EducatorRequestDto(
+public record EducatorRequestUpdateDto(
+    Guid Id,
     string FirstName,
     string Surname,
     string Patronymic,

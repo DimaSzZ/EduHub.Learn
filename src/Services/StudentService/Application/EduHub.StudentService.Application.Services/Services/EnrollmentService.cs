@@ -1,61 +1,83 @@
-﻿using AutoMapper;
+﻿using Ardalis.GuardClauses;
+using AutoMapper;
 using EduHub.StudentService.Application.Services.Dto.Enrollment;
-using EduHub.StudentService.Application.Services.Exceptions.Realization;
+using EduHub.StudentService.Application.Services.Exceptions;
+using EduHub.StudentService.Application.Services.Interfaces;
 using EduHub.StudentService.Application.Services.Interfaces.UoW;
 using EduHub.StudentService.Domain.Entities;
 
 namespace EduHub.StudentService.Application.Services.Services;
 
-public class EnrollmentService
+public class EnrollmentService : IEnrollmentService
 {
     private readonly IMapper _mapper;
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly IPgUnitOfWork _unitOfWork;
     
-    public EnrollmentService( IMapper mapper, IUnitOfWork unitOfWork)
+    public EnrollmentService( IMapper mapper, IPgUnitOfWork unitOfWork)
     {
-        _mapper = mapper;
-        _unitOfWork = unitOfWork;
+        _mapper = Guard.Against.Null(mapper);
+        _unitOfWork = Guard.Against.Null(unitOfWork);
     }
     
-    public async Task AddStudentToCourse(EnrollmentRequestDto enrollmentRequestDto, CancellationToken cancellationToken)
+    public async Task<EnrollmentResponseDto> AddStudentToCourseAsync(EnrollmentRequestDto enrollmentRequestDto, CancellationToken cancellationToken)
     {
+        Guard.Against.Null(enrollmentRequestDto);
+        
         var enrollment = _mapper.Map<EnrollmentRequestDto, Enrollment>(enrollmentRequestDto);
         
-        if (await _unitOfWork.CoursesRepository.GetCourseById(enrollment.CourseId, cancellationToken) == null)
-            throw new EntityNotFoundException<Course>();
-        if (await _unitOfWork.StudentRepository.GetStudentById(enrollment.StudentId, cancellationToken) == null)
-            throw new EntityNotFoundException<Student>();
+        if (await _unitOfWork.CoursesRepository.GetByIdAsync(enrollment.CourseId, cancellationToken) == null)
+        {
+            throw new EntityNotFoundException<Course>();    
+        }
         
-        var existingEnrollment = await _unitOfWork.EnrollmentRepository.Add(enrollment, cancellationToken);
-        if (existingEnrollment != null)
-            throw new EntityConflictException<Enrollment>();
+        if (await _unitOfWork.StudentRepository.GetByIdAsync(enrollment.StudentId, cancellationToken) == null)
+        {
+            throw new EntityNotFoundException<Student>();   
+        }
         
-        await _unitOfWork.SaveChanges();
+        await _unitOfWork.EnrollmentRepository.AddAsync(enrollment, cancellationToken);
+        
+        await _unitOfWork.SaveChangesAsync();
+        
+        return _mapper.Map<Enrollment,EnrollmentResponseDto>(enrollment);
     }
     
-    public async Task<List<EnrollmentResponseDto>> GetStudentEnrollments(Guid id,CancellationToken cancellationToken)
+    public async Task<List<EnrollmentResponseDto>> GetStudentEnrollmentsAsync(Guid id,CancellationToken cancellationToken)
     {
-        var student = await _unitOfWork.StudentRepository.GetStudentById(id, cancellationToken);
-        if (student == null)
-            throw new EntityNotFoundException<Student>();
+        Guard.Against.Null(id);
         
-        var enrollments = await _unitOfWork.EnrollmentRepository.GetStudentEnrollments(student,cancellationToken);
+        var student = await _unitOfWork.StudentRepository.GetByIdAsync(id, cancellationToken);
+        if (student == null)
+        {
+            throw new EntityNotFoundException<Student>();   
+        }
+        
+        var enrollments = await _unitOfWork.EnrollmentRepository.GetListByStudentIdAsync(student.Id,cancellationToken);
         return _mapper.Map<List<EnrollmentResponseDto>>(enrollments);
     }
     
-    public async Task<List<Guid>> GetListStudents(CancellationToken cancellationToken)
+    public async Task<List<Guid>> GetListStudentsAsync(CancellationToken cancellationToken)
     {
-        var enrollments = await _unitOfWork.EnrollmentRepository.GetAllEntities(cancellationToken);
+        var enrollments = await _unitOfWork.EnrollmentRepository.GetAllAsync(cancellationToken);
         if (enrollments == null)
-            throw new EntityNotFoundException<Enrollment>();
+        {
+            throw new EntityNotFoundException<Enrollment>();   
+        }
         
         return _mapper.Map<List<EnrollmentResponseDto>>(enrollments).Select(enrollment => enrollment.Id).ToList();
     }
     
-    public async Task DeleteEnrollment(Guid id, CancellationToken cancellationToken)
+    public async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
     {
-        await _unitOfWork.EnrollmentRepository.Delete(id, cancellationToken);
+        Guard.Against.Null(id);
+        var dbEnrollment = await _unitOfWork.EnrollmentRepository.GetByIdAsync(id,cancellationToken);
+        if (dbEnrollment == null)
+        {
+            throw new EntityNotFoundException<Enrollment>();
+        }
         
-        await _unitOfWork.SaveChanges();
+        await _unitOfWork.EnrollmentRepository.DeleteAsync(dbEnrollment, cancellationToken);
+        
+        await _unitOfWork.SaveChangesAsync();
     }
 }

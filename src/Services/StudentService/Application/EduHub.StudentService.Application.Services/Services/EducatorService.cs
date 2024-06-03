@@ -1,70 +1,105 @@
-﻿using AutoMapper;
+﻿using Ardalis.GuardClauses;
+using AutoMapper;
 using EduHub.StudentService.Application.Services.Dto.Educator;
-using EduHub.StudentService.Application.Services.Exceptions.Realization;
+using EduHub.StudentService.Application.Services.Exceptions;
+using EduHub.StudentService.Application.Services.Interfaces;
 using EduHub.StudentService.Application.Services.Interfaces.UoW;
-using EduHub.StudentService.Application.Services.Validations;
+using EduHub.StudentService.Application.Services.Validations.Educator;
 using EduHub.StudentService.Domain.Entities;
 using EduHub.StudentService.Domain.ValueObjects;
 using FluentValidation;
 
 namespace EduHub.StudentService.Application.Services.Services;
 
-public class EducatorService
+public class EducatorService : IEducatorService
 {
     private readonly IMapper _mapper;
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly IPgUnitOfWork _unitOfWork;
     
-    public EducatorService(IMapper mapper, IUnitOfWork unitOfWork)
+    public EducatorService(IMapper mapper, IPgUnitOfWork unitOfWork)
     {
-        _mapper = mapper;
-        _unitOfWork = unitOfWork;
+        _mapper = Guard.Against.Null(mapper);
+        _unitOfWork = Guard.Against.Null(unitOfWork);
     }
     
-    public async Task AddNewEducator(EducatorRequestDto educatorDto, CancellationToken cancellationToken)
+    public async Task<EducatorResponseDto> AddNewAsync(EducatorRequestDto educatorDto, CancellationToken cancellationToken)
     {
+        Guard.Against.Null(educatorDto);
+        
         await new EducatorRequestDtoValidator().ValidateAndThrowAsync(educatorDto, cancellationToken);
         
         var educator = _mapper.Map<EducatorRequestDto, Educator>(educatorDto);
-        var existingEducator = await _unitOfWork.EducatorRepository.Add(educator, cancellationToken);
-        if (existingEducator != null)
-            throw new EntityConflictException<Educator>();
+        await _unitOfWork.EducatorRepository.AddAsync(educator, cancellationToken);
+       
         
-        await _unitOfWork.SaveChanges();
+        await _unitOfWork.SaveChangesAsync();
+        
+        return _mapper.Map<Educator, EducatorResponseDto>(educator);
     }
     
-    public async Task UpdateEducator(EducatorRequestDto educatorDto, CancellationToken cancellationToken)
+    public async Task<EducatorResponseDto> UpdateAsync(EducatorRequestUpdateDto educatorDto, CancellationToken cancellationToken)
     {
-        await new EducatorRequestDtoValidator().ValidateAndThrowAsync(educatorDto, cancellationToken);
+        Guard.Against.Null(educatorDto);
         
-        var educator = _mapper.Map<EducatorRequestDto, Educator>(educatorDto);
-        var existingEducator = await _unitOfWork.EducatorRepository.Update(educator, cancellationToken);
-        if (existingEducator == null)
+        await new EducatorRequestUpdateDtoValidator().ValidateAndThrowAsync(educatorDto, cancellationToken);
+        
+        var educator = _mapper.Map<EducatorRequestUpdateDto, Educator>(educatorDto);
+        
+        var dbEducator = await _unitOfWork.EducatorRepository.GetByIdAsync(educatorDto.Id, cancellationToken);
+        if (dbEducator == null)
+        {
             throw new EntityNotFoundException<Educator>();
+        }
         
-        await _unitOfWork.SaveChanges();
+        dbEducator.Update(
+            new FullName(educator.FullName.FirstName,educator.FullName.Surname,educator.FullName.Patronymic),
+            educator.Gender,
+            new Phone(educator.Phone.Value),
+            educator.YearsExperience,
+            educator.DateEmployment
+            );
+        
+        await _unitOfWork.EducatorRepository.UpdateAsync(dbEducator, cancellationToken);
+        
+        await _unitOfWork.SaveChangesAsync();
+        
+        return _mapper.Map<Educator, EducatorResponseDto>(educator);
     }
     
-    public async Task DeleteEducator(Guid id, CancellationToken cancellationToken)
+    public async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
     {
-        await _unitOfWork.EducatorRepository.Delete(id, cancellationToken);
+        Guard.Against.Null(id);
+        var dbEducator = await _unitOfWork.EducatorRepository.GetByIdAsync(id,cancellationToken);
         
-        await _unitOfWork.SaveChanges();
+        if (dbEducator == null)
+        {
+            throw new EntityNotFoundException<Educator>();
+        }
+        
+        await _unitOfWork.EducatorRepository.DeleteAsync(dbEducator, cancellationToken);
+        
+        await _unitOfWork.SaveChangesAsync();
     }
     
-    public async Task<List<FullName>> GetListEducators(CancellationToken cancellationToken)
+    public async Task<List<(string, string, string)>> GetListAsync(CancellationToken cancellationToken)
     {
-        var educators = await _unitOfWork.EducatorRepository.GetAllEntities(cancellationToken);
+        var educators = await _unitOfWork.EducatorRepository.GetAllAsync(cancellationToken);
         if (educators == null)
-            throw new EntityNotFoundException<Educator>();
+        {
+            throw new EntityNotFoundException<Educator>();   
+        }
         
-        return _mapper.Map<List<EducatorResponseDto>>(educators).Select(educator => educator.FullName).ToList();
+        return educators.Select(educator => (educator.FullName.FirstName,educator.FullName.Surname,educator.FullName.Patronymic)).ToList();
     }
     
-    public async Task<EducatorResponseDto> GetInfoEducator(Guid id, CancellationToken cancellationToken)
+    public async Task<EducatorResponseDto> GetInfoAsync(Guid id, CancellationToken cancellationToken)
     {
-        var educator = await _unitOfWork.EducatorRepository.GeEducatorById(id, cancellationToken);
+        Guard.Against.Null(id);
+        var educator = await _unitOfWork.EducatorRepository.GetByIdAsync(id, cancellationToken);
         if (educator == null)
-            throw new EntityNotFoundException<Educator>();
+        {
+            throw new EntityNotFoundException<Educator>();   
+        }
         
         return _mapper.Map<Educator, EducatorResponseDto>(educator);
     }
