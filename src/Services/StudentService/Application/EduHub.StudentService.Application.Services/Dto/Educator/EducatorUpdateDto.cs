@@ -3,7 +3,7 @@
 namespace EduHub.StudentService.Application.Services.Dto.Educator;
 
 /// <summary>
-/// Дто на возврат преподавателя
+/// Дто на обновление преподавателя
 /// </summary>
 /// <param name="Id">Id преподавателя</param>
 /// <param name="FirstName">Имя</param>
@@ -13,7 +13,7 @@ namespace EduHub.StudentService.Application.Services.Dto.Educator;
 /// <param name="Phone">Телефон</param>
 /// <param name="WorkExperience">Опыт работы</param>
 /// <param name="DateEmployment">Дата устройства на работу</param>
-public record EducatorResponseDto(
+public record EducatorUpdateDto(
     Guid Id,
     string FirstName,
     string Surname,

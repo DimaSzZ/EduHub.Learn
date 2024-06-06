@@ -1,8 +1,7 @@
 ﻿using Ardalis.GuardClauses;
 using AutoMapper;
 using EduHub.StudentService.Application.Services.Dto.Educator;
-using EduHub.StudentService.Application.Services.Exceptions;
-using EduHub.StudentService.Application.Services.Interfaces;
+using EduHub.StudentService.Application.Services.Interfaces.Services;
 using EduHub.StudentService.Application.Services.Interfaces.UoW;
 using EduHub.StudentService.Application.Services.Validations.Educator;
 using EduHub.StudentService.Domain.Entities;
@@ -11,95 +10,111 @@ using FluentValidation;
 
 namespace EduHub.StudentService.Application.Services.Services;
 
-public class EducatorService : IEducatorService
+/// <summary>
+/// Сервис преподавателей
+/// </summary>
+public class EducatorService : ServiceBase, IEducatorService
 {
     private readonly IMapper _mapper;
-    private readonly IPgUnitOfWork _unitOfWork;
+    private readonly IStudentUnitOfWork _unitOfWork;
     
-    public EducatorService(IMapper mapper, IPgUnitOfWork unitOfWork)
+    /// <summary>
+    /// конструктор, принимающий все необходимые зависимости
+    /// </summary>
+    /// <param name="mapper">зависимость автомаппера</param>
+    /// <param name="unitOfWork">зависимость UoW</param>
+    public EducatorService(IMapper mapper, IStudentUnitOfWork unitOfWork) : base(unitOfWork)
     {
         _mapper = Guard.Against.Null(mapper);
         _unitOfWork = Guard.Against.Null(unitOfWork);
     }
     
-    public async Task<EducatorResponseDto> AddNewAsync(EducatorRequestDto educatorDto, CancellationToken cancellationToken)
+    /// <summary>
+    /// Асинхронное добавление преподавателя в бд
+    /// </summary>
+    /// <param name="educatorDto">Дто преподавателя</param>
+    /// <param name="cancellationToken">токен отмены</param>
+    /// <returns>возврщаете дто добавленного преподавателя</returns>
+    public async Task<EducatorResponseDto> AddAsync(EducatorCreateDto educatorDto, CancellationToken cancellationToken)
     {
         Guard.Against.Null(educatorDto);
         
-        await new EducatorRequestDtoValidator().ValidateAndThrowAsync(educatorDto, cancellationToken);
+        await new EducatorCreateDtoValidator().ValidateAndThrowAsync(educatorDto, cancellationToken);
         
-        var educator = _mapper.Map<EducatorRequestDto, Educator>(educatorDto);
+        var educator = _mapper.Map<EducatorCreateDto, Educator>(educatorDto);
         await _unitOfWork.EducatorRepository.AddAsync(educator, cancellationToken);
-       
         
-        await _unitOfWork.SaveChangesAsync();
+        
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
         
         return _mapper.Map<Educator, EducatorResponseDto>(educator);
     }
     
-    public async Task<EducatorResponseDto> UpdateAsync(EducatorRequestUpdateDto educatorDto, CancellationToken cancellationToken)
+    /// <summary>
+    /// Асинхронное обновление преподавателя в бд
+    /// </summary>
+    /// <param name="educatorDto">модель преподавателя</param>
+    /// <param name="cancellationToken">токен отмены</param>
+    /// <returns>возврщаете дто обновленного преподавателя</returns>
+    public async Task<EducatorResponseDto> UpdateAsync(EducatorUpdateDto educatorDto, CancellationToken cancellationToken)
     {
         Guard.Against.Null(educatorDto);
         
-        await new EducatorRequestUpdateDtoValidator().ValidateAndThrowAsync(educatorDto, cancellationToken);
+        await new EducatorUpdateDtoValidator().ValidateAndThrowAsync(educatorDto, cancellationToken);
         
-        var educator = _mapper.Map<EducatorRequestUpdateDto, Educator>(educatorDto);
+        var educator = await GetEntityByIdAsync<Educator>(educatorDto.Id, "id", cancellationToken);
         
-        var dbEducator = await _unitOfWork.EducatorRepository.GetByIdAsync(educatorDto.Id, cancellationToken);
-        if (dbEducator == null)
-        {
-            throw new EntityNotFoundException<Educator>();
-        }
-        
-        dbEducator.Update(
-            new FullName(educator.FullName.FirstName,educator.FullName.Surname,educator.FullName.Patronymic),
+        educator.Update(
+            new FullName(educator.FullName.FirstName, educator.FullName.Surname, educator.FullName.Patronymic),
             educator.Gender,
             new Phone(educator.Phone.Value),
             educator.YearsExperience,
             educator.DateEmployment
-            );
+        );
         
-        await _unitOfWork.EducatorRepository.UpdateAsync(dbEducator, cancellationToken);
         
-        await _unitOfWork.SaveChangesAsync();
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
         
         return _mapper.Map<Educator, EducatorResponseDto>(educator);
     }
     
+    /// <summary>
+    /// Асинхронное удаление преподавателя из бд
+    /// </summary>
+    /// <param name="id">Id преподавателя</param>
+    /// <param name="cancellationToken">токен отмены</param>
     public async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
     {
-        Guard.Against.Null(id);
-        var dbEducator = await _unitOfWork.EducatorRepository.GetByIdAsync(id,cancellationToken);
+        Guard.Against.Default(id);
+        var educator = await GetEntityByIdAsync<Educator>(id, "id", cancellationToken);
         
-        if (dbEducator == null)
-        {
-            throw new EntityNotFoundException<Educator>();
-        }
+        await _unitOfWork.EducatorRepository.DeleteAsync(educator, cancellationToken);
         
-        await _unitOfWork.EducatorRepository.DeleteAsync(dbEducator, cancellationToken);
-        
-        await _unitOfWork.SaveChangesAsync();
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
     
-    public async Task<List<(string, string, string)>> GetListAsync(CancellationToken cancellationToken)
+    /// <summary>
+    /// Асинхронное получение преподавателей
+    /// </summary>
+    /// <param name="cancellationToken">токен отмены</param>
+    /// <returns>возвращает дто всех преподавателей, которые есть в бд</returns>
+    public async Task<List<EducatorResponseDto>> GetListAsync(CancellationToken cancellationToken)
     {
         var educators = await _unitOfWork.EducatorRepository.GetAllAsync(cancellationToken);
-        if (educators == null)
-        {
-            throw new EntityNotFoundException<Educator>();   
-        }
         
-        return educators.Select(educator => (educator.FullName.FirstName,educator.FullName.Surname,educator.FullName.Patronymic)).ToList();
+        return _mapper.Map<List<EducatorResponseDto>>(educators);
     }
     
-    public async Task<EducatorResponseDto> GetInfoAsync(Guid id, CancellationToken cancellationToken)
+    /// <summary>
+    /// Асинхронное получение преподавателя по id
+    /// </summary>
+    /// <param name="id">id преподавателя</param>
+    /// <param name="cancellationToken">токен отмены</param>
+    /// <returns>возвращает дто преподавателя, полученного по id</returns>
+    public async Task<EducatorResponseDto> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
-        Guard.Against.Null(id);
-        var educator = await _unitOfWork.EducatorRepository.GetByIdAsync(id, cancellationToken);
-        if (educator == null)
-        {
-            throw new EntityNotFoundException<Educator>();   
-        }
+        Guard.Against.Default(id);
+        var educator = await GetEntityByIdAsync<Educator>(id, "id", cancellationToken);
         
         return _mapper.Map<Educator, EducatorResponseDto>(educator);
     }

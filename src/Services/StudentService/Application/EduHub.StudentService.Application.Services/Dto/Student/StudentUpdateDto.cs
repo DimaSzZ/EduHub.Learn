@@ -17,7 +17,7 @@ namespace EduHub.StudentService.Application.Services.Dto.Student;
 /// <param name="City">Город</param>
 /// <param name="Street">Улица</param>
 /// <param name="NumberHouse">Номер дома</param>
-public record StudentResponseDto(
+public record StudentUpdateDto(
     Guid Id,
     string Avatar,
     string FirstName,

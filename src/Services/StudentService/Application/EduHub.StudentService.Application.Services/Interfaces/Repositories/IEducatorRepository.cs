@@ -3,6 +3,7 @@ using EduHub.StudentService.Domain.Entities;
 
 namespace EduHub.StudentService.Application.Services.Interfaces.Repositories;
 
-public interface IEducatorRepository : IBaseRepository<Educator>
-{
-}
+/// <summary>
+/// Репозиторий, отвичающий за работу с Educator
+/// </summary>
+public interface IEducatorRepository : IBaseRepository<Educator>;
