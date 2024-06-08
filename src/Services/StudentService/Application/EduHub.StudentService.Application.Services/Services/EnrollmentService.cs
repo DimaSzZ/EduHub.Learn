@@ -1,10 +1,13 @@
 ﻿using Ardalis.GuardClauses;
 using AutoMapper;
 using EduHub.StudentService.Application.Services.Dto.Enrollment;
+using EduHub.StudentService.Application.Services.Exceptions;
+using EduHub.StudentService.Application.Services.Interfaces.Repositories;
 using EduHub.StudentService.Application.Services.Interfaces.Services;
 using EduHub.StudentService.Application.Services.Interfaces.UoW;
 using EduHub.StudentService.Application.Services.Validations.Enrollment;
 using EduHub.StudentService.Domain.Entities;
+using EduHub.StudentService.Domain.Entities.Core;
 using FluentValidation;
 
 namespace EduHub.StudentService.Application.Services.Services;
@@ -12,7 +15,7 @@ namespace EduHub.StudentService.Application.Services.Services;
 /// <summary>
 /// Сервис зачислений
 /// </summary>
-public class EnrollmentService : ServiceBase, IEnrollmentService
+public class EnrollmentService : IEnrollmentService
 {
     private readonly IMapper _mapper;
     private readonly IStudentUnitOfWork _unitOfWork;
@@ -22,18 +25,12 @@ public class EnrollmentService : ServiceBase, IEnrollmentService
     /// </summary>
     /// <param name="mapper">зависимость автомаппера</param>
     /// <param name="unitOfWork">зависимость UoW</param>
-    public EnrollmentService(IMapper mapper, IStudentUnitOfWork unitOfWork) : base(unitOfWork)
+    public EnrollmentService(IMapper mapper, IStudentUnitOfWork unitOfWork)
     {
         _mapper = Guard.Against.Null(mapper);
-        _unitOfWork = Guard.Against.Null(unitOfWork);
+        _unitOfWork = unitOfWork;
     }
     
-    /// <summary>
-    /// Асинхронное добавление зачисления в бд
-    /// </summary>
-    /// <param name="enrollmentCreateDto">Дто зачисления</param>
-    /// <param name="cancellationToken">токен отмены</param>
-    /// <returns>возврщаете дто добавленного преподавателя</returns>
     public async Task<EnrollmentResponseDto> AddAsync(EnrollmentCreateDto enrollmentCreateDto, CancellationToken cancellationToken)
     {
         Guard.Against.Null(enrollmentCreateDto);
@@ -42,9 +39,17 @@ public class EnrollmentService : ServiceBase, IEnrollmentService
         
         var enrollment = _mapper.Map<EnrollmentCreateDto, Enrollment>(enrollmentCreateDto);
         
-        await GetEntityByIdAsync<Course>(enrollment.CourseId, "id", cancellationToken);
+        var isEnrollment = await _unitOfWork.CoursesRepository.ExistAsync(enrollment.CourseId, cancellationToken);
+        if (!isEnrollment)
+        {
+            throw new EntityNotFoundException<Course>(nameof(BaseEntity.Id), enrollment.CourseId);
+        }
         
-        await GetEntityByIdAsync<Student>(enrollment.StudentId, "id", cancellationToken);
+        var isStudent = await _unitOfWork.StudentRepository.ExistAsync(enrollment.StudentId, cancellationToken);
+        if (!isStudent)
+        {
+            throw new EntityNotFoundException<Course>(nameof(BaseEntity.Id), enrollment.StudentId);
+        }
         
         await _unitOfWork.EnrollmentRepository.AddAsync(enrollment, cancellationToken);
         
@@ -53,47 +58,40 @@ public class EnrollmentService : ServiceBase, IEnrollmentService
         return _mapper.Map<Enrollment, EnrollmentResponseDto>(enrollment);
     }
     
-    /// <summary>
-    /// Получает все зачисления студента, с указанным id
-    /// </summary>
-    /// <param name="id">id студента</param>
-    /// <param name="cancellationToken">токен отмены</param>
-    /// <returns>возвращает список зачислений студента</returns>
     public async Task<List<EnrollmentResponseDto>> GetStudentEnrollmentsAsync(Guid id, CancellationToken cancellationToken)
     {
-        Guard.Against.Default(id);
-        
-        var student = await GetEntityByIdAsync<Student>(id, "id", cancellationToken);
+        var student = await GetByIdOrThrowAsync(id, cancellationToken);
         
         var enrollments = await _unitOfWork.EnrollmentRepository.GetListByStudentIdAsync(student.Id, cancellationToken);
         return _mapper.Map<List<EnrollmentResponseDto>>(enrollments);
     }
     
-    /// <summary>
-    /// Получает все доступные зачисления
-    /// </summary>
-    /// <param name="cancellationToken">токен отмены</param>
-    /// <returns>возвращает все зачисления, что удалось получить через бд</returns>
-    public async Task<List<EnrollmentResponseDto>> GetListStudentsAsync(CancellationToken cancellationToken)
+    public async Task<List<EnrollmentResponseDto>> GetListEnrollmentsAsync(CancellationToken cancellationToken)
     {
         var enrollments = await _unitOfWork.EnrollmentRepository.GetAllAsync(cancellationToken);
         
         return _mapper.Map<List<EnrollmentResponseDto>>(enrollments).ToList();
     }
     
-    /// <summary>
-    /// Удаляет зачисление, с указанным id
-    /// </summary>
-    /// <param name="id">id зачисления</param>
-    /// <param name="cancellationToken">токен отмены</param>
     public async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
     {
-        Guard.Against.Default(id);
-        
-        var enrollment = await GetEntityByIdAsync<Enrollment>(id, "id", cancellationToken);
+        var enrollment = await GetByIdOrThrowAsync(id, cancellationToken);
         
         await _unitOfWork.EnrollmentRepository.DeleteAsync(enrollment, cancellationToken);
         
         await _unitOfWork.SaveChangesAsync(cancellationToken);
+    }
+    
+    private async Task<Enrollment> GetByIdOrThrowAsync(Guid id, CancellationToken cancellationToken)
+    {
+        Guard.Against.Default(id);
+        var repository = _unitOfWork.GetRepository<IEnrollmentRepository>();
+        var entity = await repository.GetByIdAsync(id, cancellationToken);
+        if (entity == null)
+        {
+            throw new EntityNotFoundException<Course>(nameof(BaseEntity.Id), id);
+        }
+        
+        return entity;
     }
 }

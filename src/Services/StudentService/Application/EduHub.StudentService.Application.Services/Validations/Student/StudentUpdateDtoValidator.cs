@@ -4,43 +4,43 @@ using FluentValidation;
 namespace EduHub.StudentService.Application.Services.Validations.Student;
 
 /// <summary>
-/// Вадитаор на StudentUpdateDto
+/// Валидатор на StudentUpdateDto
 /// </summary>
 public class StudentUpdateDtoValidator : AbstractValidator<StudentUpdateDto>
 {
     public StudentUpdateDtoValidator()
     {
         RuleFor(dto => dto.Id)
-            .Id();
+            .Id(nameof(StudentUpdateDto.Id));
         
         RuleFor(dto => dto.FirstName)
-            .PersonName();
+            .PersonName(nameof(StudentUpdateDto.FirstName));
         
         RuleFor(dto => dto.Surname)
-            .PersonName();
+            .PersonName(nameof(StudentUpdateDto.Surname));
         
         RuleFor(dto => dto.Patronymic)
-            .PersonName();
+            .PersonName(nameof(StudentUpdateDto.Patronymic));
         
         RuleFor(dto => dto.DateBirth)
-            .Date();
+            .Date(nameof(StudentUpdateDto.DateBirth));
         
         RuleFor(dto => dto.Email)
-            .Email();
+            .Email(nameof(StudentUpdateDto.Email));
         
         RuleFor(dto => dto.Phone)
-            .Phone();
+            .Phone(nameof(StudentUpdateDto.Phone));
         
         RuleFor(dto => dto.City)
-            .Address();
+            .Address(nameof(StudentUpdateDto.City));
         
         RuleFor(dto => dto.Street)
-            .Address();
+            .Address(nameof(StudentUpdateDto.Street));
         
         RuleFor(dto => dto.NumberHouse)
-            .NumberHouse();
+            .NumberHouse(nameof(StudentUpdateDto.NumberHouse));
         
         RuleFor(dto => dto.Avatar)
-            .Avatar();
+            .Avatar(nameof(StudentUpdateDto.Avatar));
     }
 }

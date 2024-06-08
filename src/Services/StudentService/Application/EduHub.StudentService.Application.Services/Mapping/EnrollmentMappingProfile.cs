@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using EduHub.StudentService.Application.Services.Dto.Enrollment;
+using EduHub.StudentService.Domain.Entities;
 
 namespace EduHub.StudentService.Application.Services.Mapping
 {
@@ -15,26 +16,25 @@ namespace EduHub.StudentService.Application.Services.Mapping
         /// </summary>
         public EnrollmentMappingProfile()
         {
-            CreateMap<EnrollmentCreateDto, Domain.Entities.Enrollment>()
+            CreateMap<EnrollmentCreateDto, Enrollment>()
                 .ConstructUsing(dto =>
-                    new Domain.Entities.Enrollment(
+                    new Enrollment(
                         Guid.NewGuid(),
                         dto.EnrollmentDate,
                         dto.StudentId,
                         dto.CourseId
                     ));
             
-            CreateMap<EnrollmentUpdateDto, Domain.Entities.Enrollment>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest => dest.EnrollmentDate, opt => opt.MapFrom(src => src.EnrollmentDate))
-                .ForMember(dest => dest.StudentId, opt => opt.MapFrom(src => src.StudentId))
-                .ForMember(dest => dest.CourseId, opt => opt.MapFrom(src => src.CourseId));
+            CreateMap<EnrollmentUpdateDto, Enrollment>()
+                .ConstructUsing(dto =>
+                    new Enrollment(
+                        dto.Id,
+                        dto.EnrollmentDate,
+                        dto.StudentId,
+                        dto.CourseId
+                    ));
             
-            CreateMap<Domain.Entities.Enrollment, EnrollmentResponseDto>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest => dest.EnrollmentDate, opt => opt.MapFrom(src => src.EnrollmentDate))
-                .ForMember(dest => dest.StudentId, opt => opt.MapFrom(src => src.StudentId))
-                .ForMember(dest => dest.CourseId, opt => opt.MapFrom(src => src.CourseId));
+            CreateMap<Enrollment, EnrollmentResponseDto>();
         }
     }
 }

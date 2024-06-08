@@ -20,6 +20,6 @@ public record EducatorUpdateDto(
     string Patronymic,
     Gender Gender,
     string Phone,
-    int WorkExperience,
+    int YearsExperience,
     DateOnly DateEmployment
 );

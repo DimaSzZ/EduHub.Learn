@@ -4,40 +4,40 @@ using FluentValidation;
 namespace EduHub.StudentService.Application.Services.Validations.Student;
 
 /// <summary>
-/// Вадитаор на StudentCreateDto
+/// Валидатор на StudentCreateDto
 /// </summary>
 public class StudentCreateDtoValidator : AbstractValidator<StudentCreateDto>
 {
     public StudentCreateDtoValidator()
     {
         RuleFor(dto => dto.FirstName)
-            .PersonName();
+            .PersonName(nameof(StudentCreateDto.FirstName));
         
         RuleFor(dto => dto.Surname)
-            .PersonName();
+            .PersonName(nameof(StudentCreateDto.Surname));
         
         RuleFor(dto => dto.Patronymic)
-            .PersonName();
+            .PersonName(nameof(StudentCreateDto.Patronymic));
         
         RuleFor(dto => dto.DateBirth)
-            .Date();
+            .Date(nameof(StudentCreateDto.DateBirth));
         
         RuleFor(dto => dto.Email)
-            .Email();
+            .Email(nameof(StudentCreateDto.Email));
         
         RuleFor(dto => dto.Phone)
-            .Phone();
+            .Phone(nameof(StudentCreateDto.Phone));
         
         RuleFor(dto => dto.City)
-            .Address();
+            .Address(nameof(StudentCreateDto.City));
         
         RuleFor(dto => dto.Street)
-            .Address();
+            .Address(nameof(StudentCreateDto.Street));
         
         RuleFor(dto => dto.NumberHouse)
-            .NumberHouse();
+            .NumberHouse(nameof(StudentCreateDto.NumberHouse));
         
         RuleFor(dto => dto.Avatar)
-            .Avatar();
+            .Avatar(nameof(StudentCreateDto.Avatar));
     }
 }

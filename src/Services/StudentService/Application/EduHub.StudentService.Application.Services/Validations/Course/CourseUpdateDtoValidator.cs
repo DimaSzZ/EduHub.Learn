@@ -4,19 +4,19 @@ using FluentValidation;
 namespace EduHub.StudentService.Application.Services.Validations.Course;
 
 /// <summary>
-/// Вадитаор на CourseUpdateDto
+/// Валидатор на CourseUpdateDto
 /// </summary>
 public class CourseUpdateDtoValidator : AbstractValidator<CourseUpdateDto>
 {
     public CourseUpdateDtoValidator()
     {
         RuleFor(dto => dto.Id)
-            .Id();
+            .Id(nameof(CourseUpdateDto.Id));
         
         RuleFor(dto => dto.Name)
-            .PersonName();
+            .Name(nameof(CourseUpdateDto.Name));
         
         RuleFor(dto => dto.EducatorId)
-            .Id();
+            .Id(nameof(CourseUpdateDto.EducatorId));
     }
 }

@@ -11,7 +11,7 @@ namespace EduHub.StudentService.Application.Services.Dto.Educator;
 /// <param name="Patronymic">Отчество</param>
 /// <param name="Gender">Пол</param>
 /// <param name="Phone">Телефон</param>
-/// <param name="WorkExperience">Опыт работы</param>
+/// <param name="YearsExperience">Опыт работы</param>
 /// <param name="DateEmployment">Дата устройства на работу</param>
 public record EducatorResponseDto(
     Guid Id,
@@ -20,6 +20,6 @@ public record EducatorResponseDto(
     string Patronymic,
     Gender Gender,
     string Phone,
-    int WorkExperience,
+    int YearsExperience,
     DateOnly DateEmployment
 );

@@ -4,31 +4,31 @@ using FluentValidation;
 namespace EduHub.StudentService.Application.Services.Validations.Educator;
 
 /// <summary>
-/// Вадитаор на EducatorCreateDto
+/// Валидатор на EducatorCreateDto
 /// </summary>
 public class EducatorCreateDtoValidator : AbstractValidator<EducatorCreateDto>
 {
     public EducatorCreateDtoValidator()
     {
         RuleFor(dto => dto.FirstName)
-            .PersonName();
+            .PersonName(nameof(EducatorCreateDto.FirstName));
         
         RuleFor(dto => dto.Surname)
-            .PersonName();
+            .PersonName(nameof(EducatorCreateDto.Surname));
         
         RuleFor(dto => dto.Patronymic)
-            .PersonName();
+            .PersonName(nameof(EducatorCreateDto.Patronymic));
         
         RuleFor(dto => dto.Gender)
-            .Gender();
+            .Gender(nameof(EducatorCreateDto.Gender));
         
         RuleFor(dto => dto.DateEmployment)
-            .Date();
+            .Date(nameof(EducatorCreateDto.DateEmployment));
         
         RuleFor(dto => dto.Phone)
-            .Phone();
+            .Phone(nameof(EducatorCreateDto.Phone));
         
-        RuleFor(dto => dto.WorkExperience)
-            .WorkExperience();
+        RuleFor(dto => dto.YearsExperience)
+            .WorkExperience(nameof(EducatorCreateDto.YearsExperience));
     }
 }

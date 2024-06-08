@@ -13,9 +13,9 @@ public class EntityNotFoundException<TEntity> : BaseNotFoundException where TEnt
     /// <summary>
     /// Конструктор, выбрасывающий исключение
     /// </summary>
-    /// <param name="field">не найденное название поля</param>
+    /// <param name="paramName ">не найденное название поля</param>
     /// <param name="value">не найденный объект объект</param>
-    public EntityNotFoundException(string field, object value) :  base(string.Format(ErrorMessages.NotFound, typeof(TEntity).Name, field, value))
+    public EntityNotFoundException(string paramName, object value) : base(string.Format(ErrorMessages.NotFound, typeof(TEntity).Name, paramName, value))
     {
     }
 }

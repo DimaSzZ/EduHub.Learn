@@ -12,5 +12,4 @@ public interface IStudentUnitOfWork : IUnitOfWork
     IEducatorRepository EducatorRepository { get; }
     IEnrollmentRepository EnrollmentRepository { get; }
     IStudentRepository StudentRepository { get; }
-    
 }

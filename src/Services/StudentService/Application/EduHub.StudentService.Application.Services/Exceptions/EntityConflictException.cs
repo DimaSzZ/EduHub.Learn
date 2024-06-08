@@ -13,9 +13,9 @@ public class EntityConflictException<TEntity> : BaseConflictException where TEnt
     /// <summary>
     /// Конструктор, выбрасывающий исключение
     /// </summary>
-    /// <param name="field">конфликтное название поля</param>
+    /// <param name="paramName ">конфликтное название поля</param>
     /// <param name="value">конфликтный объект</param>
-    public EntityConflictException(string field, object value) : base(string.Format(ErrorMessages.Conflict, typeof(TEntity).Name, field, value))
+    public EntityConflictException(string paramName, object value) : base(string.Format(ErrorMessages.Conflict, typeof(TEntity).Name, paramName, value))
     {
     }
 }

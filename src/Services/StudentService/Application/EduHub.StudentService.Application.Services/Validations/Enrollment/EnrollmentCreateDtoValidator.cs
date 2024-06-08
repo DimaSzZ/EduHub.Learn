@@ -4,19 +4,19 @@ using FluentValidation;
 namespace EduHub.StudentService.Application.Services.Validations.Enrollment;
 
 /// <summary>
-/// Вадитаор на EnrollmentCreateDto
+/// Валидатор на EnrollmentCreateDto
 /// </summary>
 public class EnrollmentCreateDtoValidator : AbstractValidator<EnrollmentCreateDto>
 {
     public EnrollmentCreateDtoValidator()
     {
         RuleFor(dto => dto.CourseId)
-            .Id();
+            .Id(nameof(EnrollmentCreateDto.CourseId));
         
         RuleFor(dto => dto.StudentId)
-            .Id();
+            .Id(nameof(EnrollmentCreateDto.StudentId));
         
         RuleFor(dto => dto.EnrollmentDate)
-            .Date();
+            .Date(nameof(EnrollmentCreateDto.EnrollmentDate));
     }
 }

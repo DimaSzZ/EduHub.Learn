@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using EduHub.StudentService.Application.Services.Dto.Course;
+using EduHub.StudentService.Domain.Entities;
 
 namespace EduHub.StudentService.Application.Services.Mapping
 {
@@ -15,25 +16,25 @@ namespace EduHub.StudentService.Application.Services.Mapping
         /// </summary>
         public CourseMappingProfile()
         {
-            CreateMap<CourseCreateDto, Domain.Entities.Course>()
+            CreateMap<CourseCreateDto, Course>()
                 .ConstructUsing(dto =>
-                    new Domain.Entities.Course(
+                    new Course(
                         Guid.NewGuid(),
                         dto.Name,
                         dto.Description,
                         dto.EducatorId
                     ));
             
-            CreateMap<CourseUpdateDto, Domain.Entities.Course>()
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
-                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
-                .ForMember(dest => dest.EducatorId, opt => opt.MapFrom(src => src.EducatorId));
+            CreateMap<CourseUpdateDto, Course>()
+                .ConstructUsing(dto =>
+                    new Course(
+                        dto.Id, 
+                        dto.Name,
+                        dto.Description,
+                        dto.EducatorId
+                    ));
             
-            CreateMap<Domain.Entities.Course, CourseResponseDto>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
-                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
-                .ForMember(dest => dest.EducatorId, opt => opt.MapFrom(src => src.EducatorId));
+            CreateMap<Course, CourseResponseDto>();
         }
     }
 }
