@@ -2,12 +2,10 @@
 using AutoMapper;
 using EduHub.StudentService.Application.Services.Dto.Educator;
 using EduHub.StudentService.Application.Services.Exceptions;
-using EduHub.StudentService.Application.Services.Interfaces.Repositories;
 using EduHub.StudentService.Application.Services.Interfaces.Services;
 using EduHub.StudentService.Application.Services.Interfaces.UoW;
 using EduHub.StudentService.Application.Services.Validations.Educator;
 using EduHub.StudentService.Domain.Entities;
-using EduHub.StudentService.Domain.Entities.Core;
 using EduHub.StudentService.Domain.ValueObjects;
 using FluentValidation;
 
@@ -95,11 +93,10 @@ public class EducatorService : IEducatorService
     private async Task<Educator> GetByIdOrThrowAsync(Guid id, CancellationToken cancellationToken)
     {
         Guard.Against.Default(id);
-        var repository = _unitOfWork.GetRepository<IEducatorRepository>();
-        var entity = await repository.GetByIdAsync(id, cancellationToken);
+        var entity = await _unitOfWork.EducatorRepository.GetByIdAsync(id, cancellationToken);
         if (entity == null)
         {
-            throw new EntityNotFoundException<Course>(nameof(BaseEntity.Id), id);
+            throw new EntityNotFoundException<Educator>(nameof(Educator.Id), id);
         }
         
         return entity;

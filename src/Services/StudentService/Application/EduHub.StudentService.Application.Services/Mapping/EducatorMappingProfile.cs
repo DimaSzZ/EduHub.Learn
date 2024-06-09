@@ -43,9 +43,7 @@ namespace EduHub.StudentService.Application.Services.Mapping
                 .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FullName.FirstName))
                 .ForMember(dest => dest.Surname, opt => opt.MapFrom(src => src.FullName.Surname))
                 .ForMember(dest => dest.Patronymic, opt => opt.MapFrom(src => src.FullName.Patronymic))
-                .ForMember(dest => dest.Phone, opt => opt.MapFrom(src => src.Phone.Value))
-                .ForMember(dest => dest.YearsExperience, opt => opt.MapFrom(src => src.YearsExperience))
-                .ForMember(dest => dest.DateEmployment, opt => opt.MapFrom(src => src.DateEmployment));
+                .ForMember(dest => dest.Phone, opt => opt.MapFrom(src => src.Phone.Value));
         }
     }
 }

@@ -13,7 +13,7 @@ public static class RegexPatterns
     public const string PmrPhonePattern = @"^\+373(2\d{7}|[67]\d{7})$";
         
     /// <summary>
-    /// Паттерн для проверки почтового ящика
+    /// Паттерн для проверки эл. почты
     /// </summary>
     public const string EmailPattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
         

@@ -2,12 +2,10 @@
 using AutoMapper;
 using EduHub.StudentService.Application.Services.Dto.Enrollment;
 using EduHub.StudentService.Application.Services.Exceptions;
-using EduHub.StudentService.Application.Services.Interfaces.Repositories;
 using EduHub.StudentService.Application.Services.Interfaces.Services;
 using EduHub.StudentService.Application.Services.Interfaces.UoW;
 using EduHub.StudentService.Application.Services.Validations.Enrollment;
 using EduHub.StudentService.Domain.Entities;
-using EduHub.StudentService.Domain.Entities.Core;
 using FluentValidation;
 
 namespace EduHub.StudentService.Application.Services.Services;
@@ -28,7 +26,7 @@ public class EnrollmentService : IEnrollmentService
     public EnrollmentService(IMapper mapper, IStudentUnitOfWork unitOfWork)
     {
         _mapper = Guard.Against.Null(mapper);
-        _unitOfWork = unitOfWork;
+        _unitOfWork = Guard.Against.Null(unitOfWork);
     }
     
     public async Task<EnrollmentResponseDto> AddAsync(EnrollmentCreateDto enrollmentCreateDto, CancellationToken cancellationToken)
@@ -42,13 +40,13 @@ public class EnrollmentService : IEnrollmentService
         var isEnrollment = await _unitOfWork.CoursesRepository.ExistAsync(enrollment.CourseId, cancellationToken);
         if (!isEnrollment)
         {
-            throw new EntityNotFoundException<Course>(nameof(BaseEntity.Id), enrollment.CourseId);
+            throw new EntityNotFoundException<Enrollment>(nameof(Course.Id), enrollment.CourseId);
         }
         
         var isStudent = await _unitOfWork.StudentRepository.ExistAsync(enrollment.StudentId, cancellationToken);
         if (!isStudent)
         {
-            throw new EntityNotFoundException<Course>(nameof(BaseEntity.Id), enrollment.StudentId);
+            throw new EntityNotFoundException<Student>(nameof(Student.Id), enrollment.StudentId);
         }
         
         await _unitOfWork.EnrollmentRepository.AddAsync(enrollment, cancellationToken);
@@ -70,7 +68,7 @@ public class EnrollmentService : IEnrollmentService
     {
         var enrollments = await _unitOfWork.EnrollmentRepository.GetAllAsync(cancellationToken);
         
-        return _mapper.Map<List<EnrollmentResponseDto>>(enrollments).ToList();
+        return _mapper.Map<List<EnrollmentResponseDto>>(enrollments);
     }
     
     public async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
@@ -85,11 +83,10 @@ public class EnrollmentService : IEnrollmentService
     private async Task<Enrollment> GetByIdOrThrowAsync(Guid id, CancellationToken cancellationToken)
     {
         Guard.Against.Default(id);
-        var repository = _unitOfWork.GetRepository<IEnrollmentRepository>();
-        var entity = await repository.GetByIdAsync(id, cancellationToken);
+        var entity = await _unitOfWork.EnrollmentRepository.GetByIdAsync(id, cancellationToken);
         if (entity == null)
         {
-            throw new EntityNotFoundException<Course>(nameof(BaseEntity.Id), id);
+            throw new EntityNotFoundException<Course>(nameof(Enrollment.Id), id);
         }
         
         return entity;

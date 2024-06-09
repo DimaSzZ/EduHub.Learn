@@ -2,12 +2,10 @@
 using AutoMapper;
 using EduHub.StudentService.Application.Services.Dto.Student;
 using EduHub.StudentService.Application.Services.Exceptions;
-using EduHub.StudentService.Application.Services.Interfaces.Repositories;
 using EduHub.StudentService.Application.Services.Interfaces.Services;
 using EduHub.StudentService.Application.Services.Interfaces.UoW;
 using EduHub.StudentService.Application.Services.Validations.Student;
 using EduHub.StudentService.Domain.Entities;
-using EduHub.StudentService.Domain.Entities.Core;
 using EduHub.StudentService.Domain.ValueObjects;
 using FluentValidation;
 
@@ -29,7 +27,7 @@ public class StudentService : IStudentService
     public StudentService(IMapper mapper, IStudentUnitOfWork unitOfWork)
     {
         _mapper = Guard.Against.Null(mapper);
-        _unitOfWork = unitOfWork;
+        _unitOfWork = Guard.Against.Null(unitOfWork);
     }
     
     public async Task<StudentResponseDto> AddAsync(StudentCreateDto studentDto, CancellationToken cancellationToken)
@@ -95,11 +93,10 @@ public class StudentService : IStudentService
     private async Task<Student> GetByIdOrThrowAsync(Guid id, CancellationToken cancellationToken)
     {
         Guard.Against.Default(id);
-        var repository = _unitOfWork.GetRepository<IStudentRepository>();
-        var entity = await repository.GetByIdAsync(id, cancellationToken);
+        var entity = await _unitOfWork.StudentRepository.GetByIdAsync(id, cancellationToken);
         if (entity == null)
         {
-            throw new EntityNotFoundException<Course>(nameof(BaseEntity.Id), id);
+            throw new EntityNotFoundException<Course>(nameof(Student.Id), id);
         }
         
         return entity;
