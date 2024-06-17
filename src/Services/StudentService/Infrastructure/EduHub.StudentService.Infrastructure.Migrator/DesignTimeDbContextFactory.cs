@@ -1,4 +1,5 @@
-﻿using EduHub.StudentService.Infrastructure.Data.DbContext;
+﻿using System.Reflection;
+using EduHub.StudentService.Infrastructure.Data.DbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
@@ -24,8 +25,9 @@ public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<AppDbConte
         var builder = new DbContextOptionsBuilder<AppDbContext>();
         var connectionString = configuration.GetConnectionString("DefaultConnection");
         
+        var migrationsAssembly = typeof(AppDbContext).GetTypeInfo().Assembly.GetName().Name;
         builder.UseNpgsql(connectionString,
-            options => options.MigrationsAssembly("EduHub.StudentService.Infrastructure.Migrator"));
+            options => options.MigrationsAssembly(migrationsAssembly));
         
         
         return new AppDbContext(builder.Options);
