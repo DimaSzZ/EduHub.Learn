@@ -17,17 +17,23 @@ public class EducatorConfiguration : IEntityTypeConfiguration<Educator>
         {
             fullName.Property(f => f.FirstName)
                 .IsRequired()
-                .HasColumnName("first_name"); 
+                .HasMaxLength(60)
+                .HasAnnotation("MinLength", 2)
+                .HasColumnName("first_name");
             
             fullName.Property(f => f.Surname)
                 .IsRequired()
-                .HasColumnName("surname"); 
+                .HasMaxLength(60)
+                .HasAnnotation("MinLength", 2)
+                .HasColumnName("surname");
             
             fullName.Property(f => f.Patronymic)
                 .IsRequired()
+                .HasMaxLength(60)
+                .HasAnnotation("MinLength", 2)
                 .HasColumnName("patronymic");
         });
-
+        
         
         builder.Property(e => e.Gender)
             .HasColumnName("gender")

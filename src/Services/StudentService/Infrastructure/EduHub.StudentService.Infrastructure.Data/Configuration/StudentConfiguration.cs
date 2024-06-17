@@ -20,16 +20,22 @@ namespace EduHub.StudentService.Infrastructure.Data.Configuration
             builder.OwnsOne(s => s.FullName, fullName =>
             {
                 fullName.Property(f => f.FirstName)
-                    .HasColumnName("first_name")
-                    .IsRequired();
+                    .IsRequired()
+                    .HasMaxLength(60)
+                    .HasAnnotation("MinLength", 2)
+                    .HasColumnName("first_name");
                 
                 fullName.Property(f => f.Surname)
-                    .HasColumnName("surname")
-                    .IsRequired();
+                    .IsRequired()
+                    .HasMaxLength(60)
+                    .HasAnnotation("MinLength", 2)
+                    .HasColumnName("surname");
                 
                 fullName.Property(f => f.Patronymic)
-                    .HasColumnName("patronymic")
-                    .IsRequired();
+                    .IsRequired()
+                    .HasMaxLength(60)
+                    .HasAnnotation("MinLength", 2)
+                    .HasColumnName("patronymic");
             });
             
             builder.OwnsOne(s => s.Phone, phone =>
@@ -46,6 +52,7 @@ namespace EduHub.StudentService.Infrastructure.Data.Configuration
             builder.OwnsOne(s => s.Email)
                 .Property(e => e.Value)
                 .HasColumnName("email")
+                .HasMaxLength(255)
                 .IsRequired();
             
             builder.OwnsOne(s => s.Address, address =>

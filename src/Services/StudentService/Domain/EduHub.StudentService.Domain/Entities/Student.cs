@@ -41,6 +41,10 @@ public class Student : BaseHumanEntity
     
     #region Properties
     
+    public Student()
+    {
+    }
+    
     /// <summary>
     /// Дата рождения студента
     /// </summary>

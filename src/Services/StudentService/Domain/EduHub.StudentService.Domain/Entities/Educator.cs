@@ -35,6 +35,10 @@ public class Educator : BaseHumanEntity
     
     #region Properties
     
+    public Educator()
+    {
+    }
+    
     /// <summary>
     /// Стаж преподователя в годах
     /// </summary>

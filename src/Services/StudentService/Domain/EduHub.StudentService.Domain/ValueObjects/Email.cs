@@ -17,5 +17,9 @@ public class Email : BaseValueObject
         Value = Guard.Against.NullOrEmpty(value);
     }
     
+    public Email()
+    {
+    }
+    
     public string Value { get; }
 }

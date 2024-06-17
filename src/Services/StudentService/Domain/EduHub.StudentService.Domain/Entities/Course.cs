@@ -25,6 +25,10 @@ public class Course : BaseEntity
         SetEducatorId(educatorId);
     }
     
+    public Course()
+    {
+    }
+    
     #endregion
     
     #region Properties
