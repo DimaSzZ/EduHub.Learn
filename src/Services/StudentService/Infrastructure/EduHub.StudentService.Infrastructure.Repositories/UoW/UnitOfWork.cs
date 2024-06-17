@@ -1,7 +1,7 @@
 ﻿using Ardalis.GuardClauses;
 using EduHub.StudentService.Application.Services.Interfaces.UoW.Core;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace EduHub.StudentService.Infrastructure.Repositories.UoW;
 
@@ -12,10 +12,12 @@ namespace EduHub.StudentService.Infrastructure.Repositories.UoW;
 public class UnitOfWork<TContext> : IUnitOfWork where TContext : DbContext
 {
     private readonly TContext _context;
+    protected readonly IServiceProvider _serviceProvider;
     
-    public UnitOfWork(TContext context)
+    public UnitOfWork(IServiceProvider serviceProvider)
     {
-        _context = Guard.Against.Null(context);
+        _serviceProvider = Guard.Against.Null(serviceProvider);
+        _context = Guard.Against.Null(serviceProvider.GetRequiredService<TContext>(), nameof(TContext));
     }
     
     /// <summary>
@@ -43,8 +45,9 @@ public class UnitOfWork<TContext> : IUnitOfWork where TContext : DbContext
     /// <returns>Нужный нам репозиторий</returns>
     public TRepository GetRepository<TRepository>()
     {
-        return (TRepository) _context.GetService(typeof(TRepository));
+        var contextFromServiceProvider = _serviceProvider.GetRequiredService<TRepository>();
+        return contextFromServiceProvider;
     }
     
-    public TContext Context => _context;
+    protected TContext Context => _context;
 }

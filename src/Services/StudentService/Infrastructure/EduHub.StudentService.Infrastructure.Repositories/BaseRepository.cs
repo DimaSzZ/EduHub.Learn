@@ -18,7 +18,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
     
     public BaseRepository(DbContext context)
     {
-        _context = Guard.Against.Null(context);
+        _context = context;
     }
     
     public async Task<TEntity> AddAsync(TEntity entity, CancellationToken cancellationToken = default)

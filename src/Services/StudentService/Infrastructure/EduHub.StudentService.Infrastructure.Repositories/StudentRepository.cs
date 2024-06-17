@@ -1,12 +1,12 @@
 ﻿using EduHub.StudentService.Application.Services.Interfaces.Repositories;
 using EduHub.StudentService.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
+using EduHub.StudentService.Infrastructure.Data.DbContext;
 
 namespace EduHub.StudentService.Infrastructure.Repositories;
 
 public class StudentRepository : BaseRepository<Student>, IStudentRepository
 {
-    public StudentRepository(DbContext context) : base(context)
+    public StudentRepository(AppDbContext context) : base(context)
     {
     }
 }

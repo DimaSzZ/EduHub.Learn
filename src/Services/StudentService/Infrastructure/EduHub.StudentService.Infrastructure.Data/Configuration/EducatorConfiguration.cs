@@ -1,4 +1,5 @@
 ﻿using EduHub.StudentService.Domain.Entities;
+using EduHub.StudentService.Domain.Entities.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -19,42 +20,38 @@ public class EducatorConfiguration : IEntityTypeConfiguration<Educator>
         builder.OwnsOne(e => e.FullName, fullName =>
         {
             fullName.Property(f => f.FirstName)
-                .IsRequired()
                 .HasMaxLength(60)
-                .HasAnnotation("MinLength", 2)
                 .HasColumnName("first_name");
             
             fullName.Property(f => f.Surname)
-                .IsRequired()
                 .HasMaxLength(60)
-                .HasAnnotation("MinLength", 2)
                 .HasColumnName("surname");
             
             fullName.Property(f => f.Patronymic)
-                .IsRequired()
                 .HasMaxLength(60)
-                .HasAnnotation("MinLength", 2)
                 .HasColumnName("patronymic");
         });
         
         
         builder.Property(e => e.Gender)
-            .HasColumnName("gender")
-            .IsRequired();
+            .HasDefaultValue(Gender.Default)
+            .HasColumnName("gender");
         
         builder.OwnsOne(e => e.Phone, phone =>
         {
             phone.Property(p => p.Value)
-                .HasColumnName("phone")
-                .IsRequired();
+                .HasMaxLength(8)
+                .HasColumnName("phone");
+            
+            phone.HasIndex(p => p.Value)
+                .IsUnique();
         });
         
         builder.Property(e => e.YearsExperience)
-            .HasColumnName("years_experience")
-            .IsRequired();
+            .HasColumnName("years_experience");
         
         builder.Property(e => e.DateEmployment)
             .HasColumnName("date_employment")
-            .IsRequired();
+            .HasColumnType("date");
     }
 }

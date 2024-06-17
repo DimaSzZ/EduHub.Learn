@@ -1,7 +1,9 @@
-﻿using EduHub.StudentService.Infrastructure.Data;
+﻿using EduHub.StudentService.Infrastructure.Data.DbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
+
+namespace EduHub.StudentService.Infrastructure.Migrator;
 
 /// <summary>
 /// Фабрика по созданию дб контекста
@@ -24,6 +26,7 @@ public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<AppDbConte
         
         builder.UseNpgsql(connectionString,
             options => options.MigrationsAssembly("EduHub.StudentService.Infrastructure.Migrator"));
+        
         
         return new AppDbContext(builder.Options);
     }

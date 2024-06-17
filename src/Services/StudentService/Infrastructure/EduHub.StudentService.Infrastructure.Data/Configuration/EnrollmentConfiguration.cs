@@ -18,19 +18,22 @@ public class EnrollmentConfiguration : IEntityTypeConfiguration<Enrollment>
         
         builder.HasOne<Student>()
             .WithMany(s => s.Enrollments)
-            .HasForeignKey(e => e.StudentId);
+            .HasForeignKey(e => e.StudentId)
+            .IsRequired();
         
         builder.Property(e => e.StudentId)
             .HasColumnName("student_id");
         
         builder.HasOne<Course>()
             .WithOne()
-            .HasForeignKey<Enrollment>(e => e.CourseId);
+            .HasForeignKey<Enrollment>(e => e.CourseId)
+            .IsRequired();
         
         builder.Property(e => e.CourseId)
             .HasColumnName("course_id");
         
         builder.Property(e => e.EnrollmentDate)
-            .HasColumnName("enrollment_date");
+            .HasColumnName("enrollment_date")
+            .HasColumnType("date");
     }
 }
