@@ -25,7 +25,7 @@ public class Course : BaseEntity
         SetEducatorId(educatorId);
     }
     
-    public Course()
+    private Course()
     {
     }
     

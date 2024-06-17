@@ -31,13 +31,13 @@ public class Educator : BaseHumanEntity
         SetDateEmployment(dateEmployment);
     }
     
+    private Educator()
+    {
+    }
+    
     #endregion
     
     #region Properties
-    
-    public Educator()
-    {
-    }
     
     /// <summary>
     /// Стаж преподователя в годах

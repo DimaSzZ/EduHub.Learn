@@ -4,6 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EduHub.StudentService.Infrastructure.Data.Configuration;
 
+/// <summary>
+/// Конфигурация для Course
+/// </summary>
 public class CourseConfiguration : IEntityTypeConfiguration<Course>
 {
     public void Configure(EntityTypeBuilder<Course> builder)

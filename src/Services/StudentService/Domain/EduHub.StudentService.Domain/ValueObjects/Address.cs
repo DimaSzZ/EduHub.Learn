@@ -21,7 +21,7 @@ public class Address : BaseValueObject
         NumberHouse = Guard.Against.Null(numberHouse);
     }
     
-    public Address()
+    private Address()
     {
     }
     

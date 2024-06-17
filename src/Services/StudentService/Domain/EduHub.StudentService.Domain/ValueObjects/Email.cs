@@ -17,7 +17,7 @@ public class Email : BaseValueObject
         Value = Guard.Against.NullOrEmpty(value);
     }
     
-    public Email()
+    private Email()
     {
     }
     

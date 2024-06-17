@@ -21,7 +21,7 @@ public class FullName : BaseValueObject
         Patronymic = Guard.Against.NullOrEmpty(patronymic);
     }
     
-    public FullName()
+    private FullName()
     {
     }
     

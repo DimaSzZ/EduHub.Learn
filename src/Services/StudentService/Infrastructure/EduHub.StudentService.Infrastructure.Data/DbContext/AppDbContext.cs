@@ -5,12 +5,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EduHub.StudentService.Infrastructure.Data;
 
+/// <summary>
+/// Базовый контекст бд
+/// </summary>
 public class AppDbContext : DbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
     }
     
+    /// <summary>
+    /// Применение конфигурация и регистрация enum
+    /// </summary>
+    /// <param name="builder"></param>
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
