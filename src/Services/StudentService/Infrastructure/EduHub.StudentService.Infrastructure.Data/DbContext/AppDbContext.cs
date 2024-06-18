@@ -14,10 +14,10 @@ public class AppDbContext : Microsoft.EntityFrameworkCore.DbContext
     {
     }
     
-    public DbSet<Student> Students { get; set; }
-    public DbSet<Course> Courses { get; set; }
-    public DbSet<Educator> Educators { get; set; }
-    public DbSet<Enrollment> Enrollments { get; set; }
+    public DbSet<Student> Students { get; private set; }
+    public DbSet<Course> Courses { get; private set; }
+    public DbSet<Educator> Educators { get; private set; }
+    public DbSet<Enrollment> Enrollments { get; private set; }
     
     /// <summary>
     /// Применение конфигурация и регистрация enum

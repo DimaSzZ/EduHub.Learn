@@ -45,9 +45,6 @@ public class UnitOfWork<TContext> : IUnitOfWork where TContext : DbContext
     /// <returns>Нужный нам репозиторий</returns>
     public TRepository GetRepository<TRepository>()
     {
-        var contextFromServiceProvider = _serviceProvider.GetRequiredService<TRepository>();
-        return contextFromServiceProvider;
+        return _serviceProvider.GetRequiredService<TRepository>();
     }
-    
-    protected TContext Context => _context;
 }

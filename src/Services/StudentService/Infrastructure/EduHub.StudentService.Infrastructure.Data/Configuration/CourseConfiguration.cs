@@ -18,6 +18,7 @@ public class CourseConfiguration : IEntityTypeConfiguration<Course>
         
         builder.Property(c => c.Name)
             .HasColumnName("name")
+            .IsRequired()
             .HasMaxLength(50);
         
         builder.Property(c => c.Description)
@@ -28,6 +29,7 @@ public class CourseConfiguration : IEntityTypeConfiguration<Course>
         
         builder.HasOne<Educator>()
             .WithMany(e => e.Courses)
+            .IsRequired()
             .HasForeignKey(c => c.EducatorId);
     }
 }

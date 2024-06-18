@@ -34,6 +34,7 @@ public class EnrollmentConfiguration : IEntityTypeConfiguration<Enrollment>
         
         builder.Property(e => e.EnrollmentDate)
             .HasColumnName("enrollment_date")
+            .IsRequired()
             .HasColumnType("date");
     }
 }
