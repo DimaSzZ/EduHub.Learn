@@ -11,9 +11,6 @@ namespace EduHub.StudentService.Infrastructure.Migrator.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterDatabase()
-                .Annotation("Npgsql:Enum:gender", "default,man,woman");
-
             migrationBuilder.CreateTable(
                 name: "Educators",
                 columns: table => new
@@ -25,7 +22,7 @@ namespace EduHub.StudentService.Infrastructure.Migrator.Migrations
                     surname = table.Column<string>(type: "character varying(60)", maxLength: 60, nullable: true),
                     patronymic = table.Column<string>(type: "character varying(60)", maxLength: 60, nullable: true),
                     gender = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
-                    phone = table.Column<string>(type: "character varying(8)", maxLength: 8, nullable: true)
+                    phone = table.Column<string>(type: "character varying(11)", maxLength: 11, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -42,7 +39,7 @@ namespace EduHub.StudentService.Infrastructure.Migrator.Migrations
                     city = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     street = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     number_house = table.Column<int>(type: "integer", nullable: true),
-                    avatar = table.Column<string>(type: "text", nullable: true),
+                    avatar = table.Column<string>(type: "text", nullable: false),
                     first_name = table.Column<string>(type: "character varying(60)", maxLength: 60, nullable: true),
                     surname = table.Column<string>(type: "character varying(60)", maxLength: 60, nullable: true),
                     patronymic = table.Column<string>(type: "character varying(60)", maxLength: 60, nullable: true),
@@ -59,7 +56,7 @@ namespace EduHub.StudentService.Infrastructure.Migrator.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     description = table.Column<string>(type: "text", nullable: true),
                     educator_id = table.Column<Guid>(type: "uuid", nullable: false)
                 },
@@ -106,7 +103,7 @@ namespace EduHub.StudentService.Infrastructure.Migrator.Migrations
                 column: "educator_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Educators_phone",
+                name: "IX_Unique_Phone",
                 table: "Educators",
                 column: "phone",
                 unique: true);
@@ -123,13 +120,13 @@ namespace EduHub.StudentService.Infrastructure.Migrator.Migrations
                 column: "student_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Students_email",
+                name: "IX_Unique_Email",
                 table: "Students",
                 column: "email",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Students_phone",
+                name: "IX_Unique_Phone",
                 table: "Students",
                 column: "phone",
                 unique: true);

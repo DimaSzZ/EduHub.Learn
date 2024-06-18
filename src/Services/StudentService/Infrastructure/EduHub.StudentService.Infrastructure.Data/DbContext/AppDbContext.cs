@@ -2,6 +2,8 @@
 using EduHub.StudentService.Domain.Entities.Enums;
 using EduHub.StudentService.Infrastructure.Data.Configuration;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Npgsql;
 
 namespace EduHub.StudentService.Infrastructure.Data.DbContext;
 
@@ -29,6 +31,17 @@ public class AppDbContext : Microsoft.EntityFrameworkCore.DbContext
         builder.ApplyConfiguration(new CourseConfiguration());
         builder.ApplyConfiguration(new StudentConfiguration());
         builder.ApplyConfiguration(new EnrollmentConfiguration());
-        builder.HasPostgresEnum<Gender>();
+        
+        var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
+        
+        var configuration = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", false, true)
+            .AddJsonFile($"appsettings.{environmentName}.json", true, true)
+            .AddEnvironmentVariables()
+            .Build();
+        
+        var dataSourceBuilder = new NpgsqlDataSourceBuilder(configuration.GetConnectionString("DefaultConnection"));
+        dataSourceBuilder.MapEnum<Gender>();
     }
 }

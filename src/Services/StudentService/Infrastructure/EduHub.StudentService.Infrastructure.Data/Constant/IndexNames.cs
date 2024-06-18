@@ -2,6 +2,6 @@
 
 public static class IndexNames
 {
-    public static string Phone = "IX_Unique_Phone";
-    public static string Email = "IX_Unique_Email";
+    public const string Phone = "IX_Unique_Phone";
+    public const string Email = "IX_Unique_Email";
 }

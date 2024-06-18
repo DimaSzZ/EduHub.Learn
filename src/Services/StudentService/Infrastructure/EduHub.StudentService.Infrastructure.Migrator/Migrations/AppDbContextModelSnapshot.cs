@@ -20,7 +20,6 @@ namespace EduHub.StudentService.Infrastructure.Migrator.Migrations
                 .HasAnnotation("ProductVersion", "8.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "gender", new[] { "default", "man", "woman" });
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("EduHub.StudentService.Domain.Entities.Course", b =>
@@ -39,6 +38,7 @@ namespace EduHub.StudentService.Infrastructure.Migrator.Migrations
                         .HasColumnName("educator_id");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)")
                         .HasColumnName("name");
@@ -113,6 +113,7 @@ namespace EduHub.StudentService.Infrastructure.Migrator.Migrations
                         .HasColumnName("id");
 
                     b.Property<string>("Avatar")
+                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("avatar");
 
@@ -148,16 +149,19 @@ namespace EduHub.StudentService.Infrastructure.Migrator.Migrations
                                 .HasColumnType("uuid");
 
                             b1.Property<string>("FirstName")
+                                .IsRequired()
                                 .HasMaxLength(60)
                                 .HasColumnType("character varying(60)")
                                 .HasColumnName("first_name");
 
                             b1.Property<string>("Patronymic")
+                                .IsRequired()
                                 .HasMaxLength(60)
                                 .HasColumnType("character varying(60)")
                                 .HasColumnName("patronymic");
 
                             b1.Property<string>("Surname")
+                                .IsRequired()
                                 .HasMaxLength(60)
                                 .HasColumnType("character varying(60)")
                                 .HasColumnName("surname");
@@ -176,14 +180,16 @@ namespace EduHub.StudentService.Infrastructure.Migrator.Migrations
                                 .HasColumnType("uuid");
 
                             b1.Property<string>("Value")
-                                .HasMaxLength(8)
-                                .HasColumnType("character varying(8)")
+                                .IsRequired()
+                                .HasMaxLength(11)
+                                .HasColumnType("character varying(11)")
                                 .HasColumnName("phone");
 
                             b1.HasKey("EducatorId");
 
                             b1.HasIndex("Value")
-                                .IsUnique();
+                                .IsUnique()
+                                .HasDatabaseName("IX_Unique_Phone");
 
                             b1.ToTable("Educators");
 
@@ -219,16 +225,19 @@ namespace EduHub.StudentService.Infrastructure.Migrator.Migrations
                                 .HasColumnType("uuid");
 
                             b1.Property<string>("FirstName")
+                                .IsRequired()
                                 .HasMaxLength(60)
                                 .HasColumnType("character varying(60)")
                                 .HasColumnName("first_name");
 
                             b1.Property<string>("Patronymic")
+                                .IsRequired()
                                 .HasMaxLength(60)
                                 .HasColumnType("character varying(60)")
                                 .HasColumnName("patronymic");
 
                             b1.Property<string>("Surname")
+                                .IsRequired()
                                 .HasMaxLength(60)
                                 .HasColumnType("character varying(60)")
                                 .HasColumnName("surname");
@@ -247,6 +256,7 @@ namespace EduHub.StudentService.Infrastructure.Migrator.Migrations
                                 .HasColumnType("uuid");
 
                             b1.Property<string>("Value")
+                                .IsRequired()
                                 .HasMaxLength(8)
                                 .HasColumnType("character varying(8)")
                                 .HasColumnName("phone");
@@ -254,7 +264,8 @@ namespace EduHub.StudentService.Infrastructure.Migrator.Migrations
                             b1.HasKey("StudentId");
 
                             b1.HasIndex("Value")
-                                .IsUnique();
+                                .IsUnique()
+                                .HasDatabaseName("IX_Unique_Phone");
 
                             b1.ToTable("Students");
 
@@ -268,6 +279,7 @@ namespace EduHub.StudentService.Infrastructure.Migrator.Migrations
                                 .HasColumnType("uuid");
 
                             b1.Property<string>("City")
+                                .IsRequired()
                                 .HasMaxLength(100)
                                 .HasColumnType("character varying(100)")
                                 .HasColumnName("city");
@@ -277,6 +289,7 @@ namespace EduHub.StudentService.Infrastructure.Migrator.Migrations
                                 .HasColumnName("number_house");
 
                             b1.Property<string>("Street")
+                                .IsRequired()
                                 .HasMaxLength(100)
                                 .HasColumnType("character varying(100)")
                                 .HasColumnName("street");
@@ -295,6 +308,7 @@ namespace EduHub.StudentService.Infrastructure.Migrator.Migrations
                                 .HasColumnType("uuid");
 
                             b1.Property<string>("Value")
+                                .IsRequired()
                                 .HasMaxLength(255)
                                 .HasColumnType("character varying(255)")
                                 .HasColumnName("email");
@@ -302,7 +316,8 @@ namespace EduHub.StudentService.Infrastructure.Migrator.Migrations
                             b1.HasKey("StudentId");
 
                             b1.HasIndex("Value")
-                                .IsUnique();
+                                .IsUnique()
+                                .HasDatabaseName("IX_Unique_Email");
 
                             b1.ToTable("Students");
 
