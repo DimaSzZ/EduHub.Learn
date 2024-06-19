@@ -25,6 +25,10 @@ public class Enrollment : BaseEntity
         SetEnrollmentDate(enrollmentDate);
     }
     
+    private Enrollment()
+    {
+    }
+    
     #endregion
     
     #region Properties

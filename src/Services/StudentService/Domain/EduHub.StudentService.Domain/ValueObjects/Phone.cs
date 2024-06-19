@@ -17,6 +17,10 @@ public class Phone : BaseValueObject
         Value = Guard.Against.NullOrEmpty(value);
     }
     
+    private Phone()
+    {
+    }
+    
     /// <summary>
     /// Номер телефона 
     /// </summary>

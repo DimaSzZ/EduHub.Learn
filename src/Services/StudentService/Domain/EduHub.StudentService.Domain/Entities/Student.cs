@@ -37,6 +37,10 @@ public class Student : BaseHumanEntity
         SetPhoneNumber(phone);
     }
     
+    private Student()
+    {
+    }
+    
     #endregion
     
     #region Properties

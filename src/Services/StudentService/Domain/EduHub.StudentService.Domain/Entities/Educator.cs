@@ -31,6 +31,10 @@ public class Educator : BaseHumanEntity
         SetDateEmployment(dateEmployment);
     }
     
+    private Educator()
+    {
+    }
+    
     #endregion
     
     #region Properties

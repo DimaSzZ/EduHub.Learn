@@ -21,6 +21,10 @@ public class Address : BaseValueObject
         NumberHouse = Guard.Against.Null(numberHouse);
     }
     
+    private Address()
+    {
+    }
+    
     /// <summary>
     /// Название города
     /// </summary>
