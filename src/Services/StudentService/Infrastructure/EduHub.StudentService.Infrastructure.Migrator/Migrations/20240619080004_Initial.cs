@@ -1,4 +1,5 @@
 ﻿using System;
+using EduHub.StudentService.Domain.Entities.Enums;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -11,6 +12,9 @@ namespace EduHub.StudentService.Infrastructure.Migrator.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AlterDatabase()
+                .Annotation("Npgsql:Enum:gender", "default,man,woman");
+
             migrationBuilder.CreateTable(
                 name: "Educators",
                 columns: table => new
@@ -21,7 +25,7 @@ namespace EduHub.StudentService.Infrastructure.Migrator.Migrations
                     first_name = table.Column<string>(type: "character varying(60)", maxLength: 60, nullable: true),
                     surname = table.Column<string>(type: "character varying(60)", maxLength: 60, nullable: true),
                     patronymic = table.Column<string>(type: "character varying(60)", maxLength: 60, nullable: true),
-                    gender = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
+                    gender = table.Column<Gender>(type: "gender", nullable: false, defaultValue: Gender.Default),
                     phone = table.Column<string>(type: "character varying(11)", maxLength: 11, nullable: true)
                 },
                 constraints: table =>
@@ -43,7 +47,7 @@ namespace EduHub.StudentService.Infrastructure.Migrator.Migrations
                     first_name = table.Column<string>(type: "character varying(60)", maxLength: 60, nullable: true),
                     surname = table.Column<string>(type: "character varying(60)", maxLength: 60, nullable: true),
                     patronymic = table.Column<string>(type: "character varying(60)", maxLength: 60, nullable: true),
-                    gender = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
+                    gender = table.Column<Gender>(type: "gender", nullable: false, defaultValue: Gender.Default),
                     phone = table.Column<string>(type: "character varying(8)", maxLength: 8, nullable: true)
                 },
                 constraints: table =>
