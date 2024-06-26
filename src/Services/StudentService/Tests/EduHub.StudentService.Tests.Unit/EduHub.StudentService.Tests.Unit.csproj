@@ -26,6 +26,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\..\..\Shared\EduHub.StudentService.Shared.Tests\EduHub.StudentService.Shared.Tests.csproj" />
       <ProjectReference Include="..\..\Domain\EduHub.StudentService.Domain\EduHub.StudentService.Domain.csproj" />
     </ItemGroup>
 

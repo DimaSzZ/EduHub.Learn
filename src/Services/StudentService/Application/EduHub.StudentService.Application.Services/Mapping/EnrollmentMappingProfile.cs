@@ -34,7 +34,14 @@ namespace EduHub.StudentService.Application.Services.Mapping
                         dto.CourseId
                     ));
             
-            CreateMap<Enrollment, EnrollmentResponseDto>();
+            CreateMap<Enrollment, EnrollmentResponseDto>()
+                .ConstructUsing(dto =>
+                    new EnrollmentResponseDto(
+                        dto.Id,
+                        dto.EnrollmentDate,
+                        dto.StudentId,
+                        dto.CourseId
+                    ));
         }
     }
 }

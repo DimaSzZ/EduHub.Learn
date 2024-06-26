@@ -1,6 +1,9 @@
-﻿using Unit.Infrastructure.TestedData;
+﻿using Bogus;
+using EduHub.StudentService.Domain.Entities.Enums;
+using EduHub.StudentService.Domain.ValueObjects;
+using Address = EduHub.StudentService.Domain.ValueObjects.Address;
 
-namespace Unit.Infrastructure;
+namespace EduHub.StudentService.Shared.Tests.Infrastructure;
 
 /// <summary>
 /// Класс генератор случайных данных для сущностей
@@ -25,7 +28,9 @@ public static class TestedClass
                 Guid.Empty, Faker.Random.String2(8), new FullName(Faker.Name.FirstName(), Faker.Name.LastName(), Faker.Name.LastName()),
                 EnumGenerator.GetGender(),
                 Faker.Date.PastDateOnly(),
-                new Email(Faker.Internet.Email()), new Phone(Faker.Phone.PhoneNumber()), new Address(Faker.Address.City(), Faker.Address.StreetName(),
+                new Email(Faker.Internet.Email()), new Phone(CustomTransnistriaPhoneNumbers.GenerateTransnistriaPhoneNumber()), new Address(
+                    Faker.Address.City(),
+                    Faker.Address.StreetName(),
                     int.Parse(Faker.Address.BuildingNumber()))
             },
             
@@ -34,7 +39,9 @@ public static class TestedClass
                 Faker.Random.Guid(), null, new FullName(Faker.Name.FirstName(), Faker.Name.LastName(), Faker.Name.LastName()),
                 EnumGenerator.GetGender(),
                 Faker.Date.PastDateOnly(),
-                new Email(Faker.Internet.Email()), new Phone(Faker.Phone.PhoneNumber()), new Address(Faker.Address.City(), Faker.Address.StreetName(),
+                new Email(Faker.Internet.Email()), new Phone(CustomTransnistriaPhoneNumbers.GenerateTransnistriaPhoneNumber()), new Address(
+                    Faker.Address.City(),
+                    Faker.Address.StreetName(),
                     int.Parse(Faker.Address.BuildingNumber()))
             },
             
@@ -43,15 +50,19 @@ public static class TestedClass
                 Faker.Random.Guid(), Faker.Random.String2(8), null,
                 EnumGenerator.GetGender(),
                 Faker.Date.PastDateOnly(),
-                new Email(Faker.Internet.Email()), new Phone(Faker.Phone.PhoneNumber()), new Address(Faker.Address.City(), Faker.Address.StreetName(),
+                new Email(Faker.Internet.Email()), new Phone(CustomTransnistriaPhoneNumbers.GenerateTransnistriaPhoneNumber()), new Address(
+                    Faker.Address.City(),
+                    Faker.Address.StreetName(),
                     int.Parse(Faker.Address.BuildingNumber()))
             },
             
             new object[]
             {
                 Faker.Random.Guid(), Faker.Random.String2(8), new FullName(Faker.Name.FirstName(), Faker.Name.LastName(), Faker.Name.LastName()),
-                default, Faker.Date.PastDateOnly(),
-                new Email(Faker.Internet.Email()), new Phone(Faker.Phone.PhoneNumber()), new Address(Faker.Address.City(), Faker.Address.StreetName(),
+                Gender.Default, Faker.Date.PastDateOnly(),
+                new Email(Faker.Internet.Email()), new Phone(CustomTransnistriaPhoneNumbers.GenerateTransnistriaPhoneNumber()), new Address(
+                    Faker.Address.City(),
+                    Faker.Address.StreetName(),
                     int.Parse(Faker.Address.BuildingNumber()))
             },
             
@@ -59,7 +70,9 @@ public static class TestedClass
             {
                 Faker.Random.Guid(), Faker.Random.String2(8), new FullName(Faker.Name.FirstName(), Faker.Name.LastName(), Faker.Name.LastName()),
                 EnumGenerator.GetGender(), default,
-                new Email(Faker.Internet.Email()), new Phone(Faker.Phone.PhoneNumber()), new Address(Faker.Address.City(), Faker.Address.StreetName(),
+                new Email(Faker.Internet.Email()), new Phone(CustomTransnistriaPhoneNumbers.GenerateTransnistriaPhoneNumber()), new Address(
+                    Faker.Address.City(),
+                    Faker.Address.StreetName(),
                     int.Parse(Faker.Address.BuildingNumber()))
             },
             
@@ -68,7 +81,7 @@ public static class TestedClass
                 Faker.Random.Guid(), Faker.Random.String2(8), new FullName(Faker.Name.FirstName(), Faker.Name.LastName(), Faker.Name.LastName()),
                 EnumGenerator.GetGender(),
                 Faker.Date.PastDateOnly(),
-                null, new Phone(Faker.Phone.PhoneNumber()), new Address(Faker.Address.City(), Faker.Address.StreetName(),
+                null, new Phone(CustomTransnistriaPhoneNumbers.GenerateTransnistriaPhoneNumber()), new Address(Faker.Address.City(), Faker.Address.StreetName(),
                     int.Parse(Faker.Address.BuildingNumber()))
             },
             
@@ -85,7 +98,7 @@ public static class TestedClass
                 Faker.Random.Guid(), Faker.Random.String2(8), new FullName(Faker.Name.FirstName(), Faker.Name.LastName(), Faker.Name.LastName()),
                 EnumGenerator.GetGender(),
                 Faker.Date.PastDateOnly(),
-                new Email(Faker.Internet.Email()), new Phone(Faker.Phone.PhoneNumber()), null
+                new Email(Faker.Internet.Email()), new Phone(CustomTransnistriaPhoneNumbers.GenerateTransnistriaPhoneNumber()), null
             }
         };
     }
@@ -170,21 +183,21 @@ public static class TestedClass
             new object[]
             {
                 Guid.Empty, new FullName(Faker.Name.FirstName(), Faker.Name.LastName(), Faker.Name.LastName()), EnumGenerator.GetGender(),
-                new Phone(Faker.Phone.PhoneNumber()), Faker.Random.Byte(0, 60),
+                new Phone(CustomTransnistriaPhoneNumbers.GenerateTransnistriaPhoneNumber()), Faker.Random.Byte(0, 60),
                 Faker.Date.BetweenDateOnly(MinDate, new DateOnly(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day))
             },
             
             new object[]
             {
                 Guid.NewGuid(), null, EnumGenerator.GetGender(),
-                new Phone(Faker.Phone.PhoneNumber()), Faker.Random.Byte(0, 60),
+                new Phone(CustomTransnistriaPhoneNumbers.GenerateTransnistriaPhoneNumber()), Faker.Random.Byte(0, 60),
                 Faker.Date.BetweenDateOnly(MinDate, new DateOnly(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day))
             },
             
             new object[]
             {
-                Guid.Empty, new FullName(Faker.Name.FirstName(), Faker.Name.LastName(), Faker.Name.LastName()), default,
-                new Phone(Faker.Phone.PhoneNumber()), Faker.Random.Byte(0, 60),
+                Guid.Empty, new FullName(Faker.Name.FirstName(), Faker.Name.LastName(), Faker.Name.LastName()), Gender.Default,
+                new Phone(CustomTransnistriaPhoneNumbers.GenerateTransnistriaPhoneNumber()), Faker.Random.Byte(0, 60),
                 Faker.Date.BetweenDateOnly(MinDate, new DateOnly(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day))
             },
             
@@ -197,14 +210,14 @@ public static class TestedClass
             new object[]
             {
                 Guid.Empty, new FullName(Faker.Name.FirstName(), Faker.Name.LastName(), Faker.Name.LastName()), EnumGenerator.GetGender(),
-                new Phone(Faker.Phone.PhoneNumber()), -1,
+                new Phone(CustomTransnistriaPhoneNumbers.GenerateTransnistriaPhoneNumber()), -1,
                 Faker.Date.BetweenDateOnly(MinDate, new DateOnly(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day))
             },
             
             new object[]
             {
                 Guid.Empty, new FullName(Faker.Name.FirstName(), Faker.Name.LastName(), Faker.Name.LastName()), EnumGenerator.GetGender(),
-                new Phone(Faker.Phone.PhoneNumber()), Faker.Random.Byte(0, 60), default
+                new Phone(CustomTransnistriaPhoneNumbers.GenerateTransnistriaPhoneNumber()), Faker.Random.Byte(0, 60), default
             },
         };
     }

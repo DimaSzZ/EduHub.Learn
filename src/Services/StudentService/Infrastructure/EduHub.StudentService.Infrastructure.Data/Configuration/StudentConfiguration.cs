@@ -42,12 +42,12 @@ namespace EduHub.StudentService.Infrastructure.Data.Configuration
             builder.OwnsOne(s => s.Phone, phone =>
             {
                 phone.Property(p => p.Value)
-                    .HasMaxLength(8)
+                    .HasMaxLength(13)
                     .IsRequired()
                     .HasColumnName("phone");
                 
                 phone.HasIndex(p => p.Value)
-                    .HasDatabaseName(IndexNames.Phone)
+                    .HasDatabaseName(IndexNames.PhoneStudent)
                     .IsUnique();
             });
             

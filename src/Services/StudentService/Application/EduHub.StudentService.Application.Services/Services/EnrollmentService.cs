@@ -58,7 +58,11 @@ public class EnrollmentService : IEnrollmentService
     
     public async Task<List<EnrollmentResponseDto>> GetStudentEnrollmentsAsync(Guid id, CancellationToken cancellationToken)
     {
-        var student = await GetByIdOrThrowAsync(id, cancellationToken);
+        var student = await _unitOfWork.StudentRepository.GetByIdAsync(id, cancellationToken);
+        if (student == null)
+        {
+            throw new EntityNotFoundException<Student>(nameof(Enrollment.Id), id);
+        }
         
         var enrollments = await _unitOfWork.EnrollmentRepository.GetListByStudentIdAsync(student.Id, cancellationToken);
         return _mapper.Map<List<EnrollmentResponseDto>>(enrollments);
@@ -86,7 +90,7 @@ public class EnrollmentService : IEnrollmentService
         var entity = await _unitOfWork.EnrollmentRepository.GetByIdAsync(id, cancellationToken);
         if (entity == null)
         {
-            throw new EntityNotFoundException<Course>(nameof(Enrollment.Id), id);
+            throw new EntityNotFoundException<Enrollment>(nameof(Enrollment.Id), id);
         }
         
         return entity;

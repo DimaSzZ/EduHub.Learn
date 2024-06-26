@@ -96,7 +96,7 @@ public class StudentService : IStudentService
         var entity = await _unitOfWork.StudentRepository.GetByIdAsync(id, cancellationToken);
         if (entity == null)
         {
-            throw new EntityNotFoundException<Course>(nameof(Student.Id), id);
+            throw new EntityNotFoundException<Student>(nameof(Student.Id), id);
         }
         
         return entity;

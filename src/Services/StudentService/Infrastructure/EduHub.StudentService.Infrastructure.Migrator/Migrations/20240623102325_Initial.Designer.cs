@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EduHub.StudentService.Infrastructure.Migrator.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240619080004_Initial")]
+    [Migration("20240623102325_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -186,15 +186,15 @@ namespace EduHub.StudentService.Infrastructure.Migrator.Migrations
 
                             b1.Property<string>("Value")
                                 .IsRequired()
-                                .HasMaxLength(11)
-                                .HasColumnType("character varying(11)")
+                                .HasMaxLength(13)
+                                .HasColumnType("character varying(13)")
                                 .HasColumnName("phone");
 
                             b1.HasKey("EducatorId");
 
                             b1.HasIndex("Value")
                                 .IsUnique()
-                                .HasDatabaseName("IX_Unique_Phone");
+                                .HasDatabaseName("IX_Unique_Educator_Phone");
 
                             b1.ToTable("Educators");
 
@@ -262,15 +262,15 @@ namespace EduHub.StudentService.Infrastructure.Migrator.Migrations
 
                             b1.Property<string>("Value")
                                 .IsRequired()
-                                .HasMaxLength(8)
-                                .HasColumnType("character varying(8)")
+                                .HasMaxLength(13)
+                                .HasColumnType("character varying(13)")
                                 .HasColumnName("phone");
 
                             b1.HasKey("StudentId");
 
                             b1.HasIndex("Value")
                                 .IsUnique()
-                                .HasDatabaseName("IX_Unique_Phone");
+                                .HasDatabaseName("IX_Unique_Student_Phone");
 
                             b1.ToTable("Students");
 

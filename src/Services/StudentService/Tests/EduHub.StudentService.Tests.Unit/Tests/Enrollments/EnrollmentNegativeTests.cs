@@ -1,4 +1,6 @@
-﻿using Unit.Infrastructure;
+﻿
+
+using EduHub.StudentService.Shared.Tests.Infrastructure;
 
 namespace Unit.Tests.Enrollments
 {

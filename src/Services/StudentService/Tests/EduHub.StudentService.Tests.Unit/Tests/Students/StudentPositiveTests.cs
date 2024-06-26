@@ -1,4 +1,5 @@
-﻿using Unit.Infrastructure.TestedData;
+﻿using EduHub.StudentService.Shared.Tests.Infrastructure;
+using EduHub.StudentService.Shared.Tests.Infrastructure.TestedData;
 
 namespace Unit.Tests.Students
 {
@@ -37,18 +38,18 @@ namespace Unit.Tests.Students
             
             // Act: Создаем объект Student с переданными параметрами
             var student = new Student(id, avatar, fullName, gender, dateBirth, email, phone, address);
-
+            
             // Assert: Проверяем, что все свойства объекта заданы правильно
-            student.Id.Should().NotBeEmpty(); 
-            student.Avatar.Should().NotBeNullOrEmpty(); 
-            student.FullName.Should().NotBeNull(); 
-            student.Gender.Should().NotBe(Gender.Default); 
+            student.Id.Should().NotBeEmpty();
+            student.Avatar.Should().NotBeNullOrEmpty();
+            student.FullName.Should().NotBeNull();
+            student.Gender.Should().NotBe(Gender.Default);
             student.DateBirth.Should().BeAfter(_minBirthDate);
-            student.Email.Should().NotBeNull(); 
-            student.Phone.Should().NotBeNull(); 
-            student.Address.Should().NotBeNull(); 
-            student.Address.City.Should().NotBeNullOrEmpty(); 
-            student.Address.Street.Should().NotBeNullOrEmpty(); 
+            student.Email.Should().NotBeNull();
+            student.Phone.Should().NotBeNull();
+            student.Address.Should().NotBeNull();
+            student.Address.City.Should().NotBeNullOrEmpty();
+            student.Address.Street.Should().NotBeNullOrEmpty();
             student.Address.NumberHouse.Should().BeGreaterThan(0);
         }
         
@@ -76,10 +77,10 @@ namespace Unit.Tests.Students
             Address address)
         {
             // Arrange: Подготовка данных (данные передаются через параметризованный тест)
-
+            
             // Act: Создаем объект Student с переданными параметрами
             var student = new Student(id, avatar, fullName, gender, dateBirth, email, phone, address);
-
+            
             // Act: Генерируем новые данные для обновления объекта Student
             var updatedAvatar = _faker.Random.String2(8);
             var updatedFullName = new FullName(_faker.Name.FirstName(), _faker.Name.LastName(), _faker.Name.LastName());
@@ -88,21 +89,21 @@ namespace Unit.Tests.Students
             var updatedEmail = new Email(_faker.Internet.Email());
             var updatedPhone = new Phone(_faker.Phone.PhoneNumber());
             var updatedAddress = new Address(_faker.Address.City(), _faker.Address.StreetName(), int.Parse(_faker.Address.BuildingNumber()));
-
+            
             // Act: Обновляем данные объекта Student
             student.Update(updatedAvatar, updatedFullName, updatedGender, updatedDateBirth, updatedEmail, updatedPhone, updatedAddress);
-
+            
             // Assert: Проверяем, что все свойства объекта заданы правильно после обновления
-            student.Avatar.Should().NotBeNullOrEmpty(); 
-            student.FullName.Should().NotBeNull(); 
-            student.Gender.Should().NotBe(Gender.Default); 
-            student.DateBirth.Should().BeAfter(_minBirthDate); 
-            student.Email.Should().NotBeNull(); 
-            student.Phone.Should().NotBeNull(); 
-            student.Address.Should().NotBeNull(); 
-            student.Address.City.Should().NotBeNullOrEmpty(); 
-            student.Address.Street.Should().NotBeNullOrEmpty(); 
-            student.Address.NumberHouse.Should().BeGreaterThan(0); 
+            student.Avatar.Should().NotBeNullOrEmpty();
+            student.FullName.Should().NotBeNull();
+            student.Gender.Should().NotBe(Gender.Default);
+            student.DateBirth.Should().BeAfter(_minBirthDate);
+            student.Email.Should().NotBeNull();
+            student.Phone.Should().NotBeNull();
+            student.Address.Should().NotBeNull();
+            student.Address.City.Should().NotBeNullOrEmpty();
+            student.Address.Street.Should().NotBeNullOrEmpty();
+            student.Address.NumberHouse.Should().BeGreaterThan(0);
         }
     }
 }

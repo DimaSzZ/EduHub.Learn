@@ -1,5 +1,4 @@
-﻿using Ardalis.GuardClauses;
-using EduHub.StudentService.Application.Services.Interfaces.Repositories.Core;
+﻿using EduHub.StudentService.Application.Services.Interfaces.Repositories.Core;
 using EduHub.StudentService.Domain.Entities.Core;
 using Microsoft.EntityFrameworkCore;
 
@@ -47,8 +46,6 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
     public async Task<TEntity> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
         var entity = await _context.Set<TEntity>().FindAsync(new object[] {id}, cancellationToken);
-        
-        Guard.Against.Null(entity);
         
         return entity;
     }

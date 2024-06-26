@@ -1,4 +1,4 @@
-﻿using Unit.Infrastructure;
+﻿using EduHub.StudentService.Shared.Tests.Infrastructure;
 
 namespace Unit.Tests.Courses
 {
@@ -8,7 +8,7 @@ namespace Unit.Tests.Courses
     public class CourseNegativeTests
     {
         public static readonly IEnumerable<object[]> CourseProperties = TestedClass.GetCourseProperties();
-            
+        
         /// <summary>
         /// Тест исключений при создании Course
         /// </summary>
@@ -26,7 +26,7 @@ namespace Unit.Tests.Courses
         {
             // Arrange: Подготовка данных
             // Данные передаются через параметризованный тест, данные уже подготовлены
-
+            
             // Act: Лямбда-выражение для создания курса с нулевыми данными и проверки на исключение
             var course = () => new Course(id, name, description, educatorId);
             
