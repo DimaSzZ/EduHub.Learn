@@ -6,38 +6,38 @@ namespace EduHub.StudentService.Application.Services.Validations.Student;
 /// <summary>
 /// Валидатор на StudentCreateDto
 /// </summary>
-public class StudentCreateDtoValidator : AbstractValidator<StudentCreateDto>
+public class StudentUpsertDtoValidator : AbstractValidator<StudentUpsertDto>
 {
-    public StudentCreateDtoValidator()
+    public StudentUpsertDtoValidator()
     {
         RuleFor(dto => dto.FirstName)
-            .PersonName(nameof(StudentCreateDto.FirstName));
+            .PersonName(nameof(StudentUpsertDto.FirstName));
         
         RuleFor(dto => dto.Surname)
-            .PersonName(nameof(StudentCreateDto.Surname));
+            .PersonName(nameof(StudentUpsertDto.Surname));
         
         RuleFor(dto => dto.Patronymic)
-            .PersonName(nameof(StudentCreateDto.Patronymic));
+            .PersonName(nameof(StudentUpsertDto.Patronymic));
         
         RuleFor(dto => dto.DateBirth)
-            .Date(nameof(StudentCreateDto.DateBirth));
+            .Date(nameof(StudentUpsertDto.DateBirth));
         
         RuleFor(dto => dto.Email)
-            .Email(nameof(StudentCreateDto.Email));
+            .Email(nameof(StudentUpsertDto.Email));
         
         RuleFor(dto => dto.Phone)
-            .Phone(nameof(StudentCreateDto.Phone));
+            .Phone(nameof(StudentUpsertDto.Phone));
         
         RuleFor(dto => dto.City)
-            .Address(nameof(StudentCreateDto.City));
+            .Address(nameof(StudentUpsertDto.City));
         
         RuleFor(dto => dto.Street)
-            .Address(nameof(StudentCreateDto.Street));
+            .Address(nameof(StudentUpsertDto.Street));
         
         RuleFor(dto => dto.NumberHouse)
-            .NumberHouse(nameof(StudentCreateDto.NumberHouse));
+            .NumberHouse(nameof(StudentUpsertDto.NumberHouse));
         
         RuleFor(dto => dto.Avatar)
-            .Avatar(nameof(StudentCreateDto.Avatar));
+            .Avatar(nameof(StudentUpsertDto.Avatar));
     }
 }

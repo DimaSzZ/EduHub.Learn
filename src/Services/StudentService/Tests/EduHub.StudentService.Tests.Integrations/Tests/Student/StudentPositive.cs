@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using EduHub.StudentService.Application.Services.Interfaces.Repositories;
+﻿using EduHub.StudentService.Application.Services.Interfaces.Repositories;
 using EduHub.StudentService.Application.Services.Interfaces.Services;
 using EduHub.StudentService.Shared.Tests.Infrastructure.TestedData;
 using EduHub.StudentService.Tests.Integrations.Fixture;
@@ -13,7 +12,6 @@ public class StudentPositive : IClassFixture<DatabaseFixture>
     private readonly IStudentService _studentService;
     private readonly IStudentRepository _studentRepository;
     private readonly TestStudentDataClass _studentGenerate;
-    private readonly IMapper _mapper;
     
     public StudentPositive(DatabaseFixture database)
     {
@@ -21,19 +19,17 @@ public class StudentPositive : IClassFixture<DatabaseFixture>
         _studentService = _database.ServiceProvider.GetRequiredService<IStudentService>();
         _studentRepository = _database.ServiceProvider.GetRequiredService<IStudentRepository>();
         _studentGenerate = new TestStudentDataClass();
-        _mapper = _database.ServiceProvider.GetRequiredService<IMapper>();
     }
     
     [Fact]
     public async Task AddAsync_ValidStudent()
     {
         //Arrange
-        var createDto = _studentGenerate.GetCreateDto();
-            
+        var createDto = _studentGenerate.GetUpsertDto();
+        
         //Act
-        var zxc = _mapper.Map<Domain.Entities.Student>(createDto);
         var result = await _studentService.AddAsync(createDto, CancellationToken.None);
-            
+        
         //Assert
         Assert.NotNull(result);
         Assert.Equal(createDto.FirstName, result.FirstName);
@@ -53,15 +49,15 @@ public class StudentPositive : IClassFixture<DatabaseFixture>
     public async Task UpdateAsync_ValidStudent()
     {
         //Arrange
-        await GenerateEntity.GenerateStudent(_database);
-        var updateDto = _studentGenerate.GetUpdateDto();
+        var createStudent = await GenerateEntity.GenerateStudent(_database);
+        var updateDto = _studentGenerate.GetUpsertDto();
         
         //Act
-        var result = await _studentService.UpdateAsync(updateDto, CancellationToken.None);
+        var result = await _studentService.UpdateAsync(createStudent.Id, updateDto, CancellationToken.None);
         
         //Assert
         Assert.NotNull(result);
-        Assert.Equal(updateDto.Id, result.Id);
+        Assert.Equal(createStudent.Id, result.Id);
         Assert.Equal(updateDto.FirstName, result.FirstName);
         Assert.Equal(updateDto.Surname, result.Surname);
         Assert.Equal(updateDto.Patronymic, result.Patronymic);
@@ -92,7 +88,7 @@ public class StudentPositive : IClassFixture<DatabaseFixture>
     public async Task GetListAsync_Valid()
     {
         // Arrange
-       await GenerateEntity.GenerateStudent(_database);
+        await GenerateEntity.GenerateStudent(_database);
         
         //Act
         var result = await _studentService.GetListStudentsAsync(CancellationToken.None);

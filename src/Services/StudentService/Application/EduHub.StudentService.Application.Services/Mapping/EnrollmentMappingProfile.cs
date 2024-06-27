@@ -16,19 +16,10 @@ namespace EduHub.StudentService.Application.Services.Mapping
         /// </summary>
         public EnrollmentMappingProfile()
         {
-            CreateMap<EnrollmentCreateDto, Enrollment>()
+            CreateMap<EnrollmentUpsertDto, Enrollment>()
                 .ConstructUsing(dto =>
                     new Enrollment(
                         Guid.NewGuid(),
-                        dto.EnrollmentDate,
-                        dto.StudentId,
-                        dto.CourseId
-                    ));
-            
-            CreateMap<EnrollmentUpdateDto, Enrollment>()
-                .ConstructUsing(dto =>
-                    new Enrollment(
-                        dto.Id,
                         dto.EnrollmentDate,
                         dto.StudentId,
                         dto.CourseId

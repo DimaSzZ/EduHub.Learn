@@ -31,13 +31,13 @@ public class EnrollmentNegative : IClassFixture<DatabaseFixture>
         var educator = await GenerateEntity.GenerateEducator(_database);
         await GenerateEntity.GenerateCourse(_database, educator.Id);
         var student = await GenerateEntity.GenerateStudent(_database);
-        var enrollment = new EnrollmentCreateDto(date, student.Id, Guid.NewGuid());
+        var enrollment = new EnrollmentUpsertDto(date, student.Id, Guid.NewGuid());
         
         //Act
         var resp = async () => await _enrollmentService.AddAsync(enrollment, CancellationToken.None);
         
         //Assert
-        await resp.Should().ThrowAsync<EntityNotFoundException<Domain.Entities.Course>>();
+        await resp.Should().ThrowAsync<EntityNotFoundException<Domain.Entities.Enrollment>>();
     }
     
     [Theory]
@@ -52,7 +52,7 @@ public class EnrollmentNegative : IClassFixture<DatabaseFixture>
         var educator = await GenerateEntity.GenerateEducator(_database);
         var course = await GenerateEntity.GenerateCourse(_database, educator.Id);
         await GenerateEntity.GenerateStudent(_database);
-        var enrollment = new EnrollmentCreateDto(date, Guid.NewGuid(), course.Id);
+        var enrollment = new EnrollmentUpsertDto(date, Guid.NewGuid(), course.Id);
         
         //Act
         var resp = async () => await _enrollmentService.AddAsync(enrollment, CancellationToken.None);

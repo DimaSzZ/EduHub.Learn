@@ -9,7 +9,7 @@ namespace EduHub.StudentService.Shared.Tests.Infrastructure.TestedData
     /// <summary>
     /// Класс генератор юнит и интеграционных тестов Student
     /// </summary>
-    public class TestStudentDataClass : IEnumerable<object[]>, IGenerateDto<StudentCreateDto, StudentUpdateDto>
+    public class TestStudentDataClass : IEnumerable<object[]>, IGenerateDto<StudentUpsertDto>
     {
         private readonly Faker _faker = new Faker();
         private readonly DateOnly _minBirthDate = new DateOnly(1900, 1, 1);
@@ -35,35 +35,13 @@ namespace EduHub.StudentService.Shared.Tests.Infrastructure.TestedData
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        public StudentCreateDto GetCreateDto()
+        public StudentUpsertDto GetUpsertDto()
         {
             using var enumerator = GetEnumerator();
             enumerator.MoveNext(); // Move to the first (and only) item in the enumerator
             var data = enumerator.Current;
 
-            return new StudentCreateDto(
-                (string)data[1], // Avatar
-                (string)data[2], // FirstName
-                (string)data[3], // Surname
-                (string)data[4], // Patronymic
-                (Gender)data[5], // Gender
-                (DateOnly)data[6], // DateBirth
-                (string)data[7], // Email
-                (string)data[8], // Phone
-                (string)data[9], // City
-                (string)data[10], // Street
-                (int)data[11] // NumberHouse
-            );
-        }
-
-        public StudentUpdateDto GetUpdateDto()
-        {
-            using var enumerator = GetEnumerator();
-            enumerator.MoveNext(); // Move to the first (and only) item in the enumerator
-            var data = enumerator.Current;
-
-            return new StudentUpdateDto(
-                (Guid)data[0], // Assuming the first item is the student's ID
+            return new StudentUpsertDto(
                 (string)data[1], // Avatar
                 (string)data[2], // FirstName
                 (string)data[3], // Surname

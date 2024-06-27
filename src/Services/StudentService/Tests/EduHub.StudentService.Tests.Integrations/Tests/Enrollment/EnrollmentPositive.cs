@@ -33,7 +33,7 @@ public class EnrollmentPositive : IClassFixture<DatabaseFixture>
         var educator = await GenerateEntity.GenerateEducator(_database);
         var course = await GenerateEntity.GenerateCourse(_database, educator.Id);
         var student = await GenerateEntity.GenerateStudent(_database);
-        var enrollment = new EnrollmentCreateDto(date, student.Id, course.Id);
+        var enrollment = new EnrollmentUpsertDto(date, student.Id, course.Id);
         
         //Act
         var result = await _enrollmentService.AddAsync(enrollment, CancellationToken.None);
@@ -55,7 +55,7 @@ public class EnrollmentPositive : IClassFixture<DatabaseFixture>
         var enrollment = await GenerateEntity.GenerateEnrollment(_database, student.Id, course.Id);
         
         //Act
-        var result = await _enrollmentService.GetStudentEnrollmentsAsync(enrollment.Id, CancellationToken.None);
+        var result = await _enrollmentService.GetStudentEnrollmentsAsync(student.Id, CancellationToken.None);
         
         //Assert
         Assert.NotNull(result);

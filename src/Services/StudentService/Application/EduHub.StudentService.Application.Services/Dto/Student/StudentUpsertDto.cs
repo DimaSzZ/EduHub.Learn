@@ -5,7 +5,6 @@ namespace EduHub.StudentService.Application.Services.Dto.Student;
 /// <summary>
 /// Дто на создание студента
 /// </summary>
-/// <param name="Id">Id студента</param>
 /// <param name="Avatar">ссылка на аватарку</param>
 /// <param name="FirstName">Имя</param>
 /// <param name="Surname">Фамилия</param>
@@ -17,8 +16,7 @@ namespace EduHub.StudentService.Application.Services.Dto.Student;
 /// <param name="City">Город</param>
 /// <param name="Street">Улица</param>
 /// <param name="NumberHouse">Номер дома</param>
-public record StudentUpdateDto(
-    Guid Id,
+public record StudentUpsertDto(
     string Avatar,
     string FirstName,
     string Surname,

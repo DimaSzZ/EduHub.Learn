@@ -32,11 +32,11 @@ public class CourseNegative : IClassFixture<DatabaseFixture>
     {
         // Arrange
         var educator = await GenerateEntity.GenerateEducator(_database);
-        await GenerateEntity.GenerateCourse(_database,educator.Id);
-        var courseDto = new CourseUpdateDto(id, name, description, educator.Id);
+        await GenerateEntity.GenerateCourse(_database, educator.Id);
+        var courseDto = new CourseUpsertDto(name, description, educator.Id);
         
         // Act & Assert
-        await Assert.ThrowsAsync<EntityNotFoundException<Domain.Entities.Course>>(() => _courseService.UpdateAsync(courseDto, CancellationToken.None));
+        await Assert.ThrowsAsync<EntityNotFoundException<Domain.Entities.Course>>(() => _courseService.UpdateAsync(id, courseDto, CancellationToken.None));
     }
     
     [Fact]

@@ -24,10 +24,10 @@ public class StudentNegative : IClassFixture<DatabaseFixture>
     public async Task UpdateAsync_NotFound()
     {
         //Arrange
-        var studentUpdateDto = _studentGenerate.GetUpdateDto();
+        var studentUpdateDto = _studentGenerate.GetUpsertDto();
         
         //Act
-        var result = async () => await _studentService.UpdateAsync(studentUpdateDto, CancellationToken.None);
+        var result = async () => await _studentService.UpdateAsync(Guid.NewGuid(), studentUpdateDto, CancellationToken.None);
         
         //Assertation
         await result.Should().ThrowAsync<EntityNotFoundException<Domain.Entities.Student>>();

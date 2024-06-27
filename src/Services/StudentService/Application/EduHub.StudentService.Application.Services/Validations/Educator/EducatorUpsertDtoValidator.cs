@@ -6,29 +6,29 @@ namespace EduHub.StudentService.Application.Services.Validations.Educator;
 /// <summary>
 /// Валидатор на EducatorCreateDto
 /// </summary>
-public class EducatorCreateDtoValidator : AbstractValidator<EducatorCreateDto>
+public class EducatorUpsertDtoValidator : AbstractValidator<EducatorUpsertDto>
 {
-    public EducatorCreateDtoValidator()
+    public EducatorUpsertDtoValidator()
     {
         RuleFor(dto => dto.FirstName)
-            .PersonName(nameof(EducatorCreateDto.FirstName));
+            .PersonName(nameof(EducatorUpsertDto.FirstName));
         
         RuleFor(dto => dto.Surname)
-            .PersonName(nameof(EducatorCreateDto.Surname));
+            .PersonName(nameof(EducatorUpsertDto.Surname));
         
         RuleFor(dto => dto.Patronymic)
-            .PersonName(nameof(EducatorCreateDto.Patronymic));
+            .PersonName(nameof(EducatorUpsertDto.Patronymic));
         
         RuleFor(dto => dto.Gender)
-            .Gender(nameof(EducatorCreateDto.Gender));
+            .Gender(nameof(EducatorUpsertDto.Gender));
         
         RuleFor(dto => dto.DateEmployment)
-            .Date(nameof(EducatorCreateDto.DateEmployment));
+            .Date(nameof(EducatorUpsertDto.DateEmployment));
         
         RuleFor(dto => dto.Phone)
-            .Phone(nameof(EducatorCreateDto.Phone));
+            .Phone(nameof(EducatorUpsertDto.Phone));
         
         RuleFor(dto => dto.YearsExperience)
-            .WorkExperience(nameof(EducatorCreateDto.YearsExperience));
+            .WorkExperience(nameof(EducatorUpsertDto.YearsExperience));
     }
 }

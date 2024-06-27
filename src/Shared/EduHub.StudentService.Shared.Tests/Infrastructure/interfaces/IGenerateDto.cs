@@ -1,9 +1,7 @@
 ﻿namespace EduHub.StudentService.Shared.Tests.Infrastructure.Interfaces;
 
-public interface IGenerateDto<TCreate, TUpdate>
-    where TCreate : class
-    where TUpdate : class
+public interface IGenerateDto<out TUpsert>
+    where TUpsert : class
 {
-    TCreate GetCreateDto();
-    TUpdate GetUpdateDto();
+    TUpsert GetUpsertDto();
 }

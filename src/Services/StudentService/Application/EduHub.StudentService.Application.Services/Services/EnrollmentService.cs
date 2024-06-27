@@ -29,13 +29,13 @@ public class EnrollmentService : IEnrollmentService
         _unitOfWork = Guard.Against.Null(unitOfWork);
     }
     
-    public async Task<EnrollmentResponseDto> AddAsync(EnrollmentCreateDto enrollmentCreateDto, CancellationToken cancellationToken)
+    public async Task<EnrollmentResponseDto> AddAsync(EnrollmentUpsertDto enrollmentUpsertDto, CancellationToken cancellationToken)
     {
-        Guard.Against.Null(enrollmentCreateDto);
+        Guard.Against.Null(enrollmentUpsertDto);
         
-        await new EnrollmentCreateDtoValidator().ValidateAndThrowAsync(enrollmentCreateDto, cancellationToken);
+        await new EnrollmentUpsertDtoValidator().ValidateAndThrowAsync(enrollmentUpsertDto, cancellationToken);
         
-        var enrollment = _mapper.Map<EnrollmentCreateDto, Enrollment>(enrollmentCreateDto);
+        var enrollment = _mapper.Map<EnrollmentUpsertDto, Enrollment>(enrollmentUpsertDto);
         
         var isEnrollment = await _unitOfWork.CoursesRepository.ExistAsync(enrollment.CourseId, cancellationToken);
         if (!isEnrollment)

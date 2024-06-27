@@ -34,7 +34,7 @@ namespace EduHub.StudentService.Tests.Integrations.Tests.Educator
         )
         {
             //Arrange
-            var educatorDto = new EducatorCreateDto(fullName.FirstName, fullName.Surname, fullName.Patronymic, gender, phone.Value, workExp, dateEmployment);
+            var educatorDto = new EducatorUpsertDto(fullName.FirstName, fullName.Surname, fullName.Patronymic, gender, phone.Value, workExp, dateEmployment);
             
             //Act
             var result = await _educatorService.AddAsync(educatorDto, CancellationToken.None);
@@ -55,15 +55,15 @@ namespace EduHub.StudentService.Tests.Integrations.Tests.Educator
         {
             //Arrange
             var educator = await GenerateEntity.GenerateEducator(_database);
-            var educatorDto = new EducatorUpdateDto(educator.Id,educator.FullName.FirstName,educator.FullName.Surname,educator.FullName.Patronymic,
-            educator.Gender,educator.Phone.Value,educator.YearsExperience,educator.DateEmployment);
+            var educatorDto = new EducatorUpsertDto(educator.FullName.FirstName, educator.FullName.Surname, educator.FullName.Patronymic,
+                educator.Gender, educator.Phone.Value, educator.YearsExperience, educator.DateEmployment);
             
             //Act
-            var result = await _educatorService.UpdateAsync(educatorDto, CancellationToken.None);
+            var result = await _educatorService.UpdateAsync(educator.Id, educatorDto, CancellationToken.None);
             
             //Assert
             Assert.NotNull(result);
-            Assert.Equal(educatorDto.Id, result.Id);
+            Assert.Equal(educator.Id, result.Id);
             Assert.Equal(educatorDto.FirstName, result.FirstName);
             Assert.Equal(educatorDto.Surname, result.Surname);
             Assert.Equal(educatorDto.Patronymic, result.Patronymic);

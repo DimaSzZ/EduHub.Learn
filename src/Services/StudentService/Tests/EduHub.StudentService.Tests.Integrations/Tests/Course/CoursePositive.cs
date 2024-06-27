@@ -30,7 +30,7 @@ namespace EduHub.StudentService.Tests.Integrations.Tests.Course
         {
             // Arrange
             var educatorResp = await GenerateEntity.GenerateEducator(_database);
-            var courseDto = new CourseCreateDto(name, description, educatorResp.Id);
+            var courseDto = new CourseUpsertDto(name, description, educatorResp.Id);
             
             // Act
             var result = await _courseService.AddAsync(courseDto, CancellationToken.None);
@@ -47,12 +47,12 @@ namespace EduHub.StudentService.Tests.Integrations.Tests.Course
         {
             // Arrange
             var educatorResp = await GenerateEntity.GenerateEducator(_database);
-                        var courseResp = await GenerateEntity.GenerateCourse(_database, educatorResp.Id);
+            var courseResp = await GenerateEntity.GenerateCourse(_database, educatorResp.Id);
             
-            var updateDto = new CourseUpdateDto(courseResp.Id, courseResp.Name, courseResp.Description, courseResp.EducatorId);
+            var updateDto = new CourseUpsertDto(courseResp.Name, courseResp.Description, courseResp.EducatorId);
             
             // Act
-            var result = await _courseService.UpdateAsync(updateDto, CancellationToken.None);
+            var result = await _courseService.UpdateAsync(courseResp.Id, updateDto, CancellationToken.None);
             
             // Assert
             Assert.NotNull(result);
@@ -81,7 +81,7 @@ namespace EduHub.StudentService.Tests.Integrations.Tests.Course
         {
             // Arrange
             var educatorResp = await GenerateEntity.GenerateEducator(_database);
-            var courseResp = await GenerateEntity.GenerateCourse(_database, educatorResp.Id);
+            await GenerateEntity.GenerateCourse(_database, educatorResp.Id);
             
             // Act
             var result = await _courseService.GetListAsync(CancellationToken.None);

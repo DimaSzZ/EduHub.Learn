@@ -12,7 +12,7 @@ namespace EduHub.StudentService.Application.Services.Dto.Educator;
 /// <param name="Phone">Телефон</param>
 /// <param name="WorkExperience">Опыт работы</param>
 /// <param name="DateEmployment">Дата устройства на работу</param>
-public record EducatorCreateDto(
+public record EducatorUpsertDto(
     string FirstName,
     string Surname,
     string Patronymic,

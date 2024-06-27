@@ -33,10 +33,10 @@ public class EducatorNegative : IClassFixture<DatabaseFixture>
     )
     {
         // Arrange
-        var educatorDto = new EducatorUpdateDto(id, fullName.FirstName, fullName.Surname, fullName.Patronymic, gender, phone.Value, workExp, dateEmployment);
+        var educatorDto = new EducatorUpsertDto(fullName.FirstName, fullName.Surname, fullName.Patronymic, gender, phone.Value, workExp, dateEmployment);
         
         //Act
-        var resp = async () => await _educatorService.UpdateAsync(educatorDto, CancellationToken.None);
+        var resp = async () => await _educatorService.UpdateAsync(id ,educatorDto, CancellationToken.None);
         
         // Act & Assert
         await resp.Should().ThrowAsync<EntityNotFoundException<Domain.Entities.Educator>>();

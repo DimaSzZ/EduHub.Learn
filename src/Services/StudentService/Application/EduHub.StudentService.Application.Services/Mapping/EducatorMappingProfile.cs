@@ -17,21 +17,10 @@ namespace EduHub.StudentService.Application.Services.Mapping
         /// </summary>
         public EducatorMappingProfile()
         {
-            CreateMap<EducatorCreateDto, Educator>()
+            CreateMap<EducatorUpsertDto, Educator>()
                 .ConstructUsing(dto =>
                     new Educator(
                         Guid.NewGuid(),
-                        new FullName(dto.FirstName, dto.Surname, dto.Patronymic),
-                        dto.Gender,
-                        new Phone(dto.Phone),
-                        dto.YearsExperience,
-                        dto.DateEmployment
-                    ));
-            
-            CreateMap<EducatorUpdateDto, Educator>()
-                .ConstructUsing(dto =>
-                    new Educator(
-                        dto.Id,
                         new FullName(dto.FirstName, dto.Surname, dto.Patronymic),
                         dto.Gender,
                         new Phone(dto.Phone),

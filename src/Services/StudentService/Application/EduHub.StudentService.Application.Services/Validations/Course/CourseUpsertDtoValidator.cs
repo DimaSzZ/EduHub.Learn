@@ -6,14 +6,14 @@ namespace EduHub.StudentService.Application.Services.Validations.Course;
 /// <summary>
 /// Валидатор на CourseCreateDto
 /// </summary>
-public class CourseCreateDtoValidator : AbstractValidator<CourseCreateDto>
+public class CourseUpsertDtoValidator : AbstractValidator<CourseUpsertDto>
 {
-    public CourseCreateDtoValidator()
+    public CourseUpsertDtoValidator()
     {
         RuleFor(dto => dto.Name)
-            .Name(nameof(CourseCreateDto.Name));
+            .Name(nameof(CourseUpsertDto.Name));
         
         RuleFor(dto => dto.EducatorId)
-            .Id(nameof(CourseCreateDto.EducatorId));
+            .Id(nameof(CourseUpsertDto.EducatorId));
     }
 }

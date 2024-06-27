@@ -8,7 +8,7 @@ namespace EduHub.StudentService.Shared.Tests.Infrastructure.TestedData
     /// <summary>
     /// Класс генератор для позитивных тестов Course
     /// </summary>
-    public class TestCourseDataClass : IEnumerable<object[]>, IGenerateDto<CourseCreateDto, CourseUpdateDto>
+    public class TestCourseDataClass : IEnumerable<object[]>, IGenerateDto<CourseUpsertDto>
     {
         private readonly Faker _faker = new Faker();
         
@@ -25,27 +25,13 @@ namespace EduHub.StudentService.Shared.Tests.Infrastructure.TestedData
         
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         
-        public CourseCreateDto GetCreateDto()
+        public CourseUpsertDto GetUpsertDto()
         {
             using var enumerator = GetEnumerator();
             enumerator.MoveNext();
             var data = enumerator.Current;
             
-            return new CourseCreateDto(
-                (string)data[1], // Name
-                (string)data[2], // Description
-                (Guid)data[3] // Educator ID
-            );
-        }
-        
-        public CourseUpdateDto GetUpdateDto()
-        {
-            using var enumerator = GetEnumerator();
-            enumerator.MoveNext();
-            var data = enumerator.Current;
-            
-            return new CourseUpdateDto(
-                (Guid)data[0], // ID
+            return new CourseUpsertDto(
                 (string)data[1], // Name
                 (string)data[2], // Description
                 (Guid)data[3] // Educator ID

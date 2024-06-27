@@ -29,13 +29,13 @@ public class CourseService : ICourseService
         _unitOfWork = Guard.Against.Null(unitOfWork);
     }
     
-    public async Task<CourseResponseDto> AddAsync(CourseCreateDto courseDto, CancellationToken cancellationToken)
+    public async Task<CourseResponseDto> AddAsync(CourseUpsertDto courseDto, CancellationToken cancellationToken)
     {
         Guard.Against.Null(courseDto);
         
-        await new CourseCreateDtoValidator().ValidateAndThrowAsync(courseDto, cancellationToken);
+        await new CourseUpsertDtoValidator().ValidateAndThrowAsync(courseDto, cancellationToken);
         
-        var course = _mapper.Map<CourseCreateDto, Course>(courseDto);
+        var course = _mapper.Map<CourseUpsertDto, Course>(courseDto);
         await _unitOfWork.CoursesRepository.AddAsync(course, cancellationToken);
         
         await _unitOfWork.SaveChangesAsync(cancellationToken);
@@ -43,13 +43,13 @@ public class CourseService : ICourseService
         return _mapper.Map<Course, CourseResponseDto>(course);
     }
     
-    public async Task<CourseResponseDto> UpdateAsync(CourseUpdateDto courseDto, CancellationToken cancellationToken)
+    public async Task<CourseResponseDto> UpdateAsync(Guid id, CourseUpsertDto courseDto, CancellationToken cancellationToken)
     {
         Guard.Against.Null(courseDto);
         
-        await new CourseUpdateDtoValidator().ValidateAndThrowAsync(courseDto, cancellationToken);
+        await new CourseUpsertDtoValidator().ValidateAndThrowAsync(courseDto, cancellationToken);
         
-        var course = await GetByIdOrThrowAsync(courseDto.Id, cancellationToken);
+        var course = await GetByIdOrThrowAsync(id, cancellationToken);
         
         course.Update(courseDto.Name, courseDto.Description, courseDto.EducatorId);
         

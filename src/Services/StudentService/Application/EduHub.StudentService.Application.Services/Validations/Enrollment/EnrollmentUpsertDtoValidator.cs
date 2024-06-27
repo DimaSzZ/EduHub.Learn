@@ -6,17 +6,17 @@ namespace EduHub.StudentService.Application.Services.Validations.Enrollment;
 /// <summary>
 /// Валидатор на EnrollmentCreateDto
 /// </summary>
-public class EnrollmentCreateDtoValidator : AbstractValidator<EnrollmentCreateDto>
+public class EnrollmentUpsertDtoValidator : AbstractValidator<EnrollmentUpsertDto>
 {
-    public EnrollmentCreateDtoValidator()
+    public EnrollmentUpsertDtoValidator()
     {
         RuleFor(dto => dto.CourseId)
-            .Id(nameof(EnrollmentCreateDto.CourseId));
+            .Id(nameof(EnrollmentUpsertDto.CourseId));
         
         RuleFor(dto => dto.StudentId)
-            .Id(nameof(EnrollmentCreateDto.StudentId));
+            .Id(nameof(EnrollmentUpsertDto.StudentId));
         
         RuleFor(dto => dto.EnrollmentDate)
-            .Date(nameof(EnrollmentCreateDto.EnrollmentDate));
+            .Date(nameof(EnrollmentUpsertDto.EnrollmentDate));
     }
 }
