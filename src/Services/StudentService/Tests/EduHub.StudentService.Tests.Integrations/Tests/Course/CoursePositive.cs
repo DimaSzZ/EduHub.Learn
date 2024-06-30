@@ -4,6 +4,7 @@ using EduHub.StudentService.Application.Services.Interfaces.Services;
 using EduHub.StudentService.Shared.Tests.Infrastructure.TestedData;
 using EduHub.StudentService.Tests.Integrations.Fixture;
 using Microsoft.Extensions.DependencyInjection;
+using FluentAssertions;
 
 namespace EduHub.StudentService.Tests.Integrations.Tests.Course
 {
@@ -36,10 +37,10 @@ namespace EduHub.StudentService.Tests.Integrations.Tests.Course
             var result = await _courseService.AddAsync(courseDto, CancellationToken.None);
             
             // Assert
-            Assert.NotNull(result);
-            Assert.Equal(courseDto.Name, result.Name);
-            Assert.Equal(courseDto.Description, result.Description);
-            Assert.Equal(courseDto.EducatorId, result.EducatorId);
+            result.Should().NotBeNull();
+            result.Name.Should().Be(courseDto.Name);
+            result.Description.Should().Be(courseDto.Description);
+            result.EducatorId.Should().Be(courseDto.EducatorId);
         }
         
         [Fact]
@@ -55,11 +56,11 @@ namespace EduHub.StudentService.Tests.Integrations.Tests.Course
             var result = await _courseService.UpdateAsync(courseResp.Id, updateDto, CancellationToken.None);
             
             // Assert
-            Assert.NotNull(result);
-            Assert.Equal(courseResp.Id, result.Id);
-            Assert.Equal(courseResp.Name, result.Name);
-            Assert.Equal(courseResp.Description, result.Description);
-            Assert.Equal(courseResp.EducatorId, result.EducatorId);
+            result.Should().NotBeNull();
+            result.Id.Should().Be(courseResp.Id);
+            result.Name.Should().Be(courseResp.Name);
+            result.Description.Should().Be(courseResp.Description);
+            result.EducatorId.Should().Be(courseResp.EducatorId);
         }
         
         [Fact]
@@ -72,8 +73,9 @@ namespace EduHub.StudentService.Tests.Integrations.Tests.Course
             //Act
             await _courseService.DeleteAsync(courseResp.Id, CancellationToken.None);
             
-            //Arrange
-            Assert.False(await _courseRepository.ExistAsync(courseResp.Id, CancellationToken.None));
+            //Assert
+            var exists = await _courseRepository.ExistAsync(courseResp.Id, CancellationToken.None);
+            exists.Should().BeFalse();
         }
         
         [Fact]
@@ -87,7 +89,7 @@ namespace EduHub.StudentService.Tests.Integrations.Tests.Course
             var result = await _courseService.GetListAsync(CancellationToken.None);
             
             // Assert
-            Assert.NotNull(result);
+            result.Should().NotBeNull();
         }
         
         [Fact]
@@ -97,11 +99,11 @@ namespace EduHub.StudentService.Tests.Integrations.Tests.Course
             var educatorResp = await GenerateEntity.GenerateEducator(_database);
             var courseResp = await GenerateEntity.GenerateCourse(_database, educatorResp.Id);
             
-            //Act
+            // Act
             var result = await _courseService.GetByIdAsync(courseResp.Id, CancellationToken.None);
             
-            //Assert
-            Assert.NotNull(result);
+            // Assert
+            result.Should().NotBeNull();
         }
     }
 }

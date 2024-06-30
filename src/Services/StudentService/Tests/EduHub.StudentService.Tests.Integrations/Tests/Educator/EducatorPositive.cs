@@ -5,6 +5,7 @@ using EduHub.StudentService.Domain.Entities.Enums;
 using EduHub.StudentService.Domain.ValueObjects;
 using EduHub.StudentService.Shared.Tests.Infrastructure.TestedData;
 using EduHub.StudentService.Tests.Integrations.Fixture;
+using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EduHub.StudentService.Tests.Integrations.Tests.Educator
@@ -30,60 +31,60 @@ namespace EduHub.StudentService.Tests.Integrations.Tests.Educator
             Gender gender,
             Phone phone,
             int workExp,
-            DateOnly dateEmployment
-        )
+            DateOnly dateEmployment)
         {
-            //Arrange
+            // Arrange
             var educatorDto = new EducatorUpsertDto(fullName.FirstName, fullName.Surname, fullName.Patronymic, gender, phone.Value, workExp, dateEmployment);
             
-            //Act
+            // Act
             var result = await _educatorService.AddAsync(educatorDto, CancellationToken.None);
             
-            //Assert
-            Assert.NotNull(result);
-            Assert.Equal(educatorDto.FirstName, result.FirstName);
-            Assert.Equal(educatorDto.Surname, result.Surname);
-            Assert.Equal(educatorDto.Patronymic, result.Patronymic);
-            Assert.Equal(educatorDto.Gender, result.Gender);
-            Assert.Equal(educatorDto.Phone, result.Phone);
-            Assert.Equal(educatorDto.YearsExperience, result.YearsExperience);
-            Assert.Equal(educatorDto.DateEmployment, result.DateEmployment);
+            // Assert
+            result.Should().NotBeNull();
+            result.FirstName.Should().Be(educatorDto.FirstName);
+            result.Surname.Should().Be(educatorDto.Surname);
+            result.Patronymic.Should().Be(educatorDto.Patronymic);
+            result.Gender.Should().Be(educatorDto.Gender);
+            result.Phone.Should().Be(educatorDto.Phone);
+            result.YearsExperience.Should().Be(educatorDto.YearsExperience);
+            result.DateEmployment.Should().Be(educatorDto.DateEmployment);
         }
         
         [Fact]
         public async Task UpdateAsync_ValidEducator_ReturnsEducatorResponseDto()
         {
-            //Arrange
+            // Arrange
             var educator = await GenerateEntity.GenerateEducator(_database);
             var educatorDto = new EducatorUpsertDto(educator.FullName.FirstName, educator.FullName.Surname, educator.FullName.Patronymic,
                 educator.Gender, educator.Phone.Value, educator.YearsExperience, educator.DateEmployment);
             
-            //Act
+            // Act
             var result = await _educatorService.UpdateAsync(educator.Id, educatorDto, CancellationToken.None);
             
-            //Assert
-            Assert.NotNull(result);
-            Assert.Equal(educator.Id, result.Id);
-            Assert.Equal(educatorDto.FirstName, result.FirstName);
-            Assert.Equal(educatorDto.Surname, result.Surname);
-            Assert.Equal(educatorDto.Patronymic, result.Patronymic);
-            Assert.Equal(educatorDto.Gender, result.Gender);
-            Assert.Equal(educatorDto.Phone, result.Phone);
-            Assert.Equal(educatorDto.YearsExperience, result.YearsExperience);
-            Assert.Equal(educatorDto.DateEmployment, result.DateEmployment);
+            // Assert
+            result.Should().NotBeNull();
+            result.Id.Should().Be(educator.Id);
+            result.FirstName.Should().Be(educatorDto.FirstName);
+            result.Surname.Should().Be(educatorDto.Surname);
+            result.Patronymic.Should().Be(educatorDto.Patronymic);
+            result.Gender.Should().Be(educatorDto.Gender);
+            result.Phone.Should().Be(educatorDto.Phone);
+            result.YearsExperience.Should().Be(educatorDto.YearsExperience);
+            result.DateEmployment.Should().Be(educatorDto.DateEmployment);
         }
         
         [Fact]
         public async Task DeleteAsync_ValidId()
         {
-            //Arrange
+            // Arrange
             var educator = await GenerateEntity.GenerateEducator(_database);
             
-            //Act
+            // Act
             await _educatorService.DeleteAsync(educator.Id, CancellationToken.None);
             
-            //Assert
-            Assert.False(await _educatorRepository.ExistAsync(educator.Id, CancellationToken.None));
+            // Assert
+            var exists = await _educatorRepository.ExistAsync(educator.Id, CancellationToken.None);
+            exists.Should().BeFalse();
         }
         
         [Fact]
@@ -92,11 +93,11 @@ namespace EduHub.StudentService.Tests.Integrations.Tests.Educator
             // Arrange
             var educator = await GenerateEntity.GenerateEducator(_database);
             
-            //Act
+            // Act
             var result = await _educatorService.GetByIdAsync(educator.Id, CancellationToken.None);
             
-            //Assert
-            Assert.NotNull(result);
+            // Assert
+            result.Should().NotBeNull();
         }
     }
 }

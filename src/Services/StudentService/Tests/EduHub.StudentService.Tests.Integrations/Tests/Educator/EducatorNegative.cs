@@ -8,62 +8,63 @@ using EduHub.StudentService.Tests.Integrations.Fixture;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace EduHub.StudentService.Tests.Integrations.Tests.Educator;
-
-public class EducatorNegative : IClassFixture<DatabaseFixture>
+namespace EduHub.StudentService.Tests.Integrations.Tests.Educator
 {
-    private readonly DatabaseFixture _database;
-    private readonly IEducatorService _educatorService;
-    
-    public EducatorNegative(DatabaseFixture database)
+    public class EducatorNegative : IClassFixture<DatabaseFixture>
     {
-        _database = database;
-        _educatorService = _database.ServiceProvider.GetService<IEducatorService>();
-    }
-    
-    [Theory]
-    [ClassData(typeof(TestEducatorDataClass))]
-    public async Task UpdateAsync_NonExistentEducator_ThrowsException(
-        Guid id,
-        FullName fullName,
-        Gender gender,
-        Phone phone,
-        int workExp,
-        DateOnly dateEmployment
-    )
-    {
-        // Arrange
-        var educatorDto = new EducatorUpsertDto(fullName.FirstName, fullName.Surname, fullName.Patronymic, gender, phone.Value, workExp, dateEmployment);
+        private readonly DatabaseFixture _database;
+        private readonly IEducatorService _educatorService;
         
-        //Act
-        var resp = async () => await _educatorService.UpdateAsync(id ,educatorDto, CancellationToken.None);
+        public EducatorNegative(DatabaseFixture database)
+        {
+            _database = database;
+            _educatorService = _database.ServiceProvider.GetService<IEducatorService>();
+        }
         
-        // Act & Assert
-        await resp.Should().ThrowAsync<EntityNotFoundException<Domain.Entities.Educator>>();
-    }
-    
-    [Fact]
-    public async Task DeleteAsync_NonExistentId_ThrowsException()
-    {
-        //Arrange
-        var guid = Guid.NewGuid();
+        [Theory]
+        [ClassData(typeof(TestEducatorDataClass))]
+        public async Task UpdateAsync_NonExistentEducator_ThrowsException(
+            Guid id,
+            FullName fullName,
+            Gender gender,
+            Phone phone,
+            int workExp,
+            DateOnly dateEmployment)
+        {
+            // Arrange
+            var educatorDto = new EducatorUpsertDto(fullName.FirstName, fullName.Surname, fullName.Patronymic, gender, phone.Value, workExp, dateEmployment);
+            
+            // Act
+            var act = async () => await _educatorService.UpdateAsync(id, educatorDto, CancellationToken.None);
+            
+            // Assert
+            await act.Should().ThrowAsync<EntityNotFoundException<Domain.Entities.Educator>>();
+        }
         
-        //Act
-        var resp = async () => await _educatorService.DeleteAsync(guid, CancellationToken.None);
+        [Fact]
+        public async Task DeleteAsync_NonExistentId_ThrowsException()
+        {
+            // Arrange
+            var guid = Guid.NewGuid();
+            
+            // Act
+            var act = async () => await _educatorService.DeleteAsync(guid, CancellationToken.None);
+            
+            // Assert
+            await act.Should().ThrowAsync<EntityNotFoundException<Domain.Entities.Educator>>();
+        }
         
-        // Act & Assert
-        await resp.Should().ThrowAsync<EntityNotFoundException<Domain.Entities.Educator>>();
-    }
-    
-    [Fact]
-    public async Task GetByIdAsync_NonExistentId_ThrowsException()
-    {
-        //Arrange
-        var guid = Guid.NewGuid();
-        
-        //Act
-        var resp = async () => await _educatorService.GetByIdAsync(guid, CancellationToken.None);
-        // Act & Assert
-        await resp.Should().ThrowAsync<EntityNotFoundException<Domain.Entities.Educator>>();
+        [Fact]
+        public async Task GetByIdAsync_NonExistentId_ThrowsException()
+        {
+            // Arrange
+            var guid = Guid.NewGuid();
+            
+            // Act
+            var act = async () => await _educatorService.GetByIdAsync(guid, CancellationToken.None);
+            
+            // Assert
+            await act.Should().ThrowAsync<EntityNotFoundException<Domain.Entities.Educator>>();
+        }
     }
 }

@@ -27,17 +27,17 @@ public class EnrollmentNegative : IClassFixture<DatabaseFixture>
         Guid StudentId,
         Guid CourseId)
     {
-        //Arrange
+        // Arrange
         var educator = await GenerateEntity.GenerateEducator(_database);
         await GenerateEntity.GenerateCourse(_database, educator.Id);
         var student = await GenerateEntity.GenerateStudent(_database);
         var enrollment = new EnrollmentUpsertDto(date, student.Id, Guid.NewGuid());
         
-        //Act
-        var resp = async () => await _enrollmentService.AddAsync(enrollment, CancellationToken.None);
+        // Act
+        Func<Task> act = async () => await _enrollmentService.AddAsync(enrollment, CancellationToken.None);
         
-        //Assert
-        await resp.Should().ThrowAsync<EntityNotFoundException<Domain.Entities.Enrollment>>();
+        // Assert
+        await act.Should().ThrowAsync<EntityNotFoundException<Domain.Entities.Enrollment>>();
     }
     
     [Theory]
@@ -48,36 +48,36 @@ public class EnrollmentNegative : IClassFixture<DatabaseFixture>
         Guid StudentId,
         Guid CourseId)
     {
-        //Arrange
+        // Arrange
         var educator = await GenerateEntity.GenerateEducator(_database);
         var course = await GenerateEntity.GenerateCourse(_database, educator.Id);
         await GenerateEntity.GenerateStudent(_database);
         var enrollment = new EnrollmentUpsertDto(date, Guid.NewGuid(), course.Id);
         
-        //Act
-        var resp = async () => await _enrollmentService.AddAsync(enrollment, CancellationToken.None);
+        // Act
+        Func<Task> act = async () => await _enrollmentService.AddAsync(enrollment, CancellationToken.None);
         
-        //Assert
-        await resp.Should().ThrowAsync<EntityNotFoundException<Domain.Entities.Student>>();
+        // Assert
+        await act.Should().ThrowAsync<EntityNotFoundException<Domain.Entities.Student>>();
     }
     
     [Fact]
     public async Task GetStudentEnrollmentsAsync_NotFound()
     {
-        //Arrange & Act
-        var resp = async () => await _enrollmentService.GetStudentEnrollmentsAsync(Guid.NewGuid(), CancellationToken.None);
+        // Arrange & Act
+        Func<Task> act = async () => await _enrollmentService.GetStudentEnrollmentsAsync(Guid.NewGuid(), CancellationToken.None);
         
-        //Assert
-        await resp.Should().ThrowAsync<EntityNotFoundException<Domain.Entities.Student>>();
+        // Assert
+        await act.Should().ThrowAsync<EntityNotFoundException<Domain.Entities.Student>>();
     }
     
-   [Fact]
+    [Fact]
     public async Task DeleteAsyncEnrollment_NotFoundStudent()
     {
-        //Arrange & Act
-        var resp = async () => await _enrollmentService.DeleteAsync(Guid.NewGuid(), CancellationToken.None);
+        // Arrange & Act
+        Func<Task> act = async () => await _enrollmentService.DeleteAsync(Guid.NewGuid(), CancellationToken.None);
         
-        //Assert
-        await resp.Should().ThrowAsync<EntityNotFoundException<Domain.Entities.Enrollment>>();
+        // Assert
+        await act.Should().ThrowAsync<EntityNotFoundException<Domain.Entities.Enrollment>>();
     }
 }
