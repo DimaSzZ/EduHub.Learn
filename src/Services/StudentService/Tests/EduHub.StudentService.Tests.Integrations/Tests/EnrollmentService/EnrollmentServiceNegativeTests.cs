@@ -6,17 +6,17 @@ using EduHub.StudentService.Tests.Integrations.Fixture;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace EduHub.StudentService.Tests.Integrations.Tests.Enrollment;
+namespace EduHub.StudentService.Tests.Integrations.Tests.EnrollmentService;
 
-public class EnrollmentNegative : IClassFixture<DatabaseFixture>
+public class EnrollmentServiceNegativeTests : IClassFixture<InfrastructureFixture>
 {
-    private readonly DatabaseFixture _database;
+    private readonly InfrastructureFixture _infrastructure;
     private readonly IEnrollmentService _enrollmentService;
     
-    public EnrollmentNegative(DatabaseFixture database)
+    public EnrollmentServiceNegativeTests(InfrastructureFixture infrastructure)
     {
-        _database = database;
-        _enrollmentService = _database.ServiceProvider.GetService<IEnrollmentService>();
+        _infrastructure = infrastructure;
+        _enrollmentService = _infrastructure.ServiceProvider.GetService<IEnrollmentService>();
     }
     
     [Theory]
@@ -28,9 +28,9 @@ public class EnrollmentNegative : IClassFixture<DatabaseFixture>
         Guid CourseId)
     {
         // Arrange
-        var educator = await GenerateEntity.GenerateEducator(_database);
-        await GenerateEntity.GenerateCourse(_database, educator.Id);
-        var student = await GenerateEntity.GenerateStudent(_database);
+        var educator = await GenerateEntity.GenerateEducator(_infrastructure);
+        await GenerateEntity.GenerateCourse(_infrastructure, educator.Id);
+        var student = await GenerateEntity.GenerateStudent(_infrastructure);
         var enrollment = new EnrollmentUpsertDto(date, student.Id, Guid.NewGuid());
         
         // Act
@@ -49,9 +49,9 @@ public class EnrollmentNegative : IClassFixture<DatabaseFixture>
         Guid CourseId)
     {
         // Arrange
-        var educator = await GenerateEntity.GenerateEducator(_database);
-        var course = await GenerateEntity.GenerateCourse(_database, educator.Id);
-        await GenerateEntity.GenerateStudent(_database);
+        var educator = await GenerateEntity.GenerateEducator(_infrastructure);
+        var course = await GenerateEntity.GenerateCourse(_infrastructure, educator.Id);
+        await GenerateEntity.GenerateStudent(_infrastructure);
         var enrollment = new EnrollmentUpsertDto(date, Guid.NewGuid(), course.Id);
         
         // Act

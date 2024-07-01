@@ -3,22 +3,23 @@ using EduHub.StudentService.Application.Services.Interfaces.Repositories;
 using EduHub.StudentService.Application.Services.Interfaces.Services;
 using EduHub.StudentService.Shared.Tests.Infrastructure.TestedData;
 using EduHub.StudentService.Tests.Integrations.Fixture;
-using Microsoft.Extensions.DependencyInjection;
 using FluentAssertions;
+using FluentAssertions.Execution;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace EduHub.StudentService.Tests.Integrations.Tests.Course
+namespace EduHub.StudentService.Tests.Integrations.Tests.CourseService
 {
-    public class CourseTests : IClassFixture<DatabaseFixture>
+    public class CourseTests : IClassFixture<InfrastructureFixture>
     {
-        private readonly DatabaseFixture _database;
+        private readonly InfrastructureFixture _infrastructure;
         private readonly ICourseService _courseService;
         private readonly ICourseRepository _courseRepository;
         
-        public CourseTests(DatabaseFixture database)
+        public CourseTests(InfrastructureFixture infrastructure)
         {
-            _database = database;
-            _courseService = _database.ServiceProvider.GetService<ICourseService>();
-            _courseRepository = _database.ServiceProvider.GetService<ICourseRepository>();
+            _infrastructure = infrastructure;
+            _courseService = _infrastructure.ServiceProvider.GetService<ICourseService>();
+            _courseRepository = _infrastructure.ServiceProvider.GetService<ICourseRepository>();
         }
         
         [Theory]
@@ -30,25 +31,26 @@ namespace EduHub.StudentService.Tests.Integrations.Tests.Course
             Guid educatorId)
         {
             // Arrange
-            var educatorResp = await GenerateEntity.GenerateEducator(_database);
+            var educatorResp = await GenerateEntity.GenerateEducator(_infrastructure);
             var courseDto = new CourseUpsertDto(name, description, educatorResp.Id);
             
             // Act
             var result = await _courseService.AddAsync(courseDto, CancellationToken.None);
             
             // Assert
-            result.Should().NotBeNull();
-            result.Name.Should().Be(courseDto.Name);
-            result.Description.Should().Be(courseDto.Description);
-            result.EducatorId.Should().Be(courseDto.EducatorId);
+            using (new AssertionScope())
+            {
+                result.Should().NotBeNull();
+                result.Should().BeEquivalentTo(courseDto, options => options.ExcludingMissingMembers());
+            }
         }
         
         [Fact]
         public async Task UpdateAsync_ValidCourse_ReturnsCourseResponseDto()
         {
             // Arrange
-            var educatorResp = await GenerateEntity.GenerateEducator(_database);
-            var courseResp = await GenerateEntity.GenerateCourse(_database, educatorResp.Id);
+            var educatorResp = await GenerateEntity.GenerateEducator(_infrastructure);
+            var courseResp = await GenerateEntity.GenerateCourse(_infrastructure, educatorResp.Id);
             
             var updateDto = new CourseUpsertDto(courseResp.Name, courseResp.Description, courseResp.EducatorId);
             
@@ -56,19 +58,19 @@ namespace EduHub.StudentService.Tests.Integrations.Tests.Course
             var result = await _courseService.UpdateAsync(courseResp.Id, updateDto, CancellationToken.None);
             
             // Assert
-            result.Should().NotBeNull();
-            result.Id.Should().Be(courseResp.Id);
-            result.Name.Should().Be(courseResp.Name);
-            result.Description.Should().Be(courseResp.Description);
-            result.EducatorId.Should().Be(courseResp.EducatorId);
+            using (new AssertionScope())
+            {
+                result.Should().NotBeNull();
+                result.Should().BeEquivalentTo(updateDto, options => options.ExcludingMissingMembers());
+            }
         }
         
         [Fact]
         public async Task DeleteCourseAsync_ValidCourse_ReturnsCourseResponseDto()
         {
             //Arrange
-            var educatorResp = await GenerateEntity.GenerateEducator(_database);
-            var courseResp = await GenerateEntity.GenerateCourse(_database, educatorResp.Id);
+            var educatorResp = await GenerateEntity.GenerateEducator(_infrastructure);
+            var courseResp = await GenerateEntity.GenerateCourse(_infrastructure, educatorResp.Id);
             
             //Act
             await _courseService.DeleteAsync(courseResp.Id, CancellationToken.None);
@@ -82,8 +84,8 @@ namespace EduHub.StudentService.Tests.Integrations.Tests.Course
         public async Task GetListAsync_ValidCourse_ReturnsCourseResponseDto()
         {
             // Arrange
-            var educatorResp = await GenerateEntity.GenerateEducator(_database);
-            await GenerateEntity.GenerateCourse(_database, educatorResp.Id);
+            var educatorResp = await GenerateEntity.GenerateEducator(_infrastructure);
+            await GenerateEntity.GenerateCourse(_infrastructure, educatorResp.Id);
             
             // Act
             var result = await _courseService.GetListAsync(CancellationToken.None);
@@ -96,8 +98,8 @@ namespace EduHub.StudentService.Tests.Integrations.Tests.Course
         public async Task GetByIdAsync_Valid()
         {
             // Arrange
-            var educatorResp = await GenerateEntity.GenerateEducator(_database);
-            var courseResp = await GenerateEntity.GenerateCourse(_database, educatorResp.Id);
+            var educatorResp = await GenerateEntity.GenerateEducator(_infrastructure);
+            var courseResp = await GenerateEntity.GenerateCourse(_infrastructure, educatorResp.Id);
             
             // Act
             var result = await _courseService.GetByIdAsync(courseResp.Id, CancellationToken.None);

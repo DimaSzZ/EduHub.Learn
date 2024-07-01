@@ -46,6 +46,8 @@ public class CourseService : ICourseService
     public async Task<CourseResponseDto> UpdateAsync(Guid id, CourseUpsertDto courseDto, CancellationToken cancellationToken)
     {
         Guard.Against.Null(courseDto);
+        Guard.Against.Default(id);
+        Guard.Against.Null(id);
         
         await new CourseUpsertDtoValidator().ValidateAndThrowAsync(courseDto, cancellationToken);
         

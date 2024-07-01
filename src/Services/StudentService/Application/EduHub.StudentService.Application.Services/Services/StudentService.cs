@@ -1,6 +1,5 @@
 ﻿using Ardalis.GuardClauses;
 using AutoMapper;
-using EduHub.StudentService.Application.Services.Dto.Educator;
 using EduHub.StudentService.Application.Services.Dto.Student;
 using EduHub.StudentService.Application.Services.Exceptions;
 using EduHub.StudentService.Application.Services.Interfaces.Services;
@@ -45,14 +44,11 @@ public class StudentService : IStudentService
         return _mapper.Map<Student, StudentResponseDto>(student);
     }
     
-    public Task<StudentResponseDto> UpdateAsync(Guid id, EducatorUpsertDto studentDto, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
-    
     public async Task<StudentResponseDto> UpdateAsync(Guid id, StudentUpsertDto studentDto, CancellationToken cancellationToken)
     {
         Guard.Against.Null(studentDto);
+        Guard.Against.Default(id);
+        Guard.Against.Null(id);
         
         await new StudentUpsertDtoValidator().ValidateAndThrowAsync(studentDto, cancellationToken);
         

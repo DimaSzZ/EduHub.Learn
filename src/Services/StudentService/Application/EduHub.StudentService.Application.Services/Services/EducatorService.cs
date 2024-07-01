@@ -48,6 +48,8 @@ public class EducatorService : IEducatorService
     public async Task<EducatorResponseDto> UpdateAsync(Guid id, EducatorUpsertDto educatorDto, CancellationToken cancellationToken)
     {
         Guard.Against.Null(educatorDto);
+        Guard.Against.Default(id);
+        Guard.Against.Null(id);
         
         await new EducatorUpsertDtoValidator().ValidateAndThrowAsync(educatorDto, cancellationToken);
         

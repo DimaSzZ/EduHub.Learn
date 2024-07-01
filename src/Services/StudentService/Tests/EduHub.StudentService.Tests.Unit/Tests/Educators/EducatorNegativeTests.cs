@@ -1,6 +1,4 @@
-﻿
-
-using EduHub.StudentService.Shared.Tests.Infrastructure;
+﻿using EduHub.StudentService.Shared.Tests.Infrastructure;
 
 namespace Unit.Tests.Educators
 {
@@ -10,7 +8,7 @@ namespace Unit.Tests.Educators
     public class EducatorNegativeTests
     {
         public static readonly IEnumerable<object[]> EducatorProperties = TestedClass.GetEducatorProperties();
-            
+        
         /// <summary>
         /// Тест исключений при создании Educator
         /// </summary>

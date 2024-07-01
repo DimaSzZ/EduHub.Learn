@@ -45,7 +45,7 @@ public class EducatorConfiguration : IEntityTypeConfiguration<Educator>
         builder.OwnsOne(e => e.Phone, phone =>
         {
             phone.Property(p => p.Value)
-                .HasMaxLength(13)
+                .HasMaxLength(11)
                 .IsRequired()
                 .HasColumnName("phone");
             

@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EduHub.StudentService.Infrastructure.Migrator.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240623102325_Initial")]
+    [Migration("20240701132439_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -186,8 +186,8 @@ namespace EduHub.StudentService.Infrastructure.Migrator.Migrations
 
                             b1.Property<string>("Value")
                                 .IsRequired()
-                                .HasMaxLength(13)
-                                .HasColumnType("character varying(13)")
+                                .HasMaxLength(11)
+                                .HasColumnType("character varying(11)")
                                 .HasColumnName("phone");
 
                             b1.HasKey("EducatorId");
@@ -262,8 +262,8 @@ namespace EduHub.StudentService.Infrastructure.Migrator.Migrations
 
                             b1.Property<string>("Value")
                                 .IsRequired()
-                                .HasMaxLength(13)
-                                .HasColumnType("character varying(13)")
+                                .HasMaxLength(11)
+                                .HasColumnType("character varying(11)")
                                 .HasColumnName("phone");
 
                             b1.HasKey("StudentId");

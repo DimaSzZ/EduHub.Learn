@@ -1,6 +1,4 @@
-﻿
-
-using EduHub.StudentService.Shared.Tests.Infrastructure.TestedData;
+﻿using EduHub.StudentService.Shared.Tests.Infrastructure.TestedData;
 
 namespace Unit.Tests.Enrollments
 {

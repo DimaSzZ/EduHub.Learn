@@ -6,19 +6,19 @@ using EduHub.StudentService.Tests.Integrations.Fixture;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace EduHub.StudentService.Tests.Integrations.Tests.Enrollment;
+namespace EduHub.StudentService.Tests.Integrations.Tests.EnrollmentService;
 
-public class EnrollmentPositive : IClassFixture<DatabaseFixture>
+public class EnrollmentServicePositiveTests : IClassFixture<InfrastructureFixture>
 {
-    private readonly DatabaseFixture _database;
+    private readonly InfrastructureFixture _infrastructure;
     private readonly IEnrollmentService _enrollmentService;
     private readonly IEnrollmentRepository _enrollmentRepository;
     
-    public EnrollmentPositive(DatabaseFixture database)
+    public EnrollmentServicePositiveTests(InfrastructureFixture infrastructure)
     {
-        _database = database;
-        _enrollmentService = database.ServiceProvider.GetService<IEnrollmentService>();
-        _enrollmentRepository = database.ServiceProvider.GetService<IEnrollmentRepository>();
+        _infrastructure = infrastructure;
+        _enrollmentService = infrastructure.ServiceProvider.GetService<IEnrollmentService>();
+        _enrollmentRepository = infrastructure.ServiceProvider.GetService<IEnrollmentRepository>();
     }
     
     [Theory]
@@ -31,9 +31,9 @@ public class EnrollmentPositive : IClassFixture<DatabaseFixture>
     )
     {
         // Arrange
-        var educator = await GenerateEntity.GenerateEducator(_database);
-        var course = await GenerateEntity.GenerateCourse(_database, educator.Id);
-        var student = await GenerateEntity.GenerateStudent(_database);
+        var educator = await GenerateEntity.GenerateEducator(_infrastructure);
+        var course = await GenerateEntity.GenerateCourse(_infrastructure, educator.Id);
+        var student = await GenerateEntity.GenerateStudent(_infrastructure);
         var enrollment = new EnrollmentUpsertDto(date, student.Id, course.Id);
         
         // Act
@@ -50,10 +50,10 @@ public class EnrollmentPositive : IClassFixture<DatabaseFixture>
     public async Task GetStudentEnrollmentsAsync_ValidEnrollment()
     {
         // Arrange
-        var educator = await GenerateEntity.GenerateEducator(_database);
-        var course = await GenerateEntity.GenerateCourse(_database, educator.Id);
-        var student = await GenerateEntity.GenerateStudent(_database);
-        var enrollment = await GenerateEntity.GenerateEnrollment(_database, student.Id, course.Id);
+        var educator = await GenerateEntity.GenerateEducator(_infrastructure);
+        var course = await GenerateEntity.GenerateCourse(_infrastructure, educator.Id);
+        var student = await GenerateEntity.GenerateStudent(_infrastructure);
+        var enrollment = await GenerateEntity.GenerateEnrollment(_infrastructure, student.Id, course.Id);
         
         // Act
         var result = await _enrollmentService.GetStudentEnrollmentsAsync(student.Id, CancellationToken.None);
@@ -67,10 +67,10 @@ public class EnrollmentPositive : IClassFixture<DatabaseFixture>
     public async Task GetListEnrollmentAsync_ValidEnrollment()
     {
         // Arrange
-        var educator = await GenerateEntity.GenerateEducator(_database);
-        var course = await GenerateEntity.GenerateCourse(_database, educator.Id);
-        var student = await GenerateEntity.GenerateStudent(_database);
-        await GenerateEntity.GenerateEnrollment(_database, student.Id, course.Id);
+        var educator = await GenerateEntity.GenerateEducator(_infrastructure);
+        var course = await GenerateEntity.GenerateCourse(_infrastructure, educator.Id);
+        var student = await GenerateEntity.GenerateStudent(_infrastructure);
+        await GenerateEntity.GenerateEnrollment(_infrastructure, student.Id, course.Id);
         
         // Act
         var result = await _enrollmentService.GetListEnrollmentsAsync(CancellationToken.None);
@@ -84,10 +84,10 @@ public class EnrollmentPositive : IClassFixture<DatabaseFixture>
     public async Task DeleteEnrollmentAsync_ValidEnrollment()
     {
         // Arrange
-        var educator = await GenerateEntity.GenerateEducator(_database);
-        var course = await GenerateEntity.GenerateCourse(_database, educator.Id);
-        var student = await GenerateEntity.GenerateStudent(_database);
-        var enrollment = await GenerateEntity.GenerateEnrollment(_database, student.Id, course.Id);
+        var educator = await GenerateEntity.GenerateEducator(_infrastructure);
+        var course = await GenerateEntity.GenerateCourse(_infrastructure, educator.Id);
+        var student = await GenerateEntity.GenerateStudent(_infrastructure);
+        var enrollment = await GenerateEntity.GenerateEnrollment(_infrastructure, student.Id, course.Id);
         
         // Act
         await _enrollmentService.DeleteAsync(enrollment.Id, CancellationToken.None);

@@ -3,7 +3,8 @@
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
+        <Nullable>disable</Nullable>
+        <RootNamespace>EduHub.StudentService.Shared.Tests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -12,8 +13,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Services\StudentService\Application\EduHub.StudentService.Application.Services\EduHub.StudentService.Application.Services.csproj" />
-      <ProjectReference Include="..\..\Services\StudentService\Domain\EduHub.StudentService.Domain\EduHub.StudentService.Domain.csproj" />
+      <ProjectReference Include="..\..\Application\EduHub.StudentService.Application.Services\EduHub.StudentService.Application.Services.csproj" />
+      <ProjectReference Include="..\..\Domain\EduHub.StudentService.Domain\EduHub.StudentService.Domain.csproj" />
     </ItemGroup>
 
 </Project>

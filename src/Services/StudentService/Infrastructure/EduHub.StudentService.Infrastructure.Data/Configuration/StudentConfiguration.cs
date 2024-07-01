@@ -42,7 +42,7 @@ namespace EduHub.StudentService.Infrastructure.Data.Configuration
             builder.OwnsOne(s => s.Phone, phone =>
             {
                 phone.Property(p => p.Value)
-                    .HasMaxLength(13)
+                    .HasMaxLength(11)
                     .IsRequired()
                     .HasColumnName("phone");
                 

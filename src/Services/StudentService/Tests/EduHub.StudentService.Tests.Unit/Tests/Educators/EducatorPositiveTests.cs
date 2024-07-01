@@ -1,6 +1,4 @@
-﻿
-
-using EduHub.StudentService.Shared.Tests.Infrastructure.TestedData;
+﻿using EduHub.StudentService.Shared.Tests.Infrastructure.TestedData;
 
 namespace Unit.Tests.Educators
 {
@@ -37,10 +35,10 @@ namespace Unit.Tests.Educators
             // Assert: Проверка корректности создания объекта
             educator.Id.Should().NotBeEmpty();
             educator.FullName.Should().NotBeNull();
-            educator.Gender.Should().NotBe(Gender.Default); 
-            educator.YearsExperience.Should().BeGreaterThan(-1); 
-            educator.DateEmployment.Should().NotBe(default); 
-            educator.Phone.Should().NotBeNull(); 
+            educator.Gender.Should().NotBe(Gender.Default);
+            educator.YearsExperience.Should().BeGreaterThan(-1);
+            educator.DateEmployment.Should().NotBe(default);
+            educator.Phone.Should().NotBeNull();
         }
         
         /// <summary>
@@ -68,7 +66,7 @@ namespace Unit.Tests.Educators
             // Act: Создание экземпляра Educator с валидными данными и обновляем его
             var educator = new Educator(id, fullName, gender, phone, workExp, dateEmployment);
             
-            educator.Update(fullName,gender,phone,workExp,dateEmployment);
+            educator.Update(fullName, gender, phone, workExp, dateEmployment);
             
             // Assert: Проверяем, что все свойства объекта заданы правильно после обновления
             educator.FullName.Should().NotBeNull();

@@ -6,21 +6,22 @@ using EduHub.StudentService.Domain.ValueObjects;
 using EduHub.StudentService.Shared.Tests.Infrastructure.TestedData;
 using EduHub.StudentService.Tests.Integrations.Fixture;
 using FluentAssertions;
+using FluentAssertions.Execution;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace EduHub.StudentService.Tests.Integrations.Tests.Educator
+namespace EduHub.StudentService.Tests.Integrations.Tests.EducatorService
 {
-    public class EducatorPositive : IClassFixture<DatabaseFixture>
+    public class EducatorServicePositiveTests : IClassFixture<InfrastructureFixture>
     {
-        private readonly DatabaseFixture _database;
+        private readonly InfrastructureFixture _infrastructure;
         private readonly IEducatorService _educatorService;
         private readonly IEducatorRepository _educatorRepository;
         
-        public EducatorPositive(DatabaseFixture database)
+        public EducatorServicePositiveTests(InfrastructureFixture infrastructure)
         {
-            _database = database;
-            _educatorService = _database.ServiceProvider.GetRequiredService<IEducatorService>();
-            _educatorRepository = _database.ServiceProvider.GetRequiredService<IEducatorRepository>();
+            _infrastructure = infrastructure;
+            _educatorService = _infrastructure.ServiceProvider.GetRequiredService<IEducatorService>();
+            _educatorRepository = _infrastructure.ServiceProvider.GetRequiredService<IEducatorRepository>();
         }
         
         [Theory]
@@ -40,21 +41,18 @@ namespace EduHub.StudentService.Tests.Integrations.Tests.Educator
             var result = await _educatorService.AddAsync(educatorDto, CancellationToken.None);
             
             // Assert
-            result.Should().NotBeNull();
-            result.FirstName.Should().Be(educatorDto.FirstName);
-            result.Surname.Should().Be(educatorDto.Surname);
-            result.Patronymic.Should().Be(educatorDto.Patronymic);
-            result.Gender.Should().Be(educatorDto.Gender);
-            result.Phone.Should().Be(educatorDto.Phone);
-            result.YearsExperience.Should().Be(educatorDto.YearsExperience);
-            result.DateEmployment.Should().Be(educatorDto.DateEmployment);
+            using (new AssertionScope())
+            {
+                result.Should().NotBeNull();
+                result.Should().BeEquivalentTo(educatorDto, options => options.ExcludingMissingMembers());
+            }
         }
         
         [Fact]
         public async Task UpdateAsync_ValidEducator_ReturnsEducatorResponseDto()
         {
             // Arrange
-            var educator = await GenerateEntity.GenerateEducator(_database);
+            var educator = await GenerateEntity.GenerateEducator(_infrastructure);
             var educatorDto = new EducatorUpsertDto(educator.FullName.FirstName, educator.FullName.Surname, educator.FullName.Patronymic,
                 educator.Gender, educator.Phone.Value, educator.YearsExperience, educator.DateEmployment);
             
@@ -62,22 +60,18 @@ namespace EduHub.StudentService.Tests.Integrations.Tests.Educator
             var result = await _educatorService.UpdateAsync(educator.Id, educatorDto, CancellationToken.None);
             
             // Assert
-            result.Should().NotBeNull();
-            result.Id.Should().Be(educator.Id);
-            result.FirstName.Should().Be(educatorDto.FirstName);
-            result.Surname.Should().Be(educatorDto.Surname);
-            result.Patronymic.Should().Be(educatorDto.Patronymic);
-            result.Gender.Should().Be(educatorDto.Gender);
-            result.Phone.Should().Be(educatorDto.Phone);
-            result.YearsExperience.Should().Be(educatorDto.YearsExperience);
-            result.DateEmployment.Should().Be(educatorDto.DateEmployment);
+            using (new AssertionScope())
+            {
+                result.Should().NotBeNull();
+                result.Should().BeEquivalentTo(educatorDto, options => options.ExcludingMissingMembers());
+            }
         }
         
         [Fact]
         public async Task DeleteAsync_ValidId()
         {
             // Arrange
-            var educator = await GenerateEntity.GenerateEducator(_database);
+            var educator = await GenerateEntity.GenerateEducator(_infrastructure);
             
             // Act
             await _educatorService.DeleteAsync(educator.Id, CancellationToken.None);
@@ -91,7 +85,7 @@ namespace EduHub.StudentService.Tests.Integrations.Tests.Educator
         public async Task GetByIdAsync_Valid()
         {
             // Arrange
-            var educator = await GenerateEntity.GenerateEducator(_database);
+            var educator = await GenerateEntity.GenerateEducator(_infrastructure);
             
             // Act
             var result = await _educatorService.GetByIdAsync(educator.Id, CancellationToken.None);

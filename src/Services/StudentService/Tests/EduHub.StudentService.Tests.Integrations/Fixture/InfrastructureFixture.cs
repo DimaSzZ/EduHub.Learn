@@ -17,11 +17,13 @@ using EduHub.StudentService.Shared.Config;
 
 namespace EduHub.StudentService.Tests.Integrations.Fixture
 {
-    public class DatabaseFixture : IAsyncLifetime
+    public class InfrastructureFixture : IAsyncLifetime
     {
-        private readonly ServiceProvider _serviceProvider;
+        private ServiceProvider _serviceProvider;
         
-        public DatabaseFixture()
+        public IServiceProvider ServiceProvider => _serviceProvider;
+        
+        public async Task InitializeAsync()
         {
             var services = new ServiceCollection();
             
@@ -29,9 +31,18 @@ namespace EduHub.StudentService.Tests.Integrations.Fixture
             SetupDatabase(services);
             
             _serviceProvider = services.BuildServiceProvider();
+            
+            using var scope = _serviceProvider.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            await dbContext.Database.MigrateAsync();
         }
         
-        public IServiceProvider ServiceProvider => _serviceProvider;
+        public async Task DisposeAsync()
+        {
+            using var scope = _serviceProvider.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            await dbContext.Database.EnsureDeletedAsync();
+        }
         
         private void ConfigureServices(IServiceCollection services)
         {
@@ -80,20 +91,6 @@ namespace EduHub.StudentService.Tests.Integrations.Fixture
             services.AddScoped<IEducatorService, EducatorService>();
             services.AddScoped<IStudentService, Application.Services.Services.StudentService>();
             services.AddScoped<IEnrollmentService, EnrollmentService>();
-        }
-        
-        public async Task InitializeAsync()
-        {
-            using var scope = _serviceProvider.CreateScope();
-            var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await dbContext.Database.MigrateAsync();
-        }
-        
-        public async Task DisposeAsync()
-        {
-            using var scope = _serviceProvider.CreateScope();
-            var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await dbContext.Database.EnsureDeletedAsync();
         }
     }
 }

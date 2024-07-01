@@ -21,7 +21,7 @@ services:
       context: .
       dockerfile: ./src/Services/StudentService/Infrastructure/EduHub.StudentService.Infrastructure.Migrator/Dockerfile
     environment:
-      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=EduHub-Student;Username=postgres;Password=password;
+      - ConnectionStrings__DefaultConnection=Host=host.docker.internal;Port=5432;Database=EduHub-Student;Username=postgres;Password=password;
     depends_on:
       db:
         condition: service_healthy

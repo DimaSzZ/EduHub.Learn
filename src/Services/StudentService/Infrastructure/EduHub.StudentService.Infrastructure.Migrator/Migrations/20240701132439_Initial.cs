@@ -26,7 +26,7 @@ namespace EduHub.StudentService.Infrastructure.Migrator.Migrations
                     surname = table.Column<string>(type: "character varying(60)", maxLength: 60, nullable: true),
                     patronymic = table.Column<string>(type: "character varying(60)", maxLength: 60, nullable: true),
                     gender = table.Column<Gender>(type: "gender", nullable: false, defaultValue: Gender.Default),
-                    phone = table.Column<string>(type: "character varying(13)", maxLength: 13, nullable: true)
+                    phone = table.Column<string>(type: "character varying(11)", maxLength: 11, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -48,7 +48,7 @@ namespace EduHub.StudentService.Infrastructure.Migrator.Migrations
                     surname = table.Column<string>(type: "character varying(60)", maxLength: 60, nullable: true),
                     patronymic = table.Column<string>(type: "character varying(60)", maxLength: 60, nullable: true),
                     gender = table.Column<Gender>(type: "gender", nullable: false, defaultValue: Gender.Default),
-                    phone = table.Column<string>(type: "character varying(13)", maxLength: 13, nullable: true)
+                    phone = table.Column<string>(type: "character varying(11)", maxLength: 11, nullable: true)
                 },
                 constraints: table =>
                 {

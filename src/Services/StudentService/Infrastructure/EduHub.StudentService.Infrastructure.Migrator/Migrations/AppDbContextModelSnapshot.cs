@@ -183,8 +183,8 @@ namespace EduHub.StudentService.Infrastructure.Migrator.Migrations
 
                             b1.Property<string>("Value")
                                 .IsRequired()
-                                .HasMaxLength(13)
-                                .HasColumnType("character varying(13)")
+                                .HasMaxLength(11)
+                                .HasColumnType("character varying(11)")
                                 .HasColumnName("phone");
 
                             b1.HasKey("EducatorId");
@@ -259,8 +259,8 @@ namespace EduHub.StudentService.Infrastructure.Migrator.Migrations
 
                             b1.Property<string>("Value")
                                 .IsRequired()
-                                .HasMaxLength(13)
-                                .HasColumnType("character varying(13)")
+                                .HasMaxLength(11)
+                                .HasColumnType("character varying(11)")
                                 .HasColumnName("phone");
 
                             b1.HasKey("StudentId");

@@ -7,6 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace EduHub.StudentService.Tests.Integrations.Tests;
 
+using Domain.Entities;
+
 public static class GenerateEntity
 {
     private static readonly TestEducatorDataClass _generateEducator = new TestEducatorDataClass();
@@ -14,48 +16,48 @@ public static class GenerateEntity
     private static readonly TestStudentDataClass _generateStudent = new TestStudentDataClass();
     private static readonly TestEnrollmentDataClass _generateEnrollment = new TestEnrollmentDataClass();
     
-    public static async Task<Domain.Entities.Educator> GenerateEducator(DatabaseFixture database)
+    public static async Task<Domain.Entities.Educator> GenerateEducator(InfrastructureFixture infrastructure)
     {
-        await using var transaction = await database.ServiceProvider.GetService<AppDbContext>().Database.BeginTransactionAsync();
+        await using var transaction = await infrastructure.ServiceProvider.GetService<AppDbContext>().Database.BeginTransactionAsync();
         var educatorDto = _generateEducator.GetUpsertDto();
-        var educator = database.ServiceProvider.GetService<IMapper>().Map<Domain.Entities.Educator>(educatorDto);
-        var educatorResp = await database.ServiceProvider.GetService<IEducatorRepository>().AddAsync(educator, CancellationToken.None);
-        await database.ServiceProvider.GetService<AppDbContext>().SaveChangesAsync();
+        var educator = infrastructure.ServiceProvider.GetService<IMapper>().Map<Domain.Entities.Educator>(educatorDto);
+        var educatorResp = await infrastructure.ServiceProvider.GetService<IEducatorRepository>().AddAsync(educator, CancellationToken.None);
+        await infrastructure.ServiceProvider.GetService<AppDbContext>().SaveChangesAsync();
         await transaction.CommitAsync();
         return educatorResp;
     }
     
-    public static async Task<Domain.Entities.Course> GenerateCourse(DatabaseFixture database, Guid educatorId)
+    public static async Task<Course> GenerateCourse(InfrastructureFixture infrastructure, Guid educatorId)
     {
-        await using var transaction = await database.ServiceProvider.GetService<AppDbContext>().Database.BeginTransactionAsync();
+        await using var transaction = await infrastructure.ServiceProvider.GetService<AppDbContext>().Database.BeginTransactionAsync();
         var courseDto = _generateCourse.GetUpsertDto();
-        var course = database.ServiceProvider.GetService<IMapper>().Map<Domain.Entities.Course>(courseDto);
+        var course = infrastructure.ServiceProvider.GetService<IMapper>().Map<Course>(courseDto);
         course.Update(course.Name, course.Description, educatorId);
-        var courseResp = await database.ServiceProvider.GetService<ICourseRepository>().AddAsync(course, CancellationToken.None);
-        await database.ServiceProvider.GetService<AppDbContext>().SaveChangesAsync();
+        var courseResp = await infrastructure.ServiceProvider.GetService<ICourseRepository>().AddAsync(course, CancellationToken.None);
+        await infrastructure.ServiceProvider.GetService<AppDbContext>().SaveChangesAsync();
         await transaction.CommitAsync();
         return courseResp;
     }
     
-    public static async Task<Domain.Entities.Student> GenerateStudent(DatabaseFixture database)
+    public static async Task<Domain.Entities.Student> GenerateStudent(InfrastructureFixture infrastructure)
     {
-        await using var transaction = await database.ServiceProvider.GetService<AppDbContext>().Database.BeginTransactionAsync();
+        await using var transaction = await infrastructure.ServiceProvider.GetService<AppDbContext>().Database.BeginTransactionAsync();
         var studentDto = _generateStudent.GetUpsertDto();
-        var student = database.ServiceProvider.GetService<IMapper>().Map<Domain.Entities.Student>(studentDto);
-        var studentResp = await database.ServiceProvider.GetService<IStudentRepository>().AddAsync(student, CancellationToken.None);
-        await database.ServiceProvider.GetService<AppDbContext>().SaveChangesAsync();
+        var student = infrastructure.ServiceProvider.GetService<IMapper>().Map<Domain.Entities.Student>(studentDto);
+        var studentResp = await infrastructure.ServiceProvider.GetService<IStudentRepository>().AddAsync(student, CancellationToken.None);
+        await infrastructure.ServiceProvider.GetService<AppDbContext>().SaveChangesAsync();
         await transaction.CommitAsync();
         return studentResp;
     }
     
-    public static async Task<Domain.Entities.Enrollment> GenerateEnrollment(DatabaseFixture database, Guid studentId, Guid courseId)
+    public static async Task<Domain.Entities.Enrollment> GenerateEnrollment(InfrastructureFixture infrastructure, Guid studentId, Guid courseId)
     {
-        await using var transaction = await database.ServiceProvider.GetService<AppDbContext>().Database.BeginTransactionAsync();
+        await using var transaction = await infrastructure.ServiceProvider.GetService<AppDbContext>().Database.BeginTransactionAsync();
         var enrollmentDto = _generateEnrollment.GetUpsertDto();
-        var enrollment = database.ServiceProvider.GetService<IMapper>().Map<Domain.Entities.Enrollment>(enrollmentDto);
-        enrollment.Update(enrollment.EnrollmentDate,studentId,courseId);
-        var enrollmentResp = await database.ServiceProvider.GetService<IEnrollmentRepository>().AddAsync(enrollment, CancellationToken.None);
-        await database.ServiceProvider.GetService<AppDbContext>().SaveChangesAsync();
+        var enrollment = infrastructure.ServiceProvider.GetService<IMapper>().Map<Domain.Entities.Enrollment>(enrollmentDto);
+        enrollment.Update(enrollment.EnrollmentDate, studentId, courseId);
+        var enrollmentResp = await infrastructure.ServiceProvider.GetService<IEnrollmentRepository>().AddAsync(enrollment, CancellationToken.None);
+        await infrastructure.ServiceProvider.GetService<AppDbContext>().SaveChangesAsync();
         await transaction.CommitAsync();
         return enrollmentResp;
     }

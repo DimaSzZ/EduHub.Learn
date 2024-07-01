@@ -61,7 +61,7 @@ public class EnrollmentService : IEnrollmentService
         var student = await _unitOfWork.StudentRepository.GetByIdAsync(id, cancellationToken);
         if (student == null)
         {
-            throw new EntityNotFoundException<Student>(nameof(Enrollment.Id), id);
+            throw new EntityNotFoundException<Student>(nameof(Enrollment.StudentId), id);
         }
         
         var enrollments = await _unitOfWork.EnrollmentRepository.GetListByStudentIdAsync(student.Id, cancellationToken);
