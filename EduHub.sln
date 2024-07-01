@@ -31,6 +31,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduHub.StudentService.Infra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduHub.StudentService.Infrastructure.Repositories", "src\Services\StudentService\Infrastructure\EduHub.StudentService.Infrastructure.Repositories\EduHub.StudentService.Infrastructure.Repositories.csproj", "{B2576F8A-B5C3-42B9-AF66-4823D00731F5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduHub.StudentService.Tests.Integrations", "src\Services\StudentService\Tests\EduHub.StudentService.Tests.Integrations\EduHub.StudentService.Tests.Integrations.csproj", "{FC746547-7D7D-4AF4-A1AB-72092D6935A6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{D4B2D66F-1BBE-4548-BE94-32C55673D53B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{4D8076CC-044F-4E75-965F-CC198CD6AB93}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduHub.StudentService.Shared.Tests", "src\Shared\EduHub.StudentService.Shared.Tests\EduHub.StudentService.Shared.Tests.csproj", "{22D8344E-02AC-4BC6-8C8F-CE760F30133F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Config", "Config", "{1036A656-FC17-4D09-BF35-B36671B8BA81}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduHub.StudentService.Shared.Config", "src\Shared\EduHub.StudentService.Shared.Config\EduHub.StudentService.Shared.Config.csproj", "{D85C3F20-DEAF-4E3C-83E7-F6A30A354AE2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +61,12 @@ Global
 		{F42CDA68-5547-4E30-98D8-872ECE729F43} = {4714CAC3-3D22-463C-B066-D473835306AB}
 		{5C99DBAC-542F-4170-89D9-723F930846C8} = {4714CAC3-3D22-463C-B066-D473835306AB}
 		{B2576F8A-B5C3-42B9-AF66-4823D00731F5} = {4714CAC3-3D22-463C-B066-D473835306AB}
+		{FC746547-7D7D-4AF4-A1AB-72092D6935A6} = {8DABF615-50E7-4BB9-81C3-E18929846D3F}
+		{D4B2D66F-1BBE-4548-BE94-32C55673D53B} = {6A65AF8D-C3C4-4393-985C-57AF9A637142}
+		{4D8076CC-044F-4E75-965F-CC198CD6AB93} = {D4B2D66F-1BBE-4548-BE94-32C55673D53B}
+		{22D8344E-02AC-4BC6-8C8F-CE760F30133F} = {4D8076CC-044F-4E75-965F-CC198CD6AB93}
+		{1036A656-FC17-4D09-BF35-B36671B8BA81} = {D4B2D66F-1BBE-4548-BE94-32C55673D53B}
+		{D85C3F20-DEAF-4E3C-83E7-F6A30A354AE2} = {1036A656-FC17-4D09-BF35-B36671B8BA81}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{4AA8E8AF-4373-4BC6-A21F-160B2B0552DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -75,5 +93,17 @@ Global
 		{B2576F8A-B5C3-42B9-AF66-4823D00731F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2576F8A-B5C3-42B9-AF66-4823D00731F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2576F8A-B5C3-42B9-AF66-4823D00731F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC746547-7D7D-4AF4-A1AB-72092D6935A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC746547-7D7D-4AF4-A1AB-72092D6935A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC746547-7D7D-4AF4-A1AB-72092D6935A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC746547-7D7D-4AF4-A1AB-72092D6935A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22D8344E-02AC-4BC6-8C8F-CE760F30133F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22D8344E-02AC-4BC6-8C8F-CE760F30133F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22D8344E-02AC-4BC6-8C8F-CE760F30133F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22D8344E-02AC-4BC6-8C8F-CE760F30133F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D85C3F20-DEAF-4E3C-83E7-F6A30A354AE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D85C3F20-DEAF-4E3C-83E7-F6A30A354AE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D85C3F20-DEAF-4E3C-83E7-F6A30A354AE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D85C3F20-DEAF-4E3C-83E7-F6A30A354AE2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

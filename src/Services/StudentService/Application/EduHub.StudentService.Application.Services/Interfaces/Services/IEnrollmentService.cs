@@ -7,10 +7,10 @@ public interface IEnrollmentService
     /// <summary>
     /// Асинхронное добавление зачисления в бд
     /// </summary>
-    /// <param name="enrollmentCreateDto">Дто зачисления</param>
+    /// <param name="enrollmentUpsertDto">Дто зачисления</param>
     /// <param name="cancellationToken">токен отмены</param>
     /// <returns>возврщаете дто добавленного преподавателя</returns>
-    public Task<EnrollmentResponseDto> AddAsync(EnrollmentCreateDto enrollmentCreateDto, CancellationToken cancellationToken);
+    public Task<EnrollmentResponseDto> AddAsync(EnrollmentUpsertDto enrollmentUpsertDto, CancellationToken cancellationToken);
     
     /// <summary>
     /// Получает все зачисления студента, с указанным id

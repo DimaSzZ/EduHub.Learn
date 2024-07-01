@@ -45,12 +45,12 @@ public class EducatorConfiguration : IEntityTypeConfiguration<Educator>
         builder.OwnsOne(e => e.Phone, phone =>
         {
             phone.Property(p => p.Value)
-                .HasMaxLength(11)
+                .HasMaxLength(13)
                 .IsRequired()
                 .HasColumnName("phone");
             
             phone.HasIndex(p => p.Value)
-                .HasDatabaseName(IndexNames.Phone)
+                .HasDatabaseName(IndexNames.PhoneEducator)
                 .IsUnique();
         });
         

@@ -53,6 +53,13 @@ public class Enrollment : BaseEntity
     
     #region Methods
     
+    public void Update(DateOnly date, Guid studentId, Guid courseId)
+    {
+        SetEnrollmentDate(date);
+        SetStudentId(studentId);
+        SetCourseId(courseId);
+    }
+    
     private void SetStudentId(Guid studentId)
     {
         StudentId = Guard.Against.NullOrEmpty(studentId);

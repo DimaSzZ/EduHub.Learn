@@ -1,5 +1,6 @@
 ﻿using EduHub.StudentService.Infrastructure.Data.DataSource;
 using EduHub.StudentService.Infrastructure.Data.DbContext;
+using EduHub.StudentService.Shared.Config;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
@@ -13,14 +14,7 @@ public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<AppDbConte
 {
     public AppDbContext CreateDbContext(string[] args)
     {
-        var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
-        
-        var configuration = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", false, true)
-            .AddJsonFile($"appsettings.{environmentName}.json", true, true)
-            .AddEnvironmentVariables()
-            .Build();
+        var configuration = ConfigHelper.LoadConfiguration();
         
         var builder = new DbContextOptionsBuilder<AppDbContext>();
         var connectionString = configuration.GetConnectionString("DefaultConnection");

@@ -10,7 +10,7 @@ public interface IStudentService
     /// <param name="studentDto">Дто курса</param>
     /// <param name="cancellationToken">токен отмены</param>
     /// <returns>возврщаете дто добавленного студента</returns>
-    public Task<StudentResponseDto> AddAsync(StudentCreateDto studentDto, CancellationToken cancellationToken);
+    public Task<StudentResponseDto> AddAsync(StudentUpsertDto studentDto, CancellationToken cancellationToken);
     
     /// <summary>
     /// Асинхронное обновление студента в бд
@@ -18,7 +18,7 @@ public interface IStudentService
     /// <param name="studentDto">модель курса</param>
     /// <param name="cancellationToken">токен отмены</param>
     /// <returns>возвращает дто обновленного курса</returns>
-    public Task<StudentResponseDto> UpdateAsync(StudentUpdateDto studentDto, CancellationToken cancellationToken);
+    public Task<StudentResponseDto> UpdateAsync(Guid id, StudentUpsertDto studentDto, CancellationToken cancellationToken);
     
     /// <summary>
     /// Асинхронное удаление студента из бд

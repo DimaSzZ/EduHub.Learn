@@ -1,5 +1,6 @@
 ﻿using Ardalis.GuardClauses;
 using AutoMapper;
+using EduHub.StudentService.Application.Services.Dto.Educator;
 using EduHub.StudentService.Application.Services.Dto.Student;
 using EduHub.StudentService.Application.Services.Exceptions;
 using EduHub.StudentService.Application.Services.Interfaces.Services;
@@ -30,13 +31,13 @@ public class StudentService : IStudentService
         _unitOfWork = Guard.Against.Null(unitOfWork);
     }
     
-    public async Task<StudentResponseDto> AddAsync(StudentCreateDto studentDto, CancellationToken cancellationToken)
+    public async Task<StudentResponseDto> AddAsync(StudentUpsertDto studentDto, CancellationToken cancellationToken)
     {
         Guard.Against.Null(studentDto);
         
-        await new StudentCreateDtoValidator().ValidateAndThrowAsync(studentDto, cancellationToken);
+        await new StudentUpsertDtoValidator().ValidateAndThrowAsync(studentDto, cancellationToken);
         
-        var student = _mapper.Map<StudentCreateDto, Student>(studentDto);
+        var student = _mapper.Map<StudentUpsertDto, Student>(studentDto);
         await _unitOfWork.StudentRepository.AddAsync(student, cancellationToken);
         
         await _unitOfWork.SaveChangesAsync(cancellationToken);
@@ -44,13 +45,18 @@ public class StudentService : IStudentService
         return _mapper.Map<Student, StudentResponseDto>(student);
     }
     
-    public async Task<StudentResponseDto> UpdateAsync(StudentUpdateDto studentDto, CancellationToken cancellationToken)
+    public Task<StudentResponseDto> UpdateAsync(Guid id, EducatorUpsertDto studentDto, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+    
+    public async Task<StudentResponseDto> UpdateAsync(Guid id, StudentUpsertDto studentDto, CancellationToken cancellationToken)
     {
         Guard.Against.Null(studentDto);
         
-        await new StudentUpdateDtoValidator().ValidateAndThrowAsync(studentDto, cancellationToken);
+        await new StudentUpsertDtoValidator().ValidateAndThrowAsync(studentDto, cancellationToken);
         
-        var student = await GetByIdOrThrowAsync(studentDto.Id, cancellationToken);
+        var student = await GetByIdOrThrowAsync(id, cancellationToken);
         
         student.Update(
             studentDto.Avatar,
@@ -96,7 +102,7 @@ public class StudentService : IStudentService
         var entity = await _unitOfWork.StudentRepository.GetByIdAsync(id, cancellationToken);
         if (entity == null)
         {
-            throw new EntityNotFoundException<Course>(nameof(Student.Id), id);
+            throw new EntityNotFoundException<Student>(nameof(Student.Id), id);
         }
         
         return entity;
