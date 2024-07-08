@@ -12,15 +12,16 @@ namespace EduHub.StudentService.Tests.Integrations.Tests.EducatorService;
 
 using Domain.Entities;
 
-public class EducatorServiceNegativeTests : IClassFixture<InfrastructureFixture>
+[Collection(nameof(InfrastructureCollection))]
+public class EducatorServiceNegativeTests
 {
-    private readonly InfrastructureFixture _infrastructure;
+    private readonly InfrastructureFixture _fixture;
     private readonly IEducatorService _educatorService;
     
-    public EducatorServiceNegativeTests(InfrastructureFixture infrastructure)
+    public EducatorServiceNegativeTests(InfrastructureFixture fixture)
     {
-        _infrastructure = infrastructure;
-        _educatorService = _infrastructure.ServiceProvider.GetService<IEducatorService>();
+        _fixture = fixture;
+        _educatorService = _fixture.ServiceProvider.GetService<IEducatorService>();
     }
     
     [Theory]

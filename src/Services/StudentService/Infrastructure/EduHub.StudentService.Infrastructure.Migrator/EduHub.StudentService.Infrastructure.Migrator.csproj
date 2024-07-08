@@ -13,6 +13,7 @@
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.6" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.6">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -20,7 +21,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\..\..\Shared\EduHub.StudentService.Shared.Config\EduHub.StudentService.Shared.Config.csproj" />
+      <ProjectReference Include="..\..\..\..\_Shared\EduHub.StudentService.Shared.Config\EduHub.StudentService.Shared.Config.csproj" />
       <ProjectReference Include="..\EduHub.StudentService.Infrastructure.Data\EduHub.StudentService.Infrastructure.Data.csproj" />
     </ItemGroup>
 
@@ -37,9 +38,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Reference Include="EduHub.StudentService.Shared.Config">
-        <HintPath>..\..\Tests\EduHub.StudentService.Tests.Integrations\bin\Debug\net8.0\EduHub.StudentService.Shared.Config.dll</HintPath>
-      </Reference>
     </ItemGroup>
 
 </Project>

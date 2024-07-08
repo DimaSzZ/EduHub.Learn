@@ -10,15 +10,16 @@ namespace EduHub.StudentService.Tests.Integrations.Tests.CourseService;
 
 using Domain.Entities;
 
-public class CourseServiceNegativeTests : IClassFixture<InfrastructureFixture>
+[Collection(nameof(InfrastructureCollection))]
+public class CourseServiceNegativeTests
 {
-    private readonly InfrastructureFixture _infrastructure;
+    private readonly InfrastructureFixture _fixture;
     private readonly ICourseService _courseService;
     
-    public CourseServiceNegativeTests(InfrastructureFixture infrastructure)
+    public CourseServiceNegativeTests(InfrastructureFixture fixture)
     {
-        _infrastructure = infrastructure;
-        _courseService = _infrastructure.ServiceProvider.GetService<ICourseService>();
+        _fixture = fixture;
+        _courseService = _fixture.ServiceProvider.GetService<ICourseService>();
     }
     
     [Theory]
@@ -31,8 +32,8 @@ public class CourseServiceNegativeTests : IClassFixture<InfrastructureFixture>
     )
     {
         // Arrange
-        var educator = await GenerateEntity.GenerateEducator(_infrastructure);
-        await GenerateEntity.GenerateCourse(_infrastructure, educator.Id);
+        var educator = await GenerateEntity.GenerateEducator(_fixture);
+        await GenerateEntity.GenerateCourse(_fixture, educator.Id);
         var courseDto = new CourseUpsertDto(name, description, educator.Id);
         
         // Act

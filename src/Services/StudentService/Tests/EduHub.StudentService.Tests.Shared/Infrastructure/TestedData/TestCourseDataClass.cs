@@ -32,7 +32,7 @@ namespace EduHub.StudentService.Shared.Tests.Infrastructure.TestedData
             var data = enumerator.Current;
             
             return new CourseUpsertDto(
-                (string)data[1], // Name
+                (string)data![1], // Name
                 (string)data[2], // Description
                 (Guid)data[3] // Educator ID
             );

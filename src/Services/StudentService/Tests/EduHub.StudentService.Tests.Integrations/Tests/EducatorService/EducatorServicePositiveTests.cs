@@ -11,17 +11,18 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace EduHub.StudentService.Tests.Integrations.Tests.EducatorService
 {
-    public class EducatorServicePositiveTests : IClassFixture<InfrastructureFixture>
+    [Collection(nameof(InfrastructureCollection))]
+    public class EducatorServicePositiveTests 
     {
-        private readonly InfrastructureFixture _infrastructure;
+        private readonly InfrastructureFixture _fixture;
         private readonly IEducatorService _educatorService;
         private readonly IEducatorRepository _educatorRepository;
         
-        public EducatorServicePositiveTests(InfrastructureFixture infrastructure)
+        public EducatorServicePositiveTests(InfrastructureFixture fixture)
         {
-            _infrastructure = infrastructure;
-            _educatorService = _infrastructure.ServiceProvider.GetRequiredService<IEducatorService>();
-            _educatorRepository = _infrastructure.ServiceProvider.GetRequiredService<IEducatorRepository>();
+            _fixture = fixture;
+            _educatorService = _fixture.ServiceProvider.GetRequiredService<IEducatorService>();
+            _educatorRepository = _fixture.ServiceProvider.GetRequiredService<IEducatorRepository>();
         }
         
         [Theory]
@@ -52,7 +53,7 @@ namespace EduHub.StudentService.Tests.Integrations.Tests.EducatorService
         public async Task UpdateAsync_ValidEducator_ReturnsEducatorResponseDto()
         {
             // Arrange
-            var educator = await GenerateEntity.GenerateEducator(_infrastructure);
+            var educator = await GenerateEntity.GenerateEducator(_fixture);
             var educatorDto = new EducatorUpsertDto(educator.FullName.FirstName, educator.FullName.Surname, educator.FullName.Patronymic,
                 educator.Gender, educator.Phone.Value, educator.YearsExperience, educator.DateEmployment);
             
@@ -71,7 +72,7 @@ namespace EduHub.StudentService.Tests.Integrations.Tests.EducatorService
         public async Task DeleteAsync_ValidId()
         {
             // Arrange
-            var educator = await GenerateEntity.GenerateEducator(_infrastructure);
+            var educator = await GenerateEntity.GenerateEducator(_fixture);
             
             // Act
             await _educatorService.DeleteAsync(educator.Id, CancellationToken.None);
@@ -85,7 +86,7 @@ namespace EduHub.StudentService.Tests.Integrations.Tests.EducatorService
         public async Task GetByIdAsync_Valid()
         {
             // Arrange
-            var educator = await GenerateEntity.GenerateEducator(_infrastructure);
+            var educator = await GenerateEntity.GenerateEducator(_fixture);
             
             // Act
             var result = await _educatorService.GetByIdAsync(educator.Id, CancellationToken.None);

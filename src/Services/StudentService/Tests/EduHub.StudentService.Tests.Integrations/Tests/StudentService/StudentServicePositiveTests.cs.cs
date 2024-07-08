@@ -8,7 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace EduHub.StudentService.Tests.Integrations.Tests.StudentService
 {
-    public class StudentPositive : IClassFixture<InfrastructureFixture>
+    [Collection(nameof(InfrastructureCollection))]
+    public class StudentPositive 
     {
         private readonly InfrastructureFixture _infrastructure;
         private readonly IStudentService _studentService;

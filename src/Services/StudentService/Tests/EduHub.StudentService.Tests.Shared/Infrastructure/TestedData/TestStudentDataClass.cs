@@ -42,7 +42,7 @@ namespace EduHub.StudentService.Shared.Tests.Infrastructure.TestedData
             var data = enumerator.Current;
 
             return new StudentUpsertDto(
-                (string)data[1], // Avatar
+                (string)data![1], // Avatar
                 (string)data[2], // FirstName
                 (string)data[3], // Surname
                 (string)data[4], // Patronymic

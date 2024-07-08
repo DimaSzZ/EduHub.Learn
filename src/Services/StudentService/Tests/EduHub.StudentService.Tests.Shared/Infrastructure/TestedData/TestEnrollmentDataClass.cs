@@ -1,14 +1,13 @@
 ﻿using System.Collections;
 using Bogus;
 using EduHub.StudentService.Application.Services.Dto.Enrollment;
-using EduHub.StudentService.Shared.Tests.Infrastructure.Interfaces;
 
 namespace EduHub.StudentService.Shared.Tests.Infrastructure.TestedData
 {
     /// <summary>
     /// Класс генератор для юнит и интеграционных тестов Enrollment
     /// </summary>
-    public class TestEnrollmentDataClass : IEnumerable<object[]>, IGenerateDto<EnrollmentUpsertDto>
+    public class TestEnrollmentDataClass : IEnumerable<object[]>
     {
         private readonly Faker _faker = new Faker();
         private readonly DateOnly _minDate = new DateOnly(1900, 1, 1);
@@ -28,16 +27,16 @@ namespace EduHub.StudentService.Shared.Tests.Infrastructure.TestedData
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         
         // Метод для создания EnrollmentCreateDto
-        public EnrollmentUpsertDto GetUpsertDto()
+        public EnrollmentUpsertDto GetUpsertDto(Guid studentId, Guid courseId)
         {
             using var enumerator = GetEnumerator();
             enumerator.MoveNext();
             var data = enumerator.Current;
             
             return new EnrollmentUpsertDto(
-                (DateOnly) data[1], // Date
-                (Guid) data[2], // Student ID
-                (Guid) data[3] // Course ID
+                (DateOnly) data![1], // Date
+                studentId, // Student ID
+                courseId // Course ID
             );
         }
     }

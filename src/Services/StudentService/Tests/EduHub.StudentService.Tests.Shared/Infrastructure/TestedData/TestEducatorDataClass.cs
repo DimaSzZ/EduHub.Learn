@@ -37,7 +37,7 @@ public class TestEducatorDataClass : IEnumerable<object[]>, IGenerateDto<Educato
         var data = enumerator.Current;
         
         return new EducatorUpsertDto(
-            ((FullName) data[1]).FirstName, // FirstName
+            ((FullName) data![1]).FirstName, // FirstName
             ((FullName) data[1]).Surname, // Surname
             ((FullName) data[1]).Patronymic, // Patronymic
             (Gender) data[2], // Gender

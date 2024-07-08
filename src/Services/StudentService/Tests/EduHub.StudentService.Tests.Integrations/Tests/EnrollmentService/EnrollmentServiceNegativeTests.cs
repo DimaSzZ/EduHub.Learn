@@ -8,15 +8,18 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace EduHub.StudentService.Tests.Integrations.Tests.EnrollmentService;
 
-public class EnrollmentServiceNegativeTests : IClassFixture<InfrastructureFixture>
+using Domain.Entities;
+
+[Collection(nameof(InfrastructureCollection))]
+public class EnrollmentServiceNegativeTests
 {
-    private readonly InfrastructureFixture _infrastructure;
+    private readonly InfrastructureFixture _fixture;
     private readonly IEnrollmentService _enrollmentService;
     
-    public EnrollmentServiceNegativeTests(InfrastructureFixture infrastructure)
+    public EnrollmentServiceNegativeTests(InfrastructureFixture fixture)
     {
-        _infrastructure = infrastructure;
-        _enrollmentService = _infrastructure.ServiceProvider.GetService<IEnrollmentService>();
+        _fixture = fixture;
+        _enrollmentService = _fixture.ServiceProvider.GetService<IEnrollmentService>();
     }
     
     [Theory]
@@ -28,16 +31,16 @@ public class EnrollmentServiceNegativeTests : IClassFixture<InfrastructureFixtur
         Guid CourseId)
     {
         // Arrange
-        var educator = await GenerateEntity.GenerateEducator(_infrastructure);
-        await GenerateEntity.GenerateCourse(_infrastructure, educator.Id);
-        var student = await GenerateEntity.GenerateStudent(_infrastructure);
+        var educator = await GenerateEntity.GenerateEducator(_fixture);
+        await GenerateEntity.GenerateCourse(_fixture, educator.Id);
+        var student = await GenerateEntity.GenerateStudent(_fixture);
         var enrollment = new EnrollmentUpsertDto(date, student.Id, Guid.NewGuid());
         
         // Act
         Func<Task> act = async () => await _enrollmentService.AddAsync(enrollment, CancellationToken.None);
         
         // Assert
-        await act.Should().ThrowAsync<EntityNotFoundException<Domain.Entities.Enrollment>>();
+        await act.Should().ThrowAsync<EntityNotFoundException<Enrollment>>();
     }
     
     [Theory]
@@ -49,16 +52,16 @@ public class EnrollmentServiceNegativeTests : IClassFixture<InfrastructureFixtur
         Guid CourseId)
     {
         // Arrange
-        var educator = await GenerateEntity.GenerateEducator(_infrastructure);
-        var course = await GenerateEntity.GenerateCourse(_infrastructure, educator.Id);
-        await GenerateEntity.GenerateStudent(_infrastructure);
+        var educator = await GenerateEntity.GenerateEducator(_fixture);
+        var course = await GenerateEntity.GenerateCourse(_fixture, educator.Id);
+        await GenerateEntity.GenerateStudent(_fixture);
         var enrollment = new EnrollmentUpsertDto(date, Guid.NewGuid(), course.Id);
         
         // Act
         Func<Task> act = async () => await _enrollmentService.AddAsync(enrollment, CancellationToken.None);
         
         // Assert
-        await act.Should().ThrowAsync<EntityNotFoundException<Domain.Entities.Student>>();
+        await act.Should().ThrowAsync<EntityNotFoundException<Student>>();
     }
     
     [Fact]
@@ -68,7 +71,7 @@ public class EnrollmentServiceNegativeTests : IClassFixture<InfrastructureFixtur
         Func<Task> act = async () => await _enrollmentService.GetStudentEnrollmentsAsync(Guid.NewGuid(), CancellationToken.None);
         
         // Assert
-        await act.Should().ThrowAsync<EntityNotFoundException<Domain.Entities.Student>>();
+        await act.Should().ThrowAsync<EntityNotFoundException<Student>>();
     }
     
     [Fact]
@@ -78,6 +81,6 @@ public class EnrollmentServiceNegativeTests : IClassFixture<InfrastructureFixtur
         Func<Task> act = async () => await _enrollmentService.DeleteAsync(Guid.NewGuid(), CancellationToken.None);
         
         // Assert
-        await act.Should().ThrowAsync<EntityNotFoundException<Domain.Entities.Enrollment>>();
+        await act.Should().ThrowAsync<EntityNotFoundException<Enrollment>>();
     }
 }

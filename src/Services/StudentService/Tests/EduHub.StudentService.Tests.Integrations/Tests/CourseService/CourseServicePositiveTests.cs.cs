@@ -9,17 +9,18 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace EduHub.StudentService.Tests.Integrations.Tests.CourseService
 {
-    public class CourseTests : IClassFixture<InfrastructureFixture>
+    [Collection(nameof(InfrastructureCollection))]
+    public class CourseTests 
     {
-        private readonly InfrastructureFixture _infrastructure;
+        private readonly InfrastructureFixture _fixture;
         private readonly ICourseService _courseService;
         private readonly ICourseRepository _courseRepository;
         
-        public CourseTests(InfrastructureFixture infrastructure)
+        public CourseTests(InfrastructureFixture fixture)
         {
-            _infrastructure = infrastructure;
-            _courseService = _infrastructure.ServiceProvider.GetService<ICourseService>();
-            _courseRepository = _infrastructure.ServiceProvider.GetService<ICourseRepository>();
+            _fixture = fixture;
+            _courseService = _fixture.ServiceProvider.GetService<ICourseService>();
+            _courseRepository = _fixture.ServiceProvider.GetService<ICourseRepository>();
         }
         
         [Theory]
@@ -31,7 +32,7 @@ namespace EduHub.StudentService.Tests.Integrations.Tests.CourseService
             Guid educatorId)
         {
             // Arrange
-            var educatorResp = await GenerateEntity.GenerateEducator(_infrastructure);
+            var educatorResp = await GenerateEntity.GenerateEducator(_fixture);
             var courseDto = new CourseUpsertDto(name, description, educatorResp.Id);
             
             // Act
@@ -49,8 +50,8 @@ namespace EduHub.StudentService.Tests.Integrations.Tests.CourseService
         public async Task UpdateAsync_ValidCourse_ReturnsCourseResponseDto()
         {
             // Arrange
-            var educatorResp = await GenerateEntity.GenerateEducator(_infrastructure);
-            var courseResp = await GenerateEntity.GenerateCourse(_infrastructure, educatorResp.Id);
+            var educatorResp = await GenerateEntity.GenerateEducator(_fixture);
+            var courseResp = await GenerateEntity.GenerateCourse(_fixture, educatorResp.Id);
             
             var updateDto = new CourseUpsertDto(courseResp.Name, courseResp.Description, courseResp.EducatorId);
             
@@ -69,8 +70,8 @@ namespace EduHub.StudentService.Tests.Integrations.Tests.CourseService
         public async Task DeleteCourseAsync_ValidCourse_ReturnsCourseResponseDto()
         {
             //Arrange
-            var educatorResp = await GenerateEntity.GenerateEducator(_infrastructure);
-            var courseResp = await GenerateEntity.GenerateCourse(_infrastructure, educatorResp.Id);
+            var educatorResp = await GenerateEntity.GenerateEducator(_fixture);
+            var courseResp = await GenerateEntity.GenerateCourse(_fixture, educatorResp.Id);
             
             //Act
             await _courseService.DeleteAsync(courseResp.Id, CancellationToken.None);
@@ -84,8 +85,8 @@ namespace EduHub.StudentService.Tests.Integrations.Tests.CourseService
         public async Task GetListAsync_ValidCourse_ReturnsCourseResponseDto()
         {
             // Arrange
-            var educatorResp = await GenerateEntity.GenerateEducator(_infrastructure);
-            await GenerateEntity.GenerateCourse(_infrastructure, educatorResp.Id);
+            var educatorResp = await GenerateEntity.GenerateEducator(_fixture);
+            await GenerateEntity.GenerateCourse(_fixture, educatorResp.Id);
             
             // Act
             var result = await _courseService.GetListAsync(CancellationToken.None);
@@ -98,8 +99,8 @@ namespace EduHub.StudentService.Tests.Integrations.Tests.CourseService
         public async Task GetByIdAsync_Valid()
         {
             // Arrange
-            var educatorResp = await GenerateEntity.GenerateEducator(_infrastructure);
-            var courseResp = await GenerateEntity.GenerateCourse(_infrastructure, educatorResp.Id);
+            var educatorResp = await GenerateEntity.GenerateEducator(_fixture);
+            var courseResp = await GenerateEntity.GenerateCourse(_fixture, educatorResp.Id);
             
             // Act
             var result = await _courseService.GetByIdAsync(courseResp.Id, CancellationToken.None);
