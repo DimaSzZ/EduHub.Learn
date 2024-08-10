@@ -16,19 +16,10 @@ namespace EduHub.StudentService.Application.Services.Mapping
         /// </summary>
         public CourseMappingProfile()
         {
-            CreateMap<CourseCreateDto, Course>()
+            CreateMap<CourseUpsertDto, Course>()
                 .ConstructUsing(dto =>
                     new Course(
                         Guid.NewGuid(),
-                        dto.Name,
-                        dto.Description,
-                        dto.EducatorId
-                    ));
-            
-            CreateMap<CourseUpdateDto, Course>()
-                .ConstructUsing(dto =>
-                    new Course(
-                        dto.Id, 
                         dto.Name,
                         dto.Description,
                         dto.EducatorId

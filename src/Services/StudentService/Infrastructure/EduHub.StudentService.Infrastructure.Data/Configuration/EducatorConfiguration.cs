@@ -50,7 +50,7 @@ public class EducatorConfiguration : IEntityTypeConfiguration<Educator>
                 .HasColumnName("phone");
             
             phone.HasIndex(p => p.Value)
-                .HasDatabaseName(IndexNames.Phone)
+                .HasDatabaseName(IndexNames.PhoneEducator)
                 .IsUnique();
         });
         

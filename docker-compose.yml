@@ -23,7 +23,7 @@ services:
     environment:
       - ConnectionStrings__DefaultConnection=Host=host.docker.internal;Port=5432;Database=EduHub-Student;Username=postgres;Password=password;
     depends_on:
-      db: 
+      db:
         condition: service_healthy
 
 volumes:

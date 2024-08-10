@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>disable</Nullable>
+        <RootNamespace>EduHub.StudentService.Shared.Tests</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Bogus" Version="35.5.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Application\EduHub.StudentService.Application.Services\EduHub.StudentService.Application.Services.csproj" />
+      <ProjectReference Include="..\..\Domain\EduHub.StudentService.Domain\EduHub.StudentService.Domain.csproj" />
+    </ItemGroup>
+
+</Project>

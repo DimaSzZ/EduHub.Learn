@@ -191,7 +191,7 @@ namespace EduHub.StudentService.Infrastructure.Migrator.Migrations
 
                             b1.HasIndex("Value")
                                 .IsUnique()
-                                .HasDatabaseName("IX_Unique_Phone");
+                                .HasDatabaseName("IX_Unique_Educator_Phone");
 
                             b1.ToTable("Educators");
 
@@ -259,15 +259,15 @@ namespace EduHub.StudentService.Infrastructure.Migrator.Migrations
 
                             b1.Property<string>("Value")
                                 .IsRequired()
-                                .HasMaxLength(8)
-                                .HasColumnType("character varying(8)")
+                                .HasMaxLength(11)
+                                .HasColumnType("character varying(11)")
                                 .HasColumnName("phone");
 
                             b1.HasKey("StudentId");
 
                             b1.HasIndex("Value")
                                 .IsUnique()
-                                .HasDatabaseName("IX_Unique_Phone");
+                                .HasDatabaseName("IX_Unique_Student_Phone");
 
                             b1.ToTable("Students");
 

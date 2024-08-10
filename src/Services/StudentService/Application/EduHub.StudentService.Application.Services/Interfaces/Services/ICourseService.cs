@@ -10,7 +10,7 @@ public interface ICourseService
     /// <param name="courseDto">Дто курса</param>
     /// <param name="cancellationToken">токен отмены</param>
     /// <returns>возвращает дто добавленного курса</returns>   
-    public Task<CourseResponseDto> AddAsync(CourseCreateDto courseDto, CancellationToken cancellationToken);
+    public Task<CourseResponseDto> AddAsync(CourseUpsertDto courseDto, CancellationToken cancellationToken);
     
     /// <summary>
     /// Асинхронное обновление курс в бд
@@ -18,7 +18,7 @@ public interface ICourseService
     /// <param name="courseDto">модель курса</param>
     /// <param name="cancellationToken">токен отмены</param>
     /// <returns>возвращает дто обновленного курса</returns>
-    public Task<CourseResponseDto> UpdateAsync(CourseUpdateDto courseDto, CancellationToken cancellationToken);
+    public Task<CourseResponseDto> UpdateAsync(Guid id ,CourseUpsertDto courseDto, CancellationToken cancellationToken);
     
     /// <summary>
     /// Асинхронное удаление курса из бд

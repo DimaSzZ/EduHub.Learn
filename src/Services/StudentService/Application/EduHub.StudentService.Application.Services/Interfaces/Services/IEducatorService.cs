@@ -10,7 +10,7 @@ public interface IEducatorService
     /// <param name="educatorDto">Дто преподавателя</param>
     /// <param name="cancellationToken">токен отмены</param>
     /// <returns>возврщаете дто добавленного преподавателя</returns>
-    public Task<EducatorResponseDto> AddAsync(EducatorCreateDto educatorDto, CancellationToken cancellationToken);
+    public Task<EducatorResponseDto> AddAsync(EducatorUpsertDto educatorDto, CancellationToken cancellationToken);
     
     /// <summary>
     /// Асинхронное обновление преподавателя в бд
@@ -18,7 +18,7 @@ public interface IEducatorService
     /// <param name="educatorDto">модель преподавателя</param>
     /// <param name="cancellationToken">токен отмены</param>
     /// <returns>возврщаете дто обновленного преподавателя</returns>
-    public Task<EducatorResponseDto> UpdateAsync(EducatorUpdateDto educatorDto, CancellationToken cancellationToken);
+    public Task<EducatorResponseDto> UpdateAsync(Guid id ,EducatorUpsertDto educatorDto, CancellationToken cancellationToken);
     
     /// <summary>
     /// Асинхронное удаление преподавателя из бд
